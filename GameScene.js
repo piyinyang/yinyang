@@ -412,13 +412,13 @@ GameScene.update = function() {
     player.anims.getCurrentKey() === "hurt" &&
     player.anims.getProgress("hurt") < 1
   ) {
-    player.setSize(20, 25, true).setOffset(5, 10);
+    //player.setSize(20, 25, true).setOffset(5, 10);
     player.setTint(0xff0000);
   } else if (
     player.anims.getCurrentKey() === "hurt" &&
     player.anims.getProgress("hurt") === 1
   ) {
-    player.setSize(20, 25, true).setOffset(20, 10);
+    //player.setSize(20, 25, true).setOffset(20, 10);
     player.clearTint();
     player.anims.play("idle", true);
     player.setSize(20, 25, true).setOffset(14, 10);
@@ -901,12 +901,12 @@ function hitSlime (player, slime){
   } 
     //se o slime ataca o jogador, o jogador é empurrado pra trás
     //o slime tbm é empurrado um pouquinho pra tras
-    else if(slime.anims.getCurrentKey() === 'slime-attack' && slime_P1 > 0 && slime.anims.getProgress('slime-attack') === 1){
+    else if(slime.anims.getCurrentKey() === 'slime-attack' && slimeposition === "left" && slime.anims.getProgress('slime-attack') === 1){
       player.setPosition(playerX-20, playerY+5);
       slime.setVelocityX(0);
       player.anims.play('hurt', true);
       slimeatk.play();
-  } else if(slime.anims.getCurrentKey() === 'slime-attack' && slime_P1 < 0 && slime.anims.getProgress('slime-attack') === 1){
+  } else if(slime.anims.getCurrentKey() === 'slime-attack' && slimeposition === "right" && slime.anims.getProgress('slime-attack') === 1){
       player.setPosition(playerX+20, playerY+5);
       slime.setVelocityX(0);
       player.anims.play('hurt', true);
