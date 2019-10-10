@@ -5,7 +5,6 @@ export { GameScene };
 var player;
 var ultimaTecla = 2; // 1=esquerda/2=direita
 var attackcombo = 0; //define qual dos 3 ataques o jogador vai usar, possibilitando um oombo
-var slide = 0; //se for 1 o player não pode usar slide
 
 var slime;
 var slimepoint = 400; //ponto que o slime vai ficar andando ao redor (X)
@@ -74,9 +73,6 @@ GameScene.preload = function() {
   this.load.image("crouch1", "assets/player/crouch1.png");
   this.load.image("crouch2", "assets/player/crouch2.png");
   this.load.image("crouch3", "assets/player/crouch3.png");
-
-  this.load.image("slide0", "assets/player/slide0.png");
-  this.load.image("slide1", "assets/player/slide1.png");
 
   this.load.image("attack1-0", "assets/player/attack1-0.png");
   this.load.image("attack1-1", "assets/player/attack1-1.png");
@@ -304,12 +300,6 @@ GameScene.create = function() {
   });
 
   this.anims.create({
-    key: "slide",
-    frames: [{ key: "slide0" }, { key: "slide1" }],
-    frameRate: 5
-  });
-
-  this.anims.create({
     key: "attack1",
     frames: [
       { key: "attack1-0" },
@@ -489,27 +479,6 @@ GameScene.update = function() {
     player.setSize(20, 25, true).setOffset(14, 10);
   }
 
-  //          SLIDE
-  else if (
-    player.anims.getCurrentKey() === "slide" &&
-    player.anims.getProgress("slide") < 1 &&
-    ultimaTecla === 2
-  ) {
-    player.setSize(32, 15).setOffset(14, 20);
-  } else if (
-    player.anims.getCurrentKey() === "slide" &&
-    player.anims.getProgress("slide") < 1 &&
-    ultimaTecla === 1
-  ) {
-    player.setSize(32, 15).setOffset(4, 20);
-  } else if (
-    player.anims.getCurrentKey() === "slide" &&
-    player.anims.getProgress("slide") === 1
-  ) {
-    player.anims.play("idle", true);
-    player.setVelocityX(0);
-    player.setSize(20, 25, true).setOffset(14, 10);
-  }
 
   //          CONDIÃÃES PARA EXECUTAR AÃÃES
     else if (cursors.up.isDown && player.body.touching.down) {
@@ -521,34 +490,7 @@ GameScene.update = function() {
     landing.play({
       volume: 0.3
     });
-  } else if (
-    cursors.right.isUp &&
-    cursors.left.isUp &&
-    cursors.space.isDown &&
-    cursors.down.isDown &&
-    player.body.touching.down &&
-    player.body.velocity.y === 0 &&
-    ultimaTecla === 1 &&
-    slide === 0
-  ) {
-    player.setFlipX(true);
-    player.setVelocityX(-500);
-    player.anims.play("slide", true);
-    slide = 1;
-  } else if (
-    cursors.right.isUp &&
-    cursors.left.isUp &&
-    cursors.space.isDown &&
-    cursors.down.isDown &&
-    player.body.touching.down &&
-    player.body.velocity.y === 0 &&
-    ultimaTecla === 2 &&
-    slide === 0
-  ) {
-    player.setFlipX(false);
-    player.setVelocityX(500);
-    player.anims.play("slide", true);
-    slide = 1;
+  
   } else if (
     cursors.space.isDown &&
     cursors.down.isUp &&
@@ -562,7 +504,6 @@ GameScene.update = function() {
     player.anims.play("attack1", true);
     swordwoosh.play();
     attackcombo = 1;
-    slide = 0;
   } else if (
     cursors.space.isDown &&
     cursors.down.isUp &&
@@ -576,7 +517,6 @@ GameScene.update = function() {
     player.anims.play("attack1", true);
     swordwoosh.play();
     attackcombo = 1;
-    slide = 0;
   } else if (
     cursors.space.isDown &&
     cursors.down.isUp &&
@@ -590,7 +530,6 @@ GameScene.update = function() {
     player.anims.play("attack2", true);
     swordwoosh.play();
     attackcombo = 2;
-    slide = 0;
   } else if (
     cursors.space.isDown &&
     cursors.down.isUp &&
@@ -604,7 +543,6 @@ GameScene.update = function() {
     player.anims.play("attack2", true);
     swordwoosh.play();
     attackcombo = 2;
-    slide = 0;
   } else if (
     cursors.space.isDown &&
     cursors.down.isUp &&
@@ -618,7 +556,6 @@ GameScene.update = function() {
     player.anims.play("attack3", true);
     swordwoosh.play();
     attackcombo = 0;
-    slide = 0;
   } else if (
     cursors.space.isDown &&
     cursors.down.isUp &&
@@ -632,7 +569,6 @@ GameScene.update = function() {
     player.anims.play("attack3", true);
     swordwoosh.play();
     attackcombo = 0;
-    slide = 0;
   } else if (
     player.body.velocity.y < 0 &&
     cursors.left.isUp &&
@@ -643,7 +579,6 @@ GameScene.update = function() {
     player.setVelocityX(0);
     player.anims.play("jump", true);
     attackcombo = 0;
-    slide = 0;
   } else if (
     player.body.velocity.y < 0 &&
     cursors.left.isUp &&
@@ -654,21 +589,18 @@ GameScene.update = function() {
     player.setVelocityX(0);
     player.anims.play("jump", true);
     attackcombo = 0;
-    slide = 0;
   } else if (player.body.velocity.y < 0 && cursors.left.isDown) {
     player.setFlipX(true);
     player.setVelocityX(-300);
     player.anims.play("jump", true);
     ultimaTecla = 1;
     attackcombo = 0;
-    slide = 0;
   } else if (player.body.velocity.y < 0 && cursors.right.isDown) {
     player.setFlipX(false);
     player.setVelocityX(300);
     player.anims.play("jump", true);
     ultimaTecla = 2;
     attackcombo = 0;
-    slide = 0;
   } else if (
     player.body.velocity.y > 0 &&
     cursors.left.isUp &&
@@ -679,7 +611,6 @@ GameScene.update = function() {
     player.setVelocityX(0);
     player.anims.play("fall", true);
     attackcombo = 0;
-    slide = 0;
   } else if (
     player.body.velocity.y > 0 &&
     cursors.left.isUp &&
@@ -690,35 +621,30 @@ GameScene.update = function() {
     player.setVelocityX(0);
     player.anims.play("fall", true);
     attackcombo = 0;
-    slide = 0;
   } else if (player.body.velocity.y > 0 && cursors.left.isDown) {
     player.setFlipX(true);
     player.setVelocityX(-300);
     player.anims.play("fall", true);
     ultimaTecla = 1;
     attackcombo = 0;
-    slide = 0;
   } else if (player.body.velocity.y > 0 && cursors.right.isDown) {
     player.setFlipX(false);
     player.setVelocityX(300);
     player.anims.play("fall", true);
     ultimaTecla = 2;
     attackcombo = 0;
-    slide = 0;
   } else if (cursors.left.isDown && player.body.touching.down) {
     player.setFlipX(true);
     player.setVelocityX(-300);
     player.anims.play("run", true);
     ultimaTecla = 1;
     attackcombo = 0;
-    slide = 0;
   } else if (cursors.right.isDown && player.body.touching.down) {
     player.setFlipX(false);
     player.setVelocityX(300);
     player.anims.play("run", true);
     ultimaTecla = 2;
     attackcombo = 0;
-    slide = 0;
   } else if (
     cursors.down.isDown &&
     player.body.touching.down &&
@@ -888,17 +814,7 @@ function hitSlime (player, slime){
       player.setVelocityX(0);
       slime.anims.play("slime-hurt", true);
 
-  } else if(player.anims.getCurrentKey() === 'slide' && slime_P1 > 0){
-      slime.setPosition(slimeX+50,slimeY+10);
-      player.setVelocityX(0);
-      slime.anims.play("slime-hurt", true);
-
-  } else if(player.anims.getCurrentKey() === 'slide' && slime_P1 < 0){
-      slime.setPosition(slimeX-50, slimeY+10);
-      player.setVelocityX(0);
-      slime.anims.play("slime-hurt", true);
-
-  } 
+  }
     //se o slime ataca o jogador, o jogador é empurrado pra trás
     //o slime tbm é empurrado um pouquinho pra tras
     else if(slime.anims.getCurrentKey() === 'slime-attack' && slimeposition === "left" && slime.anims.getProgress('slime-attack') === 1){
