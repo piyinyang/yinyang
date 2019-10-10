@@ -907,7 +907,7 @@ function hitSlime (player, slime){
       player.anims.play('hurt', true);
       slimeatk.play();
   } else if(slime.anims.getCurrentKey() === 'slime-attack' && slimeposition === "right" && slime.anims.getProgress('slime-attack') === 1){
-      player.setPosition(playerX+20, playerY+5);
+      player.setPosition(playerX+50, playerY+5);
       slime.setVelocityX(0);
       player.anims.play('hurt', true);
       slimeatk.play();
