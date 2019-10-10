@@ -428,7 +428,7 @@ GameScene.update = function() {
     player.anims.getProgress("attack1") < 1 &&
     ultimaTecla === 1
   ) {
-    player.setSize(25, 35, true).setOffset(0, 0);
+    player.setSize(25, 35, true).setOffset(5, 0);
   } else if (
     player.anims.getCurrentKey() === "attack1" &&
     player.anims.getProgress("attack1") === 1
@@ -449,7 +449,7 @@ GameScene.update = function() {
     player.anims.getProgress("attack2") < 1 &&
     ultimaTecla === 1
   ) {
-    player.setSize(25, 35, true).setOffset(0, 0);
+    player.setSize(25, 35, true).setOffset(5, 0);
   } else if (
     player.anims.getCurrentKey() === "attack2" &&
     player.anims.getProgress("attack2") === 1
@@ -470,7 +470,7 @@ GameScene.update = function() {
     player.anims.getProgress("attack3") < 1 &&
     ultimaTecla === 1
   ) {
-    player.setSize(25, 35, true).setOffset(0, 0);
+    player.setSize(25, 35, true).setOffset(5, 0);
   } else if (
     player.anims.getCurrentKey() === "attack3" &&
     player.anims.getProgress("attack3") === 1
@@ -696,9 +696,17 @@ GameScene.update = function() {
   //      MUDANCA DE HITBOX DURANTE ANIMACAO     
   if (
     slime.anims.getCurrentKey() === "slime-hurt" &&
-    slime.anims.getProgress("slime-hurt") < 1
+    slime.anims.getProgress("slime-hurt") < 1 && slimeposition === "right"
   ) {
-    slime.setSize(32, 25, true).setOffset(0, 0);
+    slime.setVelocityX(0);
+    slime.setSize(32, 25, true).setOffset(-10, 0);
+    slime.setTint(0xff0000);
+  } else if (
+    slime.anims.getCurrentKey() === "slime-hurt" &&
+    slime.anims.getProgress("slime-hurt") < 1 && slimeposition === "left"
+  ) {
+    slime.setVelocityX(0);
+    slime.setSize(32, 25, true).setOffset(10, 0);
     slime.setTint(0xff0000);
   } else if (
     slime.anims.getCurrentKey() === "slime-hurt" &&
