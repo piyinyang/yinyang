@@ -3,21 +3,23 @@ export { GameScene };
 
 //VARIAVEIS DO PLAYER 1
 var player;
+var P1jump = false;
+var P1jumpdelay = 0;
 var ultimaTecla = 2; // 1=esquerda/2=direita
 var attackcombo = 0; //define qual dos 3 ataques o jogador vai usar, possibilitando um oombo
 
 var slime;
 var slimepoint = 400; //ponto que o slime vai ficar andando ao redor (X)
-var slimeposition = "left"; // se o slime tá virado pra esquerda ou direita
+var slimeposition = "left"; // se o slime tÃ¡ virado pra esquerda ou direita
 
-//varias variaveis sobre a posicao do slime, só pra facilitar a programação
+//varias variaveis sobre a posicao do slime, sÃ³ pra facilitar a programaÃ§Ã£o
     var slimeX; // posicao x do slime
     var slimeY; // posicao y do slime
     var playerX; // posicao x do player
     var playerY; // posicao y do player
     var slime_P1;// x do slime menos o x do player1
     var slime_P1_Y; // y do slime menos o y do player1
-    var slimeguard;// distancia do slime até o slimepoint
+    var slimeguard;// distancia do slime atÃ© o slimepoint
 
 var platforms; //variavel das plataformas
 var cursors; //variavel das setas do teclado
@@ -34,20 +36,23 @@ var song; // musica da floresta
 var swordwoosh; // som da espada
 var slimeatk; // som do slime atacando
 var jumping; // som do player pulando
-var landing; // som do player caindo no chão
+var landing; // som do player caindo no chÃ£o
 
 var GameScene = new Phaser.Scene("gamescene");
 
 
-// A FUNÇÃO PRELOAD FAZ O PRECARREGAMENTO DE IMAGENS E SONS DO JOGO
+// A FUNÃ‡ÃƒO PRELOAD FAZ O PRECARREGAMENTO DE IMAGENS E SONS DO JOGO
 GameScene.preload = function() {
   
   //Assets do ambiente e dos objetos
-  this.load.image("arvores1", "assets/ambiente/Background1.png");
-  this.load.image("arvores2", "assets/ambiente/Background2.png");
-  this.load.image("arvores3", "assets/ambiente/Background3.png");
-  this.load.image("nuvens", "assets/ambiente/Nuvens.png");
-  this.load.image("ground", "assets/ambiente/platform.png");
+  
+  this.load.image("caverna","assets/ambiente/tilesets/cavernaSemfundo.png");
+  this.load.image("superficie","assets/ambiente/tilesets/superficie.png");
+  this.load.image("fundoCaverna","assets/ambiente/tilesets/background1.png");
+  this.load.image("background","assets/ambiente/tilesets/background.png");
+  this.load.tilemapTiledJSON("fase1", "assets/ambiente/Fase1.2.json");
+  
+  
   this.load.image("spike", "assets/ambiente/spikes_1.png");
 
 
@@ -121,7 +126,7 @@ GameScene.preload = function() {
   
 };
 
-// A FUNÇÃO CREATE É A QUE CRIA AS COISAS DENTRO DO JOGO
+// A FUNÃ‡ÃƒO CREATE Ã‰ A QUE CRIA AS COISAS DENTRO DO JOGO
 GameScene.create = function() {
   
   // CRIACAO DOS SONS
@@ -137,55 +142,48 @@ GameScene.create = function() {
   });
 
 
-  // CRIAÃÃO DO CENÃRIO E DO BACKGROUND
-  this.add.image(400, 330, "nuvens").setScale(2.3, 3);
-  this.add.image(400, 355, "arvores1").setScale(2.3, 2.3);
-  this.add.image(400, 355, "arvores2").setScale(2.3, 2.3);
-  this.add.image(400, 355, "arvores3").setScale(2.3, 2.3);
-  this.add.image(1275, 330, "nuvens").setScale(2.3, 3);
-  this.add.image(1275, 355, "arvores1").setScale(2.3, 2.3);
-  this.add.image(1275, 355, "arvores2").setScale(2.3, 2.3);
-  this.add.image(1275, 355, "arvores3").setScale(2.3, 2.3);
+  // CRIAÃƒÂ‡ÃƒÂƒO DO CENÃƒÂRIO E DO BACKGROUND
+  
+  this.add.image(500, 500, "fundoCaverna").setScale(100, 100);
 
-  //  CRIACAO DO CHÃO E DAS PLATAFORMAS
-  platforms = this.physics.add.staticGroup();
-  platforms
-    .create(400, 568, "ground")
-    .setScale(2)
-    .refreshBody();
-    platforms
-    .create(1200, 568, "ground")
-    .setScale(2)
-    .refreshBody();
-  platforms.create(1400, 300, "ground");
-  platforms.create(600, 450, "ground");
-  platforms.create(50, 300, "ground");
-  platforms.create(750, 220, "ground");
+  var map = this.add.tilemap("fase1");
+  var terrain = map.addTilesetImage("cavernaSemfundo", "caverna");
+  var terrain2 = map.addTilesetImage("superficie", "superficie");
+  var terrain3 = map.addTilesetImage("background", "background");
+
+  //criando os niveis do mapa
+  var topLayer3 = map.createStaticLayer("topLayer3", [terrain3], 0, 0);
+  var topLayer = map.createStaticLayer("topLayer", [terrain], 0, 0);
+  var topLayer2 = map.createStaticLayer("topLayer2", [terrain2], 0, 0);
 
   // CRIACAO DOS ESPINHOS
   spike = this.physics.add.staticGroup();
-  spike.create(1000, 520, "spike");
+  spike.create(100, 50, "spike");
 
 
   // CRIACAO DO JOGADOR 1
-  player = this.physics.add.sprite(100, 450, "idle0").setScale(1.6);
+  player = this.physics.add.sprite(100, 350, "idle0").setScale(1);
   player.setSize(20, 25, true).setOffset(14, 10);
   player.setBounce(0);
   player.setCollideWorldBounds(true);
 
-  // CRIAÇÃO DO SLIME
-  slime = this.physics.add.sprite(400, 450, 'slime0');
+  // CRIAÃ‡ÃƒO DO SLIME
+  slime = this.physics.add.sprite(100, 100, 'slime0');
   slime.setBounce(0);
   slime.setCollideWorldBounds(true);
 
   cursors = this.input.keyboard.createCursorKeys();
   //pointer = this.input.addPointer(1);
 
-  // ADICIONANDO COLISÃO AO JOGO
+  // ADICIONANDO COLISÃƒO AO JOGO
+  this.physics.add.collider(player, topLayer);
+  this.physics.add.collider(player, topLayer2);
 
-  this.physics.add.collider(player, platforms);
-  this.physics.add.collider(slime, platforms);
+  this.physics.add.collider(slime, topLayer);
+  this.physics.add.collider(slime, topLayer2);
 
+  topLayer.setCollisionByProperty({ collides: true });
+  topLayer2.setCollisionByProperty({ collides: true });
 
   this.physics.add.overlap(player,slime,hitSlime, null, this);
   this.physics.add.overlap(player, spike, hitSpike, null, this);
@@ -195,8 +193,9 @@ GameScene.create = function() {
   
   // SISTEMA DE CAMERAS
   
-  this.cameras.main.setBounds(0, 0, 800 * 2, 600); //limites da camera
-  this.physics.world.setBounds(0, 0, 800 * 2, 600); //limites do mundo
+  this.cameras.main.setBounds(0, 0, 4096, 4096); //limites da camera
+  this.physics.world.setBounds(0, 0, 4096, 4096); //limites do mundo
+
   this.cameras.main.startFollow(player, true, 0.5, 0.5);
   this.cameras.main.setZoom(1);
 
@@ -249,7 +248,7 @@ GameScene.create = function() {
     this
   );
 
-  // ANIMAÇÕES DO PLAYER
+  // ANIMAÃ‡Ã•ES DO PLAYER
   this.anims.create({
     key: "idle",
     frames: [
@@ -348,7 +347,7 @@ GameScene.create = function() {
   });
 
 
-  //          ANIMAÇÕES DO SLIME
+  //          ANIMAÃ‡Ã•ES DO SLIME
 
   this.anims.create({
     key: 'slime-idle',
@@ -381,9 +380,11 @@ GameScene.create = function() {
 
 };
 
-// A FUNÇÃO UPDATE É A QUE FAZ O JOGO ACONTECER, ELA SE REPETE INFINITAMENTE VÁRIAS VEZES POR SEGUNDO
+// A FUNÃ‡ÃƒO UPDATE Ã‰ A QUE FAZ O JOGO ACONTECER, ELA SE REPETE INFINITAMENTE VÃRIAS VEZES POR SEGUNDO
 GameScene.update = function() {
-  
+
+  console.log(P1jump);  
+  console.log(P1jumpdelay);
   
   // as variaveis de posicao do slime (de novo)
   // tive que botar la em cima pra terem escopo global
@@ -397,7 +398,11 @@ GameScene.update = function() {
   
     //          PLAYER 1 ANIMATIONS
 
-  //          HURT
+    if (P1jump === true){
+      P1jumpdelay ++;
+    }
+  
+    //          HURT
     if (
     player.anims.getCurrentKey() === "hurt" &&
     player.anims.getProgress("hurt") < 1
@@ -480,21 +485,30 @@ GameScene.update = function() {
   }
 
 
-  //          CONDIÃÃES PARA EXECUTAR AÃÃES
-    else if (cursors.up.isDown && player.body.touching.down) {
-    player.setVelocityY(-550);
+  //          CONDIÃƒÂ‡ÃƒÂ•ES PARA EXECUTAR AÃƒÂ‡ÃƒÂ•ES
+    else if (cursors.up.isDown && player.body.onFloor()) {
+    player.setVelocityY(-350);
     jumping.play({
       volume:0.3
     });
-  } else if (!player.body.wasTouching.down && player.body.touching.down){
+    P1jump = true;
+  /*} else if (!player.body.wasTouching.down && player.body.touching.down){
     landing.play({
       volume: 0.3
+    });*/
+
+  } else if (cursors.up.isDown && P1jump && P1jumpdelay >= 20){
+    player.setVelocityY(-350);
+    jumping.play({
+      volume:0.3
     });
-  
+    P1jump = false;
+    P1jumpdelay = 0;
+
   } else if (
     cursors.space.isDown &&
     cursors.down.isUp &&
-    player.body.touching.down &&
+    player.body.onFloor() &&
     player.body.velocity.y === 0 &&
     ultimaTecla === 1 &&
     attackcombo === 0
@@ -507,7 +521,7 @@ GameScene.update = function() {
   } else if (
     cursors.space.isDown &&
     cursors.down.isUp &&
-    player.body.touching.down &&
+    player.body.onFloor() &&
     player.body.velocity.y === 0 &&
     ultimaTecla === 2 &&
     attackcombo === 0
@@ -520,7 +534,7 @@ GameScene.update = function() {
   } else if (
     cursors.space.isDown &&
     cursors.down.isUp &&
-    player.body.touching.down &&
+    player.body.onFloor() &&
     player.body.velocity.y === 0 &&
     ultimaTecla === 1 &&
     attackcombo === 1
@@ -533,7 +547,7 @@ GameScene.update = function() {
   } else if (
     cursors.space.isDown &&
     cursors.down.isUp &&
-    player.body.touching.down &&
+    player.body.onFloor() &&
     player.body.velocity.y === 0 &&
     ultimaTecla === 2 &&
     attackcombo === 1
@@ -546,7 +560,7 @@ GameScene.update = function() {
   } else if (
     cursors.space.isDown &&
     cursors.down.isUp &&
-    player.body.touching.down &&
+    player.body.onFloor() &&
     player.body.velocity.y === 0 &&
     ultimaTecla === 1 &&
     attackcombo === 2
@@ -559,7 +573,7 @@ GameScene.update = function() {
   } else if (
     cursors.space.isDown &&
     cursors.down.isUp &&
-    player.body.touching.down &&
+    player.body.onFloor() &&
     player.body.velocity.y === 0 &&
     ultimaTecla === 2 &&
     attackcombo === 2
@@ -633,13 +647,13 @@ GameScene.update = function() {
     player.anims.play("fall", true);
     ultimaTecla = 2;
     attackcombo = 0;
-  } else if (cursors.left.isDown && player.body.touching.down) {
+  } else if (cursors.left.isDown && player.body.onFloor()) {
     player.setFlipX(true);
     player.setVelocityX(-300);
     player.anims.play("run", true);
     ultimaTecla = 1;
     attackcombo = 0;
-  } else if (cursors.right.isDown && player.body.touching.down) {
+  } else if (cursors.right.isDown && player.body.onFloor()) {
     player.setFlipX(false);
     player.setVelocityX(300);
     player.anims.play("run", true);
@@ -647,7 +661,7 @@ GameScene.update = function() {
     attackcombo = 0;
   } else if (
     cursors.down.isDown &&
-    player.body.touching.down &&
+    player.body.onFloor() &&
     cursors.space.isUp &&
     ultimaTecla === 1
   ) {
@@ -657,7 +671,7 @@ GameScene.update = function() {
     attackcombo = 0;
   } else if (
     cursors.down.isDown &&
-    player.body.touching.down &&
+    player.body.onFloor() &&
     cursors.space.isUp &&
     ultimaTecla === 2
   ) {
@@ -790,10 +804,10 @@ GameScene.update = function() {
   }
 };
 
-// A FUNÇÃO QUE DEFINE O QUE ACONTECE QUANDO HÁ COLISÃO ENTRE PLAYER E SLIME
+// A FUNÃ‡ÃƒO QUE DEFINE O QUE ACONTECE QUANDO HÃ COLISÃƒO ENTRE PLAYER E SLIME
 function hitSlime (player, slime){
   
-  //se o jogador ataca o slime, o slime é jogado um pouco pra trás. 
+  //se o jogador ataca o slime, o slime Ã© jogado um pouco pra trÃ¡s. 
   if(player.anims.getCurrentKey() === 'attack1' && slime_P1 > 0){
       slime.setPosition(slimeX+50,slimeY+10);
       player.setVelocityX(0);
@@ -823,8 +837,8 @@ function hitSlime (player, slime){
       slime.anims.play("slime-hurt", true);
 
   }
-    //se o slime ataca o jogador, o jogador é empurrado pra trás
-    //o slime tbm é empurrado um pouquinho pra tras
+    //se o slime ataca o jogador, o jogador Ã© empurrado pra trÃ¡s
+    //o slime tbm Ã© empurrado um pouquinho pra tras
     else if(slime.anims.getCurrentKey() === 'slime-attack' && slimeposition === "left" && slime.anims.getProgress('slime-attack') === 1){
       player.setPosition(playerX-20, playerY+5);
       slime.setVelocityX(0);
