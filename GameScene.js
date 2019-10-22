@@ -398,6 +398,12 @@ GameScene.update = function() {
   
     //          PLAYER 1 ANIMATIONS
 
+    if(player.body.blocked.down && cursors.up.isUp){
+      player.setVelocityY(0);
+      P1jump = false;
+      P1jumpdelay = 0;
+    }
+
     if (P1jump === true){
       P1jumpdelay ++;
     }
@@ -485,9 +491,10 @@ GameScene.update = function() {
   }
 
 
-  //          CONDIÃƒÂ‡ÃƒÂ•ES PARA EXECUTAR AÃƒÂ‡ÃƒÂ•ES
-    else if (cursors.up.isDown && player.body.onFloor()) {
-    player.setVelocityY(-350);
+  //          CONDICOES PARA EXECUTAR ACOES
+
+   else if (cursors.up.isDown && player.body.blocked.down) {
+    player.setVelocityY(-450);
     jumping.play({
       volume:0.3
     });
@@ -496,9 +503,8 @@ GameScene.update = function() {
     landing.play({
       volume: 0.3
     });*/
-
-  } else if (cursors.up.isDown && P1jump && P1jumpdelay >= 20){
-    player.setVelocityY(-350);
+  } else if (!player.body.blocked.down && cursors.up.isDown && P1jump && P1jumpdelay >= 12){
+    player.setVelocityY(-450);
     jumping.play({
       volume:0.3
     });
@@ -508,8 +514,7 @@ GameScene.update = function() {
   } else if (
     cursors.space.isDown &&
     cursors.down.isUp &&
-    player.body.onFloor() &&
-    player.body.velocity.y === 0 &&
+    player.body.blocked.down &&
     ultimaTecla === 1 &&
     attackcombo === 0
   ) {
@@ -521,8 +526,7 @@ GameScene.update = function() {
   } else if (
     cursors.space.isDown &&
     cursors.down.isUp &&
-    player.body.onFloor() &&
-    player.body.velocity.y === 0 &&
+    player.body.blocked.down &&
     ultimaTecla === 2 &&
     attackcombo === 0
   ) {
@@ -534,8 +538,7 @@ GameScene.update = function() {
   } else if (
     cursors.space.isDown &&
     cursors.down.isUp &&
-    player.body.onFloor() &&
-    player.body.velocity.y === 0 &&
+    player.body.blocked.down &&
     ultimaTecla === 1 &&
     attackcombo === 1
   ) {
@@ -547,8 +550,7 @@ GameScene.update = function() {
   } else if (
     cursors.space.isDown &&
     cursors.down.isUp &&
-    player.body.onFloor() &&
-    player.body.velocity.y === 0 &&
+    player.body.blocked.down &&
     ultimaTecla === 2 &&
     attackcombo === 1
   ) {
@@ -560,8 +562,7 @@ GameScene.update = function() {
   } else if (
     cursors.space.isDown &&
     cursors.down.isUp &&
-    player.body.onFloor() &&
-    player.body.velocity.y === 0 &&
+    player.body.blocked.down &&
     ultimaTecla === 1 &&
     attackcombo === 2
   ) {
@@ -573,8 +574,7 @@ GameScene.update = function() {
   } else if (
     cursors.space.isDown &&
     cursors.down.isUp &&
-    player.body.onFloor() &&
-    player.body.velocity.y === 0 &&
+    player.body.blocked.down &&
     ultimaTecla === 2 &&
     attackcombo === 2
   ) {
@@ -616,6 +616,7 @@ GameScene.update = function() {
     ultimaTecla = 2;
     attackcombo = 0;
   } else if (
+    !player.body.blocked.down &&
     player.body.velocity.y > 0 &&
     cursors.left.isUp &&
     cursors.right.isUp &&
@@ -626,6 +627,7 @@ GameScene.update = function() {
     player.anims.play("fall", true);
     attackcombo = 0;
   } else if (
+    !player.body.blocked.down &&
     player.body.velocity.y > 0 &&
     cursors.left.isUp &&
     cursors.right.isUp &&
@@ -635,25 +637,25 @@ GameScene.update = function() {
     player.setVelocityX(0);
     player.anims.play("fall", true);
     attackcombo = 0;
-  } else if (player.body.velocity.y > 0 && cursors.left.isDown) {
+  } else if (!player.body.blocked.down && player.body.velocity.y > 0 && cursors.left.isDown) {
     player.setFlipX(true);
     player.setVelocityX(-300);
     player.anims.play("fall", true);
     ultimaTecla = 1;
     attackcombo = 0;
-  } else if (player.body.velocity.y > 0 && cursors.right.isDown) {
+  } else if (!player.body.blocked.down && player.body.velocity.y > 0 && cursors.right.isDown) {
     player.setFlipX(false);
     player.setVelocityX(300);
     player.anims.play("fall", true);
     ultimaTecla = 2;
     attackcombo = 0;
-  } else if (cursors.left.isDown && player.body.onFloor()) {
+  } else if (cursors.left.isDown && player.body.blocked.down) {
     player.setFlipX(true);
     player.setVelocityX(-300);
     player.anims.play("run", true);
     ultimaTecla = 1;
     attackcombo = 0;
-  } else if (cursors.right.isDown && player.body.onFloor()) {
+  } else if (cursors.right.isDown && player.body.blocked.down) {
     player.setFlipX(false);
     player.setVelocityX(300);
     player.anims.play("run", true);
@@ -661,7 +663,7 @@ GameScene.update = function() {
     attackcombo = 0;
   } else if (
     cursors.down.isDown &&
-    player.body.onFloor() &&
+    player.body.blocked.down &&
     cursors.space.isUp &&
     ultimaTecla === 1
   ) {
@@ -671,7 +673,7 @@ GameScene.update = function() {
     attackcombo = 0;
   } else if (
     cursors.down.isDown &&
-    player.body.onFloor() &&
+    player.body.blocked.down &&
     cursors.space.isUp &&
     ultimaTecla === 2
   ) {
@@ -680,7 +682,7 @@ GameScene.update = function() {
     player.anims.play("crouch", true);
     attackcombo = 0;
   } else if (
-    player.body.velocity.y === 0 &&
+    player.body.blocked.down &&
     cursors.right.isUp &&
     cursors.left.isUp &&
     cursors.space.isUp &&
@@ -691,7 +693,7 @@ GameScene.update = function() {
     player.setVelocityX(0);
     player.anims.play("idle", true);
   } else if (
-    player.body.velocity.y === 0 &&
+    player.body.blocked.down &&
     cursors.right.isUp &&
     cursors.left.isUp &&
     cursors.space.isUp &&
