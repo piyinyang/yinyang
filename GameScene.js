@@ -5,21 +5,21 @@ export { GameScene };
 var player;
 var P1jump = false;
 var P1jumpdelay = 0;
-var ultimaTecla = 2; // 1=esquerda/2=direita
+var playerPosition = "right"; // se o player ta virado pra esquerda ou direita
 var attackcombo = 0; //define qual dos 3 ataques o jogador vai usar, possibilitando um oombo
 
 var slime;
 var slimepoint = 400; //ponto que o slime vai ficar andando ao redor (X)
 var slimeposition = "left"; // se o slime tÃ¡ virado pra esquerda ou direita
 
-//varias variaveis sobre a posicao do slime, sÃ³ pra facilitar a programaÃ§Ã£o
+//varias variaveis sobre a posicao do slime, so pra facilitar a programacao
     var slimeX; // posicao x do slime
     var slimeY; // posicao y do slime
     var playerX; // posicao x do player
     var playerY; // posicao y do player
     var slime_P1;// x do slime menos o x do player1
     var slime_P1_Y; // y do slime menos o y do player1
-    var slimeguard;// distancia do slime atÃ© o slimepoint
+    var slimeguard;// distancia do slime ate o slimepoint
 
 var platforms; //variavel das plataformas
 var cursors; //variavel das setas do teclado
@@ -30,18 +30,19 @@ var spike; //variavel dos espinhos
 //var scoreText;
 var graphics; //nem me pergunte
 var gameOver = false;
+var button;
 
 //VARIAVEIS DE SONS
 var song; // musica da floresta
 var swordwoosh; // som da espada
 var slimeatk; // som do slime atacando
 var jumping; // som do player pulando
-var landing; // som do player caindo no chÃ£o
+var landing; // som do player caindo no chao
 
 var GameScene = new Phaser.Scene("gamescene");
 
 
-// A FUNÃ‡ÃƒO PRELOAD FAZ O PRECARREGAMENTO DE IMAGENS E SONS DO JOGO
+// A FUNCAO PRELOAD FAZ O PRECARREGAMENTO DE IMAGENS E SONS DO JOGO
 GameScene.preload = function() {
   
   //Assets do ambiente e dos objetos
@@ -126,7 +127,7 @@ GameScene.preload = function() {
   
 };
 
-// A FUNÃ‡ÃƒO CREATE Ã‰ A QUE CRIA AS COISAS DENTRO DO JOGO
+// A FUNCAO CREATE CRIA AS COISAS DENTRO DO JOGO
 GameScene.create = function() {
   
   // CRIACAO DOS SONS
@@ -142,7 +143,7 @@ GameScene.create = function() {
   });
 
 
-  // CRIAÃƒÂ‡ÃƒÂƒO DO CENÃƒÂRIO E DO BACKGROUND
+  // CRIACAO DO CENARIO E DO BACKGROUND
   
   this.add.image(500, 500, "fundoCaverna").setScale(100, 100);
 
@@ -167,7 +168,7 @@ GameScene.create = function() {
   player.setBounce(0);
   player.setCollideWorldBounds(true);
 
-  // CRIAÃ‡ÃƒO DO SLIME
+  // CRIACAO DO SLIME
   slime = this.physics.add.sprite(100, 100, 'slime0');
   slime.setBounce(0);
   slime.setCollideWorldBounds(true);
@@ -175,7 +176,7 @@ GameScene.create = function() {
   cursors = this.input.keyboard.createCursorKeys();
   //pointer = this.input.addPointer(1);
 
-  // ADICIONANDO COLISÃƒO AO JOGO
+  // ADICIONANDO COLISAO AO JOGO
   this.physics.add.collider(player, topLayer);
   this.physics.add.collider(player, topLayer2);
 
@@ -197,7 +198,7 @@ GameScene.create = function() {
   this.physics.world.setBounds(0, 0, 4096, 4096); //limites do mundo
 
   this.cameras.main.startFollow(player, true, 0.5, 0.5);
-  this.cameras.main.setZoom(1);
+  this.cameras.main.setZoom(1.5);
 
   if (this.cameras.main.deadzone) {
     graphics = this.add.graphics().setScrollFactor(0);
@@ -211,7 +212,7 @@ GameScene.create = function() {
   
   // CODIGO PARA IMPLEMENTAR FULLSCREEN
   
-  var button = this.add
+  button = this.add
     .image()
     .setOrigin(1, 0)
     .setInteractive();
@@ -248,7 +249,7 @@ GameScene.create = function() {
     this
   );
 
-  // ANIMAÃ‡Ã•ES DO PLAYER
+  // ANIMACOES DO PLAYER
   this.anims.create({
     key: "idle",
     frames: [
@@ -347,7 +348,7 @@ GameScene.create = function() {
   });
 
 
-  //          ANIMAÃ‡Ã•ES DO SLIME
+  //          ANIMACOES DO SLIME
 
   this.anims.create({
     key: 'slime-idle',
@@ -380,7 +381,7 @@ GameScene.create = function() {
 
 };
 
-// A FUNÃ‡ÃƒO UPDATE Ã‰ A QUE FAZ O JOGO ACONTECER, ELA SE REPETE INFINITAMENTE VÃRIAS VEZES POR SEGUNDO
+// A FUNCAO UPDATE EH A QUE FAZ O JOGO ACONTECER, ELA SE REPETE INFINITAMENTE VÃRIAS VEZES POR SEGUNDO
 GameScene.update = function() {
 
   console.log(P1jump);  
@@ -431,13 +432,13 @@ GameScene.update = function() {
   } else if (
     player.anims.getCurrentKey() === "attack1" &&
     player.anims.getProgress("attack1") < 1 &&
-    ultimaTecla === 2
+    playerPosition === "right"
   ) {
     player.setSize(25, 35, true).setOffset(20, 0);
   } else if (
     player.anims.getCurrentKey() === "attack1" &&
     player.anims.getProgress("attack1") < 1 &&
-    ultimaTecla === 1
+    playerPosition === "left"
   ) {
     player.setSize(25, 35, true).setOffset(5, 0);
   } else if (
@@ -452,13 +453,13 @@ GameScene.update = function() {
   else if (
     player.anims.getCurrentKey() === "attack2" &&
     player.anims.getProgress("attack2") < 1 &&
-    ultimaTecla === 2
+    playerPosition === "right"
   ) {
     player.setSize(25, 35, true).setOffset(20, 0);
   } else if (
     player.anims.getCurrentKey() === "attack2" &&
     player.anims.getProgress("attack2") < 1 &&
-    ultimaTecla === 1
+    playerPosition === "left"
   ) {
     player.setSize(25, 35, true).setOffset(5, 0);
   } else if (
@@ -473,13 +474,13 @@ GameScene.update = function() {
   else if (
     player.anims.getCurrentKey() === "attack3" &&
     player.anims.getProgress("attack3") < 1 &&
-    ultimaTecla === 2
+    playerPosition === "right"
   ) {
     player.setSize(25, 35, true).setOffset(20, 0);
   } else if (
     player.anims.getCurrentKey() === "attack3" &&
     player.anims.getProgress("attack3") < 1 &&
-    ultimaTecla === 1
+    playerPosition === "left"
   ) {
     player.setSize(25, 35, true).setOffset(5, 0);
   } else if (
@@ -515,7 +516,7 @@ GameScene.update = function() {
     cursors.space.isDown &&
     cursors.down.isUp &&
     player.body.blocked.down &&
-    ultimaTecla === 1 &&
+    playerPosition === "left" &&
     attackcombo === 0
   ) {
     player.setFlipX(true);
@@ -527,7 +528,7 @@ GameScene.update = function() {
     cursors.space.isDown &&
     cursors.down.isUp &&
     player.body.blocked.down &&
-    ultimaTecla === 2 &&
+    playerPosition === "right" &&
     attackcombo === 0
   ) {
     player.setFlipX(false);
@@ -539,7 +540,7 @@ GameScene.update = function() {
     cursors.space.isDown &&
     cursors.down.isUp &&
     player.body.blocked.down &&
-    ultimaTecla === 1 &&
+    playerPosition === "left" &&
     attackcombo === 1
   ) {
     player.setFlipX(true);
@@ -551,7 +552,7 @@ GameScene.update = function() {
     cursors.space.isDown &&
     cursors.down.isUp &&
     player.body.blocked.down &&
-    ultimaTecla === 2 &&
+    playerPosition === "right" &&
     attackcombo === 1
   ) {
     player.setFlipX(false);
@@ -563,7 +564,7 @@ GameScene.update = function() {
     cursors.space.isDown &&
     cursors.down.isUp &&
     player.body.blocked.down &&
-    ultimaTecla === 1 &&
+    playerPosition === "left" &&
     attackcombo === 2
   ) {
     player.setFlipX(true);
@@ -575,7 +576,7 @@ GameScene.update = function() {
     cursors.space.isDown &&
     cursors.down.isUp &&
     player.body.blocked.down &&
-    ultimaTecla === 2 &&
+    playerPosition === "right" &&
     attackcombo === 2
   ) {
     player.setFlipX(false);
@@ -587,7 +588,7 @@ GameScene.update = function() {
     player.body.velocity.y < 0 &&
     cursors.left.isUp &&
     cursors.right.isUp &&
-    ultimaTecla === 1
+    playerPosition === "left"
   ) {
     player.setFlipX(true);
     player.setVelocityX(0);
@@ -597,7 +598,7 @@ GameScene.update = function() {
     player.body.velocity.y < 0 &&
     cursors.left.isUp &&
     cursors.right.isUp &&
-    ultimaTecla === 2
+    playerPosition === "right"
   ) {
     player.setFlipX(false);
     player.setVelocityX(0);
@@ -607,20 +608,20 @@ GameScene.update = function() {
     player.setFlipX(true);
     player.setVelocityX(-300);
     player.anims.play("jump", true);
-    ultimaTecla = 1;
+    playerPosition = "left";
     attackcombo = 0;
   } else if (player.body.velocity.y < 0 && cursors.right.isDown) {
     player.setFlipX(false);
     player.setVelocityX(300);
     player.anims.play("jump", true);
-    ultimaTecla = 2;
+    playerPosition = "right";
     attackcombo = 0;
   } else if (
     !player.body.blocked.down &&
     player.body.velocity.y > 0 &&
     cursors.left.isUp &&
     cursors.right.isUp &&
-    ultimaTecla === 1
+    playerPosition === "left"
   ) {
     player.setFlipX(true);
     player.setVelocityX(0);
@@ -631,7 +632,7 @@ GameScene.update = function() {
     player.body.velocity.y > 0 &&
     cursors.left.isUp &&
     cursors.right.isUp &&
-    ultimaTecla === 2
+    playerPosition === "right"
   ) {
     player.setFlipX(false);
     player.setVelocityX(0);
@@ -641,31 +642,31 @@ GameScene.update = function() {
     player.setFlipX(true);
     player.setVelocityX(-300);
     player.anims.play("fall", true);
-    ultimaTecla = 1;
+    playerPosition = "left";
     attackcombo = 0;
   } else if (!player.body.blocked.down && player.body.velocity.y > 0 && cursors.right.isDown) {
     player.setFlipX(false);
     player.setVelocityX(300);
     player.anims.play("fall", true);
-    ultimaTecla = 2;
+    playerPosition = "right";
     attackcombo = 0;
   } else if (cursors.left.isDown && player.body.blocked.down) {
     player.setFlipX(true);
     player.setVelocityX(-300);
     player.anims.play("run", true);
-    ultimaTecla = 1;
+    playerPosition = "left";
     attackcombo = 0;
   } else if (cursors.right.isDown && player.body.blocked.down) {
     player.setFlipX(false);
     player.setVelocityX(300);
     player.anims.play("run", true);
-    ultimaTecla = 2;
+    playerPosition = "right";
     attackcombo = 0;
   } else if (
     cursors.down.isDown &&
     player.body.blocked.down &&
     cursors.space.isUp &&
-    ultimaTecla === 1
+    playerPosition === "left"
   ) {
     player.setFlipX(true);
     player.setVelocityX(0);
@@ -675,7 +676,7 @@ GameScene.update = function() {
     cursors.down.isDown &&
     player.body.blocked.down &&
     cursors.space.isUp &&
-    ultimaTecla === 2
+    playerPosition === "right"
   ) {
     player.setFlipX(false);
     player.setVelocityX(0);
@@ -687,7 +688,7 @@ GameScene.update = function() {
     cursors.left.isUp &&
     cursors.space.isUp &&
     cursors.down.isUp &&
-    ultimaTecla === 1
+    playerPosition === "left"
   ) {
     player.setFlipX(true);
     player.setVelocityX(0);
@@ -698,7 +699,7 @@ GameScene.update = function() {
     cursors.left.isUp &&
     cursors.space.isUp &&
     cursors.down.isUp &&
-    ultimaTecla === 2
+    playerPosition === "right"
   ) {
     player.setFlipX(false);
     player.setVelocityX(0);
@@ -806,10 +807,10 @@ GameScene.update = function() {
   }
 };
 
-// A FUNÃ‡ÃƒO QUE DEFINE O QUE ACONTECE QUANDO HÃ COLISÃƒO ENTRE PLAYER E SLIME
+// A FUNCAO QUE DEFINE O QUE ACONTECE QUANDO HÃ COLISAO ENTRE PLAYER E SLIME
 function hitSlime (player, slime){
   
-  //se o jogador ataca o slime, o slime Ã© jogado um pouco pra trÃ¡s. 
+  //se o jogador ataca o slime, o slime eh jogado um pouco pra tras. 
   if(player.anims.getCurrentKey() === 'attack1' && slime_P1 > 0){
       slime.setPosition(slimeX+50,slimeY+10);
       player.setVelocityX(0);
@@ -839,8 +840,7 @@ function hitSlime (player, slime){
       slime.anims.play("slime-hurt", true);
 
   }
-    //se o slime ataca o jogador, o jogador Ã© empurrado pra trÃ¡s
-    //o slime tbm Ã© empurrado um pouquinho pra tras
+    //se o slime ataca o jogador, o jogador eh empurrado pra tras
     else if(slime.anims.getCurrentKey() === 'slime-attack' && slimeposition === "left" && slime.anims.getProgress('slime-attack') === 1){
       player.setPosition(playerX-20, playerY+5);
       slime.setVelocityX(0);
