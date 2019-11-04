@@ -63,8 +63,6 @@ GameScene.preload = function() {
     frameHeight: 37
   });
 
-
-
   this.load.image("idle0", "assets/player/idle0.png");
   this.load.image("idle1", "assets/player/idle1.png");
   this.load.image("idle2", "assets/player/idle2.png");
@@ -157,7 +155,7 @@ GameScene.create = function() {
   //criando os niveis do mapa
   var topLayer3 = map.createStaticLayer("topLayer3", [terrain3], 0, 0);
   var topLayer = map.createStaticLayer("topLayer", [terrain], 0, 0);
-  var topLayer2 = map.createStaticLayer("topLayer2", [terrain2], 0, 0);  
+  var topLayer2 = map.createStaticLayer("topLayer2", [terrain2], 0, 0);
 
   // CRIACAO DOS ESPINHOS
   spike = this.physics.add.staticGroup();
@@ -497,7 +495,7 @@ GameScene.update = function() {
   //          CONDICOES PARA EXECUTAR ACOES
 
    else if (cursors.up.isDown && player.body.blocked.down) {
-    player.setVelocityY(-350);
+    player.setVelocityY(-450);
     jumping.play({
       volume:0.3
     });
@@ -506,8 +504,8 @@ GameScene.update = function() {
     landing.play({
       volume: 0.3
     });*/
-  } else if (!player.body.blocked.down && cursors.up.isDown && P1jump && P1jumpdelay >= 20){
-    player.setVelocityY(-350);
+  } else if (!player.body.blocked.down && cursors.up.isDown && P1jump && P1jumpdelay >= 12){
+    player.setVelocityY(-450);
     jumping.play({
       volume:0.3
     });
