@@ -1,8 +1,10 @@
 import { GameScene } from "./GameScene.js";
 export { gameover };
+import {start} from "./start.js";
 
 var setupSceneInput;
 var gameover = new Phaser.Scene("SceneC");
+var cursors;
 
 gameover.preload = function() {
   this.load.audio("youlose", "assets/sounds/sfx/interface/you_lose.ogg");
@@ -17,6 +19,10 @@ gameover.create = function() {
   var youlose = this.sound.add("youlose");
 
   youlose.play();
+
+  cursors = this.input.keyboard.createCursorKeys();
+
+
 
 
   /*if (this.sound.locked) {
@@ -42,4 +48,10 @@ setupSceneInput = function(theme) {
     this
   );
   */
+};
+
+gameover.update = function (){
+  if(cursors.space.isDown){
+    this.scene.start(start);
+  }
 };
