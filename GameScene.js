@@ -739,6 +739,7 @@ function hitSlime (player, slime){
   } else if(player.anims.getCurrentKey() === 'attack1' && slime_P1 < 0){
       //slime.setPosition(slimeX-50, slimeY+10);
       slime.setVelocityX(-150);
+      slime.setVelocityY(-100);
       player.setVelocityX(0);
       slime.anims.play("slime-hurt", true);
   } else if(player.anims.getCurrentKey() === 'attack2' && slime_P1 > 0){
