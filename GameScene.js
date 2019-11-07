@@ -131,13 +131,13 @@ GameScene.create = function() {
 
   // CRIACAO DO JOGADOR 1
   player = this.physics.add.sprite(100, 350, "yin").setScale(1);
-  player.setSize(20, 25, true).setOffset(14, 10);
+  player.setSize(13, 25, true).setOffset(18, 10);
   player.setBounce(0);
   player.setCollideWorldBounds(true);
 
   // CRIACAO DO SLIME
   slime = this.physics.add.sprite (400, 100, 'slime0');
-  slime.setSize(35,27, true);
+  slime.setSize(20,20, true).setOffset(5,8);
   slime.setBounce(0);
   slime.setCollideWorldBounds(true);
 
@@ -346,6 +346,10 @@ GameScene.update = function() {
       P1jumpdelay ++;
     }
   
+    if (player.anims.getCurrentKey("idle")){
+      player.setSize(13, 25, true).setOffset(18, 10);
+    }
+
     //          HURT
     if (
     player.anims.getCurrentKey() === "hurt" &&
@@ -360,7 +364,6 @@ GameScene.update = function() {
     //player.setSize(20, 25, true).setOffset(20, 10);
     player.clearTint();
     player.anims.play("idle", true);
-    player.setSize(20, 25, true).setOffset(14, 10);
 
   
 
@@ -371,19 +374,18 @@ GameScene.update = function() {
     player.anims.getProgress("attack1") < 1 &&
     playerPosition === "right"
   ) {
-    player.setSize(25, 35, true).setOffset(20, 0);
+    player.setSize(15, 30, true).setOffset(25, 5);
   } else if (
     player.anims.getCurrentKey() === "attack1" &&
     player.anims.getProgress("attack1") < 1 &&
     playerPosition === "left"
   ) {
-    player.setSize(25, 35, true).setOffset(5, 0);
+    player.setSize(15, 30, true).setOffset(-2, 5);
   } else if (
     player.anims.getCurrentKey() === "attack1" &&
     player.anims.getProgress("attack1") === 1
   ) {
     player.anims.play("idle", true);
-    player.setSize(20, 25, true).setOffset(14, 10);
   }
 
   //          ATTACK 2
@@ -392,19 +394,18 @@ GameScene.update = function() {
     player.anims.getProgress("attack2") < 1 &&
     playerPosition === "right"
   ) {
-    player.setSize(25, 35, true).setOffset(20, 0);
+    player.setSize(15, 30, true).setOffset(25, 5);
   } else if (
     player.anims.getCurrentKey() === "attack2" &&
     player.anims.getProgress("attack2") < 1 &&
     playerPosition === "left"
   ) {
-    player.setSize(25, 35, true).setOffset(5, 0);
+    player.setSize(15, 30, true).setOffset(-2, 5);
   } else if (
     player.anims.getCurrentKey() === "attack2" &&
     player.anims.getProgress("attack2") === 1
   ) {
     player.anims.play("idle", true);
-    player.setSize(20, 25, true).setOffset(14, 10);
   }
 
   //           ATTACK 3
@@ -413,19 +414,18 @@ GameScene.update = function() {
     player.anims.getProgress("attack3") < 1 &&
     playerPosition === "right"
   ) {
-    player.setSize(25, 35, true).setOffset(20, 0);
+    player.setSize(15, 30, true).setOffset(25, 5);
   } else if (
     player.anims.getCurrentKey() === "attack3" &&
     player.anims.getProgress("attack3") < 1 &&
     playerPosition === "left"
   ) {
-    player.setSize(25, 35, true).setOffset(5, 0);
+    player.setSize(15, 30, true).setOffset(-2, 5);
   } else if (
     player.anims.getCurrentKey() === "attack3" &&
     player.anims.getProgress("attack3") === 1
   ) {
     player.anims.play("idle", true);
-    player.setSize(20, 25, true).setOffset(14, 10);
   }
 
 
@@ -618,6 +618,7 @@ GameScene.update = function() {
     player.setFlipX(false);
     player.setVelocityX(0);
     player.anims.play("crouch", true);
+    player.setSize(13, 20, true).setOffset(18, 15);
     attackcombo = 0;
   } else if (
     player.body.blocked.down &&
@@ -652,63 +653,63 @@ GameScene.update = function() {
     slime.anims.getCurrentKey() === "slime-hurt" &&
     slime.anims.getProgress("slime-hurt") < 1 && slimeposition === "right"
   ) {
-    slime.setSize(32, 25, true).setOffset(-10, 0);
+    slime.setSize(20, 20, true).setOffset(0, 4);
     slime.setTint(0xff0000);
   } else if (
     slime.anims.getCurrentKey() === "slime-hurt" &&
     slime.anims.getProgress("slime-hurt") < 1 && slimeposition === "left"
   ) {
-    slime.setSize(32, 25, true).setOffset(10, 0);
+    slime.setSize(20, 20, true).setOffset(0, 4);
     slime.setTint(0xff0000);
   } else if (
     slime.anims.getCurrentKey() === "slime-hurt" &&
     slime.anims.getProgress("slime-hurt") === 1
   ) {
     slime.setVelocityX(0);
-    slime.setSize(32, 25, true).setOffset(0, 0);
+    slime.setSize(20, 20, true).setOffset(0, 4);
     slime.clearTint();
     slime.anims.play("slime-idle", true);
 
     
   } else if (slime.anims.getCurrentKey() === 'slime-attack'
   && slime.anims.getProgress('slime-attack') < 1 && slimeposition === 'left'){
-      slime.setSize(40,25).setOffset(-8,0);
+      slime.setSize(30,20).setOffset(-8,4);
 
   } else if (slime.anims.getCurrentKey() === 'slime-attack'
   && slime.anims.getProgress('slime-attack') === 1 && slimeposition==="left"){
       slime.anims.play('slime-idle', true);
-      slime.setSize(32,25).setOffset(0,0);
+      slime.setSize(20,20).setOffset(0,4);
     
   } else if (slime.anims.getCurrentKey() === 'slime-attack'
   && slime.anims.getProgress('slime-attack') < 1 && slimeposition === 'right'){
-      slime.setSize(40,25).setOffset(0,0);
+      slime.setSize(30,20).setOffset(8,4);
 
   } else if (slime.anims.getCurrentKey() === 'slime-attack'
   && slime.anims.getProgress('slime-attack') === 1 && slimeposition==="right"){
       slime.anims.play('slime-idle', true);
-      slime.setSize(32,25).setOffset(0,0);
+      slime.setSize(20,20).setOffset(0,4);
   
   //      CONDICIONAIS PARA COMPORTAMENTO/ANIMACAO
   
-  } else if (slime_P1 < 20 && slime_P1 > 0 && slime_P1_Y > -50){
+  } else if (slime_P1 < 15 && slime_P1 > 0 && slime_P1_Y > -50){
       slime.setVelocityX(0);
       slime.setFlipX(false);
       slime.anims.play('slime-attack', true);
       slimeposition = 'left';
-  } else if (slime_P1 > -35 && slime_P1 < 0 && slime_P1_Y > -50){
+  } else if (slime_P1 > -20 && slime_P1 < 0 && slime_P1_Y > -50){
       slime.setVelocityX(0);
       slime.setFlipX(true);
       slime.anims.play('slime-attack', true);
       slimeposition = 'right';
   } else if (slime_P1 < 150 && slime_P1 > 0 && slime_P1_Y > -50){
       slime.setVelocityX(-150);
-      slime.setSize(35,27, true).setOffset(0,-2);
+      slime.setSize(20,20, true).setOffset(7,4);
       slime.setFlipX(false);
       slime.anims.play('slime-move', true);
       slimeposition = 'left';
   } else if (slime_P1 > -150 && slime_P1 < 0 && slime_P1_Y > -50){
       slime.setVelocityX(150);
-      slime.setSize(35,27, true).setOffset(0,-2);
+      slime.setSize(20,20, true).setOffset(7,4);
       slime.setFlipX(true);
       slime.anims.play('slime-move', true);
       slimeposition = 'right';
@@ -730,40 +731,40 @@ GameScene.update = function() {
 function hitSlime (player, slime){
   
   //se o jogador ataca o slime, o slime eh jogado um pouco pra tras. 
-  if(player.anims.getCurrentKey() === 'attack1' && slime_P1 > 0){
+  if(player.anims.getCurrentKey() === 'attack1' && slime_P1 > 0 && slimeposition==="left"){
       //slime.setPosition(slimeX+50,slimeY+10);
       slime.setVelocityX(150);
       slime.setVelocityY(-100);
       player.setVelocityX(0);
       slime.anims.play("slime-hurt", true);
-  } else if(player.anims.getCurrentKey() === 'attack1' && slime_P1 < 0){
+  } else if(player.anims.getCurrentKey() === 'attack1' && slime_P1 < 0 && slimeposition==="right"){
       //slime.setPosition(slimeX-50, slimeY+10);
       slime.setVelocityX(-150);
       slime.setVelocityY(-100);
       player.setVelocityX(0);
       slime.anims.play("slime-hurt", true);
-  } else if(player.anims.getCurrentKey() === 'attack2' && slime_P1 > 0){
+  } else if(player.anims.getCurrentKey() === 'attack2' && slime_P1 > 0 && slimeposition==="left"){
       //slime.setPosition(slimeX+50,slimeY+10);
       slime.setVelocityX(150);
       slime.setVelocityY(-100);
       player.setVelocityX(0);
       slime.anims.play("slime-hurt", true);
 
-  } else if(player.anims.getCurrentKey() === 'attack2' && slime_P1 < 0){
+  } else if(player.anims.getCurrentKey() === 'attack2' && slime_P1 < 0 && slimeposition==="right"){
       //slime.setPosition(slimeX-50, slimeY+10);
       slime.setVelocityX(-150);
       slime.setVelocityY(-100);
       player.setVelocityX(0);
       slime.anims.play("slime-hurt", true);
 
-  } else if(player.anims.getCurrentKey() === 'attack3' && slime_P1 > 0){
+  } else if(player.anims.getCurrentKey() === 'attack3' && slime_P1 > 0 && slimeposition==="left"){
       //slime.setPosition(slimeX+50,slimeY+10);
       slime.setVelocityX(150);
       slime.setVelocityY(-100);
       player.setVelocityX(0);
       slime.anims.play("slime-hurt", true);
 
-  } else if(player.anims.getCurrentKey() === 'attack3' && slime_P1 < 0){
+  } else if(player.anims.getCurrentKey() === 'attack3' && slime_P1 < 0 && slimeposition==="right"){
       //slime.setPosition(slimeX-50, slimeY+10);
       slime.setVelocityX(-150);
       slime.setVelocityY(-100);
