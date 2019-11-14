@@ -83,6 +83,17 @@ GameScene.preload = function() {
     frameHeight: 37
   });
 
+  //Assets do jogador Yang
+  this.load.spritesheet("yangrun", "assets/player/YangRun.png", {
+    frameWidth: 50,
+    frameHeight: 37
+  });
+  //Carregando as demais animações em um único spritesheet
+  this.load.spritesheet("yang", "assets/player/YangSpriteSheet.png", {
+    frameWidth: 50,
+    frameHeight: 37
+  });
+
   //SPRITESHEET DO SLIME
   this.load.spritesheet('slimesheet', 'assets/slime/slime-Sheet.png', { frameWidth: 32, frameHeight: 25 });
   this.load.image('slime0', 'assets/slime/slime0.png');
@@ -148,7 +159,7 @@ GameScene.create = function() {
   player.setCollideWorldBounds(true);
 
   // CRIACAO DO JOGADOR 2
-  player2 = this.physics.add.sprite(150, 350, "yin").setScale(1);
+  player2 = this.physics.add.sprite(150, 350, "yang").setScale(1);
   player2.setSize(13, 25, true).setOffset(18, 10);
   player2.setBounce(0);
   player2.setCollideWorldBounds(true);
@@ -249,49 +260,49 @@ GameScene.create = function() {
 
   // ANIMACOES DO PLAYER
   this.anims.create({
-    key: "idle",
+    key: "yin-idle",
     frames: this.anims.generateFrameNumbers("yin", { start: 38, end: 41 }),
     frameRate: 5,
     repeat: -1
   });
 
   this.anims.create({
-    key: "run",
+    key: "yin-run",
     frames: this.anims.generateFrameNumbers("yinrun", { start: 0, end: 5 }),
     frameRate: 10,
     repeat: -1
   });
 
   this.anims.create({
-    key: "jump",
+    key: "yin-jump",
     frames: this.anims.generateFrameNumbers("yin", { start: 14, end: 17 }),
     frameRate: 8,
     repeat: 0
   });
 
   this.anims.create({
-    key: "fall",
+    key: "yin-fall",
     frames: this.anims.generateFrameNumbers("yin", { start: 22, end: 23 }),
     frameRate: 5,
     repeat: -1
   });
 
   this.anims.create({
-    key: "crouch",
+    key: "yin-crouch",
     frames: this.anims.generateFrameNumbers("yin", { start: 4, end: 7 }),
     frameRate: 7,
     repeat: -1
   });
 
   this.anims.create({
-    key: "attack1",
+    key: "yin-attack1",
     frames: this.anims.generateFrameNumbers("yin", { start: 42, end: 46 }),
     frameRate: 20,
     delay: 100
   });
 
   this.anims.create({
-    key: "attack2",
+    key: "yin-attack2",
     frames: this.anims.generateFrameNumbers("yin", { start: 47, end: 52 }),
 
     frameRate: 20,
@@ -299,15 +310,80 @@ GameScene.create = function() {
   });
 
   this.anims.create({
-    key: "attack3",
+    key: "yin-attack3",
     frames: this.anims.generateFrameNumbers("yin", { start: 53, end: 58 }),
     frameRate: 20,
     delay: 100
   });
 
   this.anims.create({
-    key: "hurt",
+    key: "yin-hurt",
     frames: this.anims.generateFrameNumbers("yin", { start: 59, end: 61 }),
+    frameRate: 9,
+    repeat: -1
+  });
+
+  // ANIMACOES DO PLAYER 2
+  this.anims.create({
+    key: "yang-idle",
+    frames: this.anims.generateFrameNumbers("yang", { start: 38, end: 41 }),
+    frameRate: 5,
+    repeat: -1
+  });
+
+  this.anims.create({
+    key: "yang-run",
+    frames: this.anims.generateFrameNumbers("yangrun", { start: 0, end: 5 }),
+    frameRate: 10,
+    repeat: -1
+  });
+
+  this.anims.create({
+    key: "yang-jump",
+    frames: this.anims.generateFrameNumbers("yang", { start: 14, end: 17 }),
+    frameRate: 8,
+    repeat: 0
+  });
+
+  this.anims.create({
+    key: "yang-fall",
+    frames: this.anims.generateFrameNumbers("yang", { start: 22, end: 23 }),
+    frameRate: 5,
+    repeat: -1
+  });
+
+  this.anims.create({
+    key: "yang-crouch",
+    frames: this.anims.generateFrameNumbers("yang", { start: 4, end: 7 }),
+    frameRate: 7,
+    repeat: -1
+  });
+
+  this.anims.create({
+    key: "yang-attack1",
+    frames: this.anims.generateFrameNumbers("yang", { start: 42, end: 46 }),
+    frameRate: 20,
+    delay: 100
+  });
+
+  this.anims.create({
+    key: "yang-attack2",
+    frames: this.anims.generateFrameNumbers("yang", { start: 47, end: 52 }),
+
+    frameRate: 20,
+    delay: 100
+  });
+
+  this.anims.create({
+    key: "yang-attack3",
+    frames: this.anims.generateFrameNumbers("yang", { start: 53, end: 58 }),
+    frameRate: 20,
+    delay: 100
+  });
+
+  this.anims.create({
+    key: "yang-hurt",
+    frames: this.anims.generateFrameNumbers("yang", { start: 59, end: 61 }),
     frameRate: 9,
     repeat: -1
   });
@@ -376,84 +452,84 @@ GameScene.update = function() {
       P1jumpdelay ++;
     }
   
-    if (player.anims.getCurrentKey("idle")){
+    if (player.anims.getCurrentKey("yin-idle")){
       player.setSize(13, 25, true).setOffset(18, 10);
     }
 
     //          HURT
     if (
-    player.anims.getCurrentKey() === "hurt" &&
-    player.anims.getProgress("hurt") < 1
+    player.anims.getCurrentKey() === "yin-hurt" &&
+    player.anims.getProgress("yin-hurt") < 1
   ) {
     player.setTint(0xff0000);
   } else if (
-    player.anims.getCurrentKey() === "hurt" &&
-    player.anims.getProgress("hurt") === 1
+    player.anims.getCurrentKey() === "yin-hurt" &&
+    player.anims.getProgress("yin-hurt") === 1
   ) {
     player.clearTint();
-    player.anims.play("idle", true);
+    player.anims.play("yin-idle", true);
 
   
 
 
     //      ATTACK 1
   } else if (
-    player.anims.getCurrentKey() === "attack1" &&
-    player.anims.getProgress("attack1") < 1 &&
+    player.anims.getCurrentKey() === "yin-attack1" &&
+    player.anims.getProgress("yin-attack1") < 1 &&
     playerPosition === "right"
   ) {
     player.setSize(15, 30, true).setOffset(25, 5);
   } else if (
-    player.anims.getCurrentKey() === "attack1" &&
-    player.anims.getProgress("attack1") < 1 &&
+    player.anims.getCurrentKey() === "yin-attack1" &&
+    player.anims.getProgress("yin-attack1") < 1 &&
     playerPosition === "left"
   ) {
     player.setSize(15, 30, true).setOffset(10, 5);
   } else if (
-    player.anims.getCurrentKey() === "attack1" &&
-    player.anims.getProgress("attack1") === 1
+    player.anims.getCurrentKey() === "yin-attack1" &&
+    player.anims.getProgress("yin-attack1") === 1
   ) {
-    player.anims.play("idle", true);
+    player.anims.play("yin-idle", true);
   }
 
   //          ATTACK 2
   else if (
-    player.anims.getCurrentKey() === "attack2" &&
-    player.anims.getProgress("attack2") < 1 &&
+    player.anims.getCurrentKey() === "yin-attack2" &&
+    player.anims.getProgress("yin-attack2") < 1 &&
     playerPosition === "right"
   ) {
     player.setSize(15, 30, true).setOffset(25, 5);
   } else if (
-    player.anims.getCurrentKey() === "attack2" &&
-    player.anims.getProgress("attack2") < 1 &&
+    player.anims.getCurrentKey() === "yin-attack2" &&
+    player.anims.getProgress("yin-attack2") < 1 &&
     playerPosition === "left"
   ) {
     player.setSize(15, 30, true).setOffset(10, 5);
   } else if (
-    player.anims.getCurrentKey() === "attack2" &&
-    player.anims.getProgress("attack2") === 1
+    player.anims.getCurrentKey() === "yin-attack2" &&
+    player.anims.getProgress("yin-attack2") === 1
   ) {
-    player.anims.play("idle", true);
+    player.anims.play("yin-idle", true);
   }
 
   //           ATTACK 3
   else if (
-    player.anims.getCurrentKey() === "attack3" &&
-    player.anims.getProgress("attack3") < 1 &&
+    player.anims.getCurrentKey() === "yin-attack3" &&
+    player.anims.getProgress("yin-attack3") < 1 &&
     playerPosition === "right"
   ) {
     player.setSize(15, 30, true).setOffset(25, 5);
   } else if (
-    player.anims.getCurrentKey() === "attack3" &&
-    player.anims.getProgress("attack3") < 1 &&
+    player.anims.getCurrentKey() === "yin-attack3" &&
+    player.anims.getProgress("yin-attack3") < 1 &&
     playerPosition === "left"
   ) {
     player.setSize(15, 30, true).setOffset(10, 5);
   } else if (
-    player.anims.getCurrentKey() === "attack3" &&
-    player.anims.getProgress("attack3") === 1
+    player.anims.getCurrentKey() === "yin-attack3" &&
+    player.anims.getProgress("yin-attack3") === 1
   ) {
-    player.anims.play("idle", true);
+    player.anims.play("yin-idle", true);
   }
 
 
@@ -486,7 +562,7 @@ GameScene.update = function() {
   ) {
     player.setFlipX(true);
     player.setVelocityX(0);
-    player.anims.play("attack1", true);
+    player.anims.play("yin-attack1", true);
     swordwoosh.play();
     attackcombo = 1;
   } else if (
@@ -498,7 +574,7 @@ GameScene.update = function() {
   ) {
     player.setFlipX(false);
     player.setVelocityX(0);
-    player.anims.play("attack1", true);
+    player.anims.play("yin-attack1", true);
     swordwoosh.play();
     attackcombo = 1;
   } else if (
@@ -510,7 +586,7 @@ GameScene.update = function() {
   ) {
     player.setFlipX(true);
     player.setVelocityX(0);
-    player.anims.play("attack2", true);
+    player.anims.play("yin-attack2", true);
     swordwoosh.play();
     attackcombo = 2;
   } else if (
@@ -522,7 +598,7 @@ GameScene.update = function() {
   ) {
     player.setFlipX(false);
     player.setVelocityX(0);
-    player.anims.play("attack2", true);
+    player.anims.play("yin-attack2", true);
     swordwoosh.play();
     attackcombo = 2;
   } else if (
@@ -534,7 +610,7 @@ GameScene.update = function() {
   ) {
     player.setFlipX(true);
     player.setVelocityX(0);
-    player.anims.play("attack3", true);
+    player.anims.play("yin-attack3", true);
     swordwoosh.play();
     attackcombo = 0;
   } else if (
@@ -546,7 +622,7 @@ GameScene.update = function() {
   ) {
     player.setFlipX(false);
     player.setVelocityX(0);
-    player.anims.play("attack3", true);
+    player.anims.play("yin-attack3", true);
     swordwoosh.play();
     attackcombo = 0;
   } else if (
@@ -557,7 +633,7 @@ GameScene.update = function() {
   ) {
     player.setFlipX(true);
     player.setVelocityX(0);
-    player.anims.play("jump", true);
+    player.anims.play("yin-jump", true);
     attackcombo = 0;
   } else if (
     player.body.velocity.y < 0 &&
@@ -567,18 +643,18 @@ GameScene.update = function() {
   ) {
     player.setFlipX(false);
     player.setVelocityX(0);
-    player.anims.play("jump", true);
+    player.anims.play("yin-jump", true);
     attackcombo = 0;
   } else if (player.body.velocity.y < 0 && cursors.left.isDown) {
     player.setFlipX(true);
     player.setVelocityX(-300);
-    player.anims.play("jump", true);
+    player.anims.play("yin-jump", true);
     playerPosition = "left";
     attackcombo = 0;
   } else if (player.body.velocity.y < 0 && cursors.right.isDown) {
     player.setFlipX(false);
     player.setVelocityX(300);
-    player.anims.play("jump", true);
+    player.anims.play("yin-jump", true);
     playerPosition = "right";
     attackcombo = 0;
   } else if (
@@ -590,7 +666,7 @@ GameScene.update = function() {
   ) {
     player.setFlipX(true);
     player.setVelocityX(0);
-    player.anims.play("fall", true);
+    player.anims.play("yin-fall", true);
     attackcombo = 0;
   } else if (
     !player.body.blocked.down &&
@@ -601,30 +677,30 @@ GameScene.update = function() {
   ) {
     player.setFlipX(false);
     player.setVelocityX(0);
-    player.anims.play("fall", true);
+    player.anims.play("yin-fall", true);
     attackcombo = 0;
   } else if (!player.body.blocked.down && player.body.velocity.y > 0 && cursors.left.isDown) {
     player.setFlipX(true);
     player.setVelocityX(-300);
-    player.anims.play("fall", true);
+    player.anims.play("yin-fall", true);
     playerPosition = "left";
     attackcombo = 0;
   } else if (!player.body.blocked.down && player.body.velocity.y > 0 && cursors.right.isDown) {
     player.setFlipX(false);
     player.setVelocityX(300);
-    player.anims.play("fall", true);
+    player.anims.play("yin-fall", true);
     playerPosition = "right";
     attackcombo = 0;
   } else if (cursors.left.isDown && player.body.blocked.down) {
     player.setFlipX(true);
     player.setVelocityX(-300);
-    player.anims.play("run", true);
+    player.anims.play("yin-run", true);
     playerPosition = "left";
     attackcombo = 0;
   } else if (cursors.right.isDown && player.body.blocked.down) {
     player.setFlipX(false);
     player.setVelocityX(300);
-    player.anims.play("run", true);
+    player.anims.play("yin-run", true);
     playerPosition = "right";
     attackcombo = 0;
   } else if (
@@ -635,7 +711,7 @@ GameScene.update = function() {
   ) {
     player.setFlipX(true);
     player.setVelocityX(0);
-    player.anims.play("crouch", true);
+    player.anims.play("yin-crouch", true);
     attackcombo = 0;
   } else if (
     cursors.down.isDown &&
@@ -645,7 +721,7 @@ GameScene.update = function() {
   ) {
     player.setFlipX(false);
     player.setVelocityX(0);
-    player.anims.play("crouch", true);
+    player.anims.play("yin-crouch", true);
     player.setSize(13, 20, true).setOffset(18, 15);
     attackcombo = 0;
   } else if (
@@ -658,7 +734,7 @@ GameScene.update = function() {
   ) {
     player.setFlipX(true);
     player.setVelocityX(0);
-    player.anims.play("idle", true);
+    player.anims.play("yin-idle", true);
   } else if (
     player.body.blocked.down &&
     cursors.right.isUp &&
@@ -669,7 +745,7 @@ GameScene.update = function() {
   ) {
     player.setFlipX(false);
     player.setVelocityX(0);
-    player.anims.play("idle", true);
+    player.anims.play("yin-idle", true);
   }
 
   // PLAYER 2 ANIMATIONS
@@ -678,84 +754,84 @@ GameScene.update = function() {
     P2jumpdelay ++;
   }
 
-  if (player2.anims.getCurrentKey("idle")){
+  if (player2.anims.getCurrentKey("yang-idle")){
     player2.setSize(13, 25, true).setOffset(18, 10);
   }
 
   //          HURT
   if (
-  player2.anims.getCurrentKey() === "hurt" &&
-  player2.anims.getProgress("hurt") < 1
+  player2.anims.getCurrentKey() === "yang-hurt" &&
+  player2.anims.getProgress("yang-hurt") < 1
 ) {
   player2.setTint(0xff0000);
 } else if (
-  player2.anims.getCurrentKey() === "hurt" &&
-  player2.anims.getProgress("hurt") === 1
+  player2.anims.getCurrentKey() === "yang-hurt" &&
+  player2.anims.getProgress("yang-hurt") === 1
 ) {
   player2.clearTint();
-  player2.anims.play("idle", true);
+  player2.anims.play("yang-idle", true);
 
 
 
 
   //      ATTACK 1
 } else if (
-  player2.anims.getCurrentKey() === "attack1" &&
-  player2.anims.getProgress("attack1") < 1 &&
+  player2.anims.getCurrentKey() === "yang-attack1" &&
+  player2.anims.getProgress("yang-attack1") < 1 &&
   player2Position === "right"
 ) {
   player2.setSize(15, 30, true).setOffset(25, 5);
 } else if (
-  player2.anims.getCurrentKey() === "attack1" &&
-  player2.anims.getProgress("attack1") < 1 &&
+  player2.anims.getCurrentKey() === "yang-attack1" &&
+  player2.anims.getProgress("yang-attack1") < 1 &&
   player2Position === "left"
 ) {
   player2.setSize(15, 30, true).setOffset(10, 5);
 } else if (
-  player2.anims.getCurrentKey() === "attack1" &&
-  player2.anims.getProgress("attack1") === 1
+  player2.anims.getCurrentKey() === "yang-attack1" &&
+  player2.anims.getProgress("yang-attack1") === 1
 ) {
-  player2.anims.play("idle", true);
+  player2.anims.play("yang-idle", true);
 }
 
 //          ATTACK 2
 else if (
-  player2.anims.getCurrentKey() === "attack2" &&
-  player2.anims.getProgress("attack2") < 1 &&
+  player2.anims.getCurrentKey() === "yang-attack2" &&
+  player2.anims.getProgress("yang-attack2") < 1 &&
   player2Position === "right"
 ) {
   player2.setSize(15, 30, true).setOffset(25, 5);
 } else if (
-  player2.anims.getCurrentKey() === "attack2" &&
-  player2.anims.getProgress("attack2") < 1 &&
+  player2.anims.getCurrentKey() === "yang-attack2" &&
+  player2.anims.getProgress("yang-attack2") < 1 &&
   player2Position === "left"
 ) {
   player2.setSize(15, 30, true).setOffset(10, 5);
 } else if (
-  player2.anims.getCurrentKey() === "attack2" &&
-  player2.anims.getProgress("attack2") === 1
+  player2.anims.getCurrentKey() === "yang-attack2" &&
+  player2.anims.getProgress("yang-attack2") === 1
 ) {
-  player2.anims.play("idle", true);
+  player2.anims.play("yang-idle", true);
 }
 
 //           ATTACK 3
 else if (
-  player2.anims.getCurrentKey() === "attack3" &&
-  player2.anims.getProgress("attack3") < 1 &&
+  player2.anims.getCurrentKey() === "yang-attack3" &&
+  player2.anims.getProgress("yang-attack3") < 1 &&
   player2Position === "right"
 ) {
   player2.setSize(15, 30, true).setOffset(25, 5);
 } else if (
-  player2.anims.getCurrentKey() === "attack3" &&
-  player2.anims.getProgress("attack3") < 1 &&
+  player2.anims.getCurrentKey() === "yang-attack3" &&
+  player2.anims.getProgress("yang-attack3") < 1 &&
   player2Position === "left"
 ) {
   player2.setSize(15, 30, true).setOffset(10, 5);
 } else if (
-  player2.anims.getCurrentKey() === "attack3" &&
-  player2.anims.getProgress("attack3") === 1
+  player2.anims.getCurrentKey() === "yang-attack3" &&
+  player2.anims.getProgress("yang-attack3") === 1
 ) {
-  player2.anims.play("idle", true);
+  player2.anims.play("yang-idle", true);
 }
 
 
@@ -788,7 +864,7 @@ else if (
 ) {
   player2.setFlipX(true);
   player2.setVelocityX(0);
-  player2.anims.play("attack1", true);
+  player2.anims.play("yang-attack1", true);
   swordwoosh.play();
   attackcombo2 = 1;
 } else if (
@@ -800,7 +876,7 @@ else if (
 ) {
   player2.setFlipX(false);
   player2.setVelocityX(0);
-  player2.anims.play("attack1", true);
+  player2.anims.play("yang-attack1", true);
   swordwoosh.play();
   attackcombo2 = 1;
 } else if (
@@ -812,7 +888,7 @@ else if (
 ) {
   player2.setFlipX(true);
   player2.setVelocityX(0);
-  player2.anims.play("attack2", true);
+  player2.anims.play("yang-attack2", true);
   swordwoosh.play();
   attackcombo2 = 2;
 } else if (
@@ -824,7 +900,7 @@ else if (
 ) {
   player2.setFlipX(false);
   player2.setVelocityX(0);
-  player2.anims.play("attack2", true);
+  player2.anims.play("yang-attack2", true);
   swordwoosh.play();
   attackcombo2 = 2;
 } else if (
@@ -836,7 +912,7 @@ else if (
 ) {
   player2.setFlipX(true);
   player2.setVelocityX(0);
-  player2.anims.play("attack3", true);
+  player2.anims.play("yang-attack3", true);
   swordwoosh.play();
   attackcombo2 = 0;
 } else if (
@@ -848,7 +924,7 @@ else if (
 ) {
   player2.setFlipX(false);
   player2.setVelocityX(0);
-  player2.anims.play("attack3", true);
+  player2.anims.play("yang-attack3", true);
   swordwoosh.play();
   attackcombo2 = 0;
 } else if (
@@ -859,7 +935,7 @@ else if (
 ) {
   player2.setFlipX(true);
   player2.setVelocityX(0);
-  player2.anims.play("jump", true);
+  player2.anims.play("yang-jump", true);
   attackcombo2 = 0;
 } else if (
   player2.body.velocity.y < 0 &&
@@ -869,18 +945,18 @@ else if (
 ) {
   player2.setFlipX(false);
   player2.setVelocityX(0);
-  player2.anims.play("jump", true);
+  player2.anims.play("yang-jump", true);
   attackcombo2 = 0;
 } else if (player2.body.velocity.y < 0 && keyA.isDown) {
   player2.setFlipX(true);
   player2.setVelocityX(-300);
-  player2.anims.play("jump", true);
+  player2.anims.play("yang-jump", true);
   player2Position = "left";
   attackcombo2 = 0;
 } else if (player2.body.velocity.y < 0 && keyD.isDown) {
   player2.setFlipX(false);
   player2.setVelocityX(300);
-  player2.anims.play("jump", true);
+  player2.anims.play("yang-jump", true);
   player2Position = "right";
   attackcombo2 = 0;
 } else if (
@@ -892,7 +968,7 @@ else if (
 ) {
   player2.setFlipX(true);
   player2.setVelocityX(0);
-  player2.anims.play("fall", true);
+  player2.anims.play("yang-fall", true);
   attackcombo2 = 0;
 } else if (
   !player2.body.blocked.down &&
@@ -903,30 +979,30 @@ else if (
 ) {
   player2.setFlipX(false);
   player2.setVelocityX(0);
-  player2.anims.play("fall", true);
+  player2.anims.play("yang-fall", true);
   attackcombo2 = 0;
 } else if (!player2.body.blocked.down && player2.body.velocity.y > 0 && keyA.isDown) {
   player2.setFlipX(true);
   player2.setVelocityX(-300);
-  player2.anims.play("fall", true);
+  player2.anims.play("yang-fall", true);
   player2Position = "left";
   attackcombo2 = 0;
 } else if (!player2.body.blocked.down && player2.body.velocity.y > 0 && keyD.isDown) {
   player2.setFlipX(false);
   player2.setVelocityX(300);
-  player2.anims.play("fall", true);
+  player2.anims.play("yang-fall", true);
   player2Position = "right";
   attackcombo2 = 0;
 } else if (keyA.isDown && player2.body.blocked.down) {
   player2.setFlipX(true);
   player2.setVelocityX(-300);
-  player2.anims.play("run", true);
+  player2.anims.play("yang-run", true);
   player2Position = "left";
   attackcombo2 = 0;
 } else if (keyD.isDown && player2.body.blocked.down) {
   player2.setFlipX(false);
   player2.setVelocityX(300);
-  player2.anims.play("run", true);
+  player2.anims.play("yang-run", true);
   player2Position = "right";
   attackcombo2 = 0;
 } else if (
@@ -937,7 +1013,7 @@ else if (
 ) {
   player2.setFlipX(true);
   player2.setVelocityX(0);
-  player2.anims.play("crouch", true);
+  player2.anims.play("yang-crouch", true);
   attackcombo2 = 0;
 } else if (
   keyS.isDown &&
@@ -947,7 +1023,7 @@ else if (
 ) {
   player2.setFlipX(false);
   player2.setVelocityX(0);
-  player2.anims.play("crouch", true);
+  player2.anims.play("yang-crouch", true);
   player2.setSize(13, 20, true).setOffset(18, 15);
   attackcombo2 = 0;
 } else if (
@@ -960,7 +1036,7 @@ else if (
 ) {
   player2.setFlipX(true);
   player2.setVelocityX(0);
-  player2.anims.play("idle", true);
+  player2.anims.play("yang-idle", true);
 } else if (
   player2.body.blocked.down &&
   keyD.isUp &&
@@ -971,7 +1047,7 @@ else if (
 ) {
   player2.setFlipX(false);
   player2.setVelocityX(0);
-  player2.anims.play("idle", true);
+  player2.anims.play("yang-idle", true);
 }
 
   //          COMPORTAMENTO DO SLIME
@@ -1061,35 +1137,35 @@ else if (
 function hitSlime (player, slime){
   
   //se o jogador ataca o slime, o slime eh jogado um pouco pra tras. 
-  if(player.anims.getCurrentKey() === 'attack1' && (/*slime_P1 > 0 || */playerPosition==="right")){
+  if(player.anims.getCurrentKey() === 'yin-attack1' && (/*slime_P1 > 0 || */playerPosition==="right")){
       slime.setVelocityX(150);
       slime.setVelocityY(-100);
       player.setVelocityX(0);
       slime.anims.play("slime-hurt", true);
-  } else if(player.anims.getCurrentKey() === 'attack1' && (/*slime_P1 < 0 || */playerPosition==="left")){
+  } else if(player.anims.getCurrentKey() === 'yin-attack1' && (/*slime_P1 < 0 || */playerPosition==="left")){
       slime.setVelocityX(-150);
       slime.setVelocityY(-100);
       player.setVelocityX(0);
       slime.anims.play("slime-hurt", true);
-  } else if(player.anims.getCurrentKey() === 'attack2' && (/*slime_P1 > 0 || */playerPosition==="right")){
+  } else if(player.anims.getCurrentKey() === 'yin-attack2' && (/*slime_P1 > 0 || */playerPosition==="right")){
       slime.setVelocityX(150);
       slime.setVelocityY(-100);
       player.setVelocityX(0);
       slime.anims.play("slime-hurt", true);
 
-  } else if(player.anims.getCurrentKey() === 'attack2' && (/*slime_P1 < 0 || */playerPosition==="left")){
+  } else if(player.anims.getCurrentKey() === 'yin-attack2' && (/*slime_P1 < 0 || */playerPosition==="left")){
       slime.setVelocityX(-150);
       slime.setVelocityY(-100);
       player.setVelocityX(0);
       slime.anims.play("slime-hurt", true);
 
-  } else if(player.anims.getCurrentKey() === 'attack3' && (/*slime_P1 > 0 || */playerPosition==="right")){
+  } else if(player.anims.getCurrentKey() === 'yin-attack3' && (/*slime_P1 > 0 || */playerPosition==="right")){
       slime.setVelocityX(150);
       slime.setVelocityY(-100);
       player.setVelocityX(0);
       slime.anims.play("slime-hurt", true);
 
-  } else if(player.anims.getCurrentKey() === 'attack3' && (/*slime_P1 < 0 || */playerPosition==="left")){
+  } else if(player.anims.getCurrentKey() === 'yin-attack3' && (/*slime_P1 < 0 || */playerPosition==="left")){
       slime.setVelocityX(-150);
       slime.setVelocityY(-100);
       player.setVelocityX(0);
@@ -1100,47 +1176,47 @@ function hitSlime (player, slime){
     else if(slime.anims.getCurrentKey() === 'slime-attack' && slimeposition === "left" && slime.anims.getProgress('slime-attack') === 1){
       player.setVelocityX(-125);
       player.setVelocityY(-100);
-      player.anims.play('hurt', true);
+      player.anims.play('yin-hurt', true);
       slimeatk.play();
   } else if(slime.anims.getCurrentKey() === 'slime-attack' && slimeposition === "right" && slime.anims.getProgress('slime-attack') === 1){
       player.setVelocityX(125);
       player.setVelocityY(-100);
-      player.anims.play('hurt', true);
+      player.anims.play('yin-hurt', true);
       slimeatk.play();
   }
 };
 function hitSlime2 (player2, slime){
   
   //se o jogador ataca o slime, o slime eh jogado um pouco pra tras. 
-  if(player2.anims.getCurrentKey() === 'attack1' && (/*slime_P2 > 0 || */player2Position==="right")){
+  if(player2.anims.getCurrentKey() === 'yang-attack1' && (/*slime_P2 > 0 || */player2Position==="right")){
       slime.setVelocityX(150);
       slime.setVelocityY(-100);
       player2.setVelocityX(0);
       slime.anims.play("slime-hurt", true);
-  } else if(player2.anims.getCurrentKey() === 'attack1' && (/*slime_P2 < 0 || */player2Position==="left")){
+  } else if(player2.anims.getCurrentKey() === 'yang-attack1' && (/*slime_P2 < 0 || */player2Position==="left")){
       slime.setVelocityX(-150);
       slime.setVelocityY(-100);
       player2.setVelocityX(0);
       slime.anims.play("slime-hurt", true);
-  } else if(player2.anims.getCurrentKey() === 'attack2' && (/*slime_P2 > 0 || */player2Position==="right")){
+  } else if(player2.anims.getCurrentKey() === 'yang-attack2' && (/*slime_P2 > 0 || */player2Position==="right")){
       slime.setVelocityX(150);
       slime.setVelocityY(-100);
       player2.setVelocityX(0);
       slime.anims.play("slime-hurt", true);
 
-  } else if(player2.anims.getCurrentKey() === 'attack2' && (/*slime_P2 < 0 || */player2Position==="left")){
+  } else if(player2.anims.getCurrentKey() === 'yang-attack2' && (/*slime_P2 < 0 || */player2Position==="left")){
       slime.setVelocityX(-150);
       slime.setVelocityY(-100);
       player2.setVelocityX(0);
       slime.anims.play("slime-hurt", true);
 
-  } else if(player2.anims.getCurrentKey() === 'attack3' && (/*slime_P2 > 0 || */player2Position==="right")){
+  } else if(player2.anims.getCurrentKey() === 'yang-attack3' && (/*slime_P2 > 0 || */player2Position==="right")){
       slime.setVelocityX(150);
       slime.setVelocityY(-100);
       player2.setVelocityX(0);
       slime.anims.play("slime-hurt", true);
 
-  } else if(player2.anims.getCurrentKey() === 'attack3' && (/*slime_P2 < 0 || */player2Position==="left")){
+  } else if(player2.anims.getCurrentKey() === 'yang-attack3' && (/*slime_P2 < 0 || */player2Position==="left")){
       slime.setVelocityX(-150);
       slime.setVelocityY(-100);
       player2.setVelocityX(0);
@@ -1166,7 +1242,7 @@ function hitSpike(player, spike) {
 
   player.setTint(0xff0000);
 
-  player.anims.play("idle");
+  player.anims.play("yin-idle");
 
   gameOver = true;
   if (gameOver === true) {
@@ -1180,7 +1256,7 @@ function hitSpike2(player2, spike) {
 
   player2.setTint(0xff0000);
 
-  player2.anims.play("idle");
+  player2.anims.play("yang-idle");
 
   gameOver = true;
   if (gameOver === true) {
