@@ -24,8 +24,12 @@ var slimevelocity;
     var slimeY; // posicao y do slime
     var playerX; // posicao x do player
     var playerY; // posicao y do player
+    var player2X; // posicao x do player2
+    var player2Y; // posicao y do player2
     var slime_P1;// x do slime menos o x do player1
     var slime_P1_Y; // y do slime menos o y do player1
+    var slime_P2; // x do slime menos o x do player2
+    var slime_P2_Y; // y do slime menos o y do player2
     var slimeguard;// distancia do slime ate o slimepoint
 
 var platforms; //variavel das plataformas
@@ -34,7 +38,7 @@ var keyW;
 var keyA;
 var keyS;
 var keyD;
-var keyC;
+var keyENTER;
 
 var spike; //variavel dos espinhos
 //var pointer;
@@ -176,7 +180,8 @@ GameScene.create = function() {
     keyA= this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
     keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-    keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
+    keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+
   //pointer = this.input.addPointer(1);
 
   // ADICIONANDO COLISAO AO JOGO
@@ -435,8 +440,12 @@ GameScene.update = function() {
     slimeY = slime.body.y;
     playerX = player.body.x;
     playerY = player.body.y;
+    player2X = player2.body.x;
+    player2Y = player2.body.y;
     slime_P1 = slimeX - playerX;
     slime_P1_Y = playerY - slimeY;
+    slime_P2 = slimeX - player2X;
+    slime_P2_Y = player2Y - slimeY;
     slimeguard = slimeX - slimepoint;
     slimevelocity = slime.body.velocity.x;
   
@@ -554,7 +563,7 @@ GameScene.update = function() {
     P1jumpdelay = 0;
 
   } else if (
-    cursors.space.isDown &&
+    keyENTER.isDown &&
     cursors.down.isUp &&
     player.body.blocked.down &&
     playerPosition === "left" &&
@@ -566,7 +575,7 @@ GameScene.update = function() {
     swordwoosh.play();
     attackcombo = 1;
   } else if (
-    cursors.space.isDown &&
+    keyENTER.isDown &&
     cursors.down.isUp &&
     player.body.blocked.down &&
     playerPosition === "right" &&
@@ -578,7 +587,7 @@ GameScene.update = function() {
     swordwoosh.play();
     attackcombo = 1;
   } else if (
-    cursors.space.isDown &&
+    keyENTER.isDown &&
     cursors.down.isUp &&
     player.body.blocked.down &&
     playerPosition === "left" &&
@@ -590,7 +599,7 @@ GameScene.update = function() {
     swordwoosh.play();
     attackcombo = 2;
   } else if (
-    cursors.space.isDown &&
+    keyENTER.isDown &&
     cursors.down.isUp &&
     player.body.blocked.down &&
     playerPosition === "right" &&
@@ -602,7 +611,7 @@ GameScene.update = function() {
     swordwoosh.play();
     attackcombo = 2;
   } else if (
-    cursors.space.isDown &&
+    keyENTER.isDown &&
     cursors.down.isUp &&
     player.body.blocked.down &&
     playerPosition === "left" &&
@@ -614,7 +623,7 @@ GameScene.update = function() {
     swordwoosh.play();
     attackcombo = 0;
   } else if (
-    cursors.space.isDown &&
+    keyENTER.isDown &&
     cursors.down.isUp &&
     player.body.blocked.down &&
     playerPosition === "right" &&
@@ -706,7 +715,7 @@ GameScene.update = function() {
   } else if (
     cursors.down.isDown &&
     player.body.blocked.down &&
-    cursors.space.isUp &&
+    keyENTER.isUp &&
     playerPosition === "left"
   ) {
     player.setFlipX(true);
@@ -716,7 +725,7 @@ GameScene.update = function() {
   } else if (
     cursors.down.isDown &&
     player.body.blocked.down &&
-    cursors.space.isUp &&
+    keyENTER.isUp &&
     playerPosition === "right"
   ) {
     player.setFlipX(false);
@@ -728,7 +737,7 @@ GameScene.update = function() {
     player.body.blocked.down &&
     cursors.right.isUp &&
     cursors.left.isUp &&
-    cursors.space.isUp &&
+    keyENTER.isUp &&
     cursors.down.isUp &&
     playerPosition === "left"
   ) {
@@ -739,7 +748,7 @@ GameScene.update = function() {
     player.body.blocked.down &&
     cursors.right.isUp &&
     cursors.left.isUp &&
-    cursors.space.isUp &&
+    keyENTER.isUp &&
     cursors.down.isUp &&
     playerPosition === "right"
   ) {
@@ -856,7 +865,7 @@ else if (
   P2jumpdelay = 0;
 
 } else if (
-  keyC.isDown &&
+  cursors.space.isDown &&
   keyS.isUp &&
   player2.body.blocked.down &&
   player2Position === "left" &&
@@ -868,7 +877,7 @@ else if (
   swordwoosh.play();
   attackcombo2 = 1;
 } else if (
-  keyC.isDown &&
+  cursors.space.isDown &&
   keyS.isUp &&
   player2.body.blocked.down &&
   player2Position === "right" &&
@@ -880,7 +889,7 @@ else if (
   swordwoosh.play();
   attackcombo2 = 1;
 } else if (
-  keyC.isDown &&
+  cursors.space.isDown &&
   keyS.isUp &&
   player2.body.blocked.down &&
   player2Position === "left" &&
@@ -892,7 +901,7 @@ else if (
   swordwoosh.play();
   attackcombo2 = 2;
 } else if (
-  keyC.isDown &&
+  cursors.space.isDown &&
   keyS.isUp &&
   player2.body.blocked.down &&
   player2Position === "right" &&
@@ -904,7 +913,7 @@ else if (
   swordwoosh.play();
   attackcombo2 = 2;
 } else if (
-  keyC.isDown &&
+  cursors.space.isDown &&
   keyS.isUp &&
   player2.body.blocked.down &&
   player2Position === "left" &&
@@ -916,7 +925,7 @@ else if (
   swordwoosh.play();
   attackcombo2 = 0;
 } else if (
-  keyC.isDown &&
+  cursors.space.isDown &&
   keyS.isUp &&
   player2.body.blocked.down &&
   player2Position === "right" &&
@@ -1008,7 +1017,7 @@ else if (
 } else if (
   keyS.isDown &&
   player2.body.blocked.down &&
-  keyC.isUp &&
+  cursors.space.isUp &&
   player2Position === "left"
 ) {
   player2.setFlipX(true);
@@ -1018,7 +1027,7 @@ else if (
 } else if (
   keyS.isDown &&
   player2.body.blocked.down &&
-  keyC.isUp &&
+  cursors.space.isUp &&
   player2Position === "right"
 ) {
   player2.setFlipX(false);
@@ -1030,7 +1039,7 @@ else if (
   player2.body.blocked.down &&
   keyD.isUp &&
   keyA.isUp &&
-  keyC.isUp &&
+  cursors.space.isUp &&
   keyS.isUp &&
   player2Position === "left"
 ) {
@@ -1041,7 +1050,7 @@ else if (
   player2.body.blocked.down &&
   keyD.isUp &&
   keyA.isUp &&
-  keyC.isUp &&
+  cursors.space.isUp &&
   keyS.isUp &&
   player2Position === "right"
 ) {
@@ -1095,7 +1104,7 @@ else if (
       slime.anims.play('slime-idle', true);
       slime.setSize(20,20).setOffset(0,4);
   
-  //      CONDICIONAIS PARA COMPORTAMENTO/ANIMACAO
+  //      CONDICIONAIS PARA COMPORTAMENTO/ANIMACAO P/ PLAYER 1
   
   } else if (slime_P1 < 15 && slime_P1 > 0 && slime_P1_Y > -50){
       slime.setVelocityX(0);
@@ -1120,6 +1129,32 @@ else if (
       slime.anims.play('slime-move', true);
       slimeposition = 'right';
   }
+
+  //      CONDICIONAIS PARA COMPORTAMENTO/ANIMACAO P/ PLAYER 2
+  
+else if (slime_P2 < 15 && slime_P2 > 0 && slime_P2_Y > -50){
+  slime.setVelocityX(0);
+  slime.setFlipX(false);
+  slime.anims.play('slime-attack', true);
+  slimeposition = 'left';
+} else if (slime_P2 > -20 && slime_P2 < 0 && slime_P2_Y > -50){
+  slime.setVelocityX(0);
+  slime.setFlipX(true);
+  slime.anims.play('slime-attack', true);
+  slimeposition = 'right';
+} else if (slime_P2 < 150 && slime_P2 > 0 && slime_P2_Y > -50){
+  slime.setVelocityX(-150);
+  slime.setSize(20,20, true).setOffset(7,4);
+  slime.setFlipX(false);
+  slime.anims.play('slime-move', true);
+  slimeposition = 'left';
+} else if (slime_P2 > -150 && slime_P2 < 0 && slime_P2_Y > -50){
+  slime.setVelocityX(150);
+  slime.setSize(20,20, true).setOffset(7,4);
+  slime.setFlipX(true);
+  slime.anims.play('slime-move', true);
+  slimeposition = 'right';
+}
 
   else if (slimeguard > 75){
       slime.setVelocityX(-100);
@@ -1227,12 +1262,12 @@ function hitSlime2 (player2, slime){
     else if(slime.anims.getCurrentKey() === 'slime-attack' && slimeposition === "left" && slime.anims.getProgress('slime-attack') === 1){
       player2.setVelocityX(-125);
       player2.setVelocityY(-100);
-      player2.anims.play('hurt', true);
+      player2.anims.play('yang-hurt', true);
       slimeatk.play();
   } else if(slime.anims.getCurrentKey() === 'slime-attack' && slimeposition === "right" && slime.anims.getProgress('slime-attack') === 1){
       player2.setVelocityX(125);
       player2.setVelocityY(-100);
-      player2.anims.play('hurt', true);
+      player2.anims.play('yang-hurt', true);
       slimeatk.play();
   }
 };
