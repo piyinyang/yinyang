@@ -8,6 +8,12 @@ var P1jumpdelay = 0;
 var playerPosition = "right"; // se o player ta virado pra esquerda ou direita
 var attackcombo = 0; //define qual dos 3 ataques o jogador vai usar, possibilitando um oombo
 
+var player2;
+var P2jump = false;
+var P2jumpdelay = 0;
+var player2Position = "right";
+var attackcombo2 = 0;
+
 var slime;
 var slimepoint = 400; //ponto que o slime vai ficar andando ao redor (X)
 var slimeposition = "left"; // se o slime tÃ¡ virado pra esquerda ou direita
@@ -24,6 +30,12 @@ var slimevelocity;
 
 var platforms; //variavel das plataformas
 var cursors; //variavel das setas do teclado
+var keyW;
+var keyA;
+var keyS;
+var keyD;
+var keyC;
+
 var spike; //variavel dos espinhos
 //var pointer;
 //var touchX;
@@ -135,6 +147,12 @@ GameScene.create = function() {
   player.setBounce(0);
   player.setCollideWorldBounds(true);
 
+  // CRIACAO DO JOGADOR 2
+  player2 = this.physics.add.sprite(150, 350, "yin").setScale(1);
+  player2.setSize(13, 25, true).setOffset(18, 10);
+  player2.setBounce(0);
+  player2.setCollideWorldBounds(true);
+
   // CRIACAO DO SLIME
   slime = this.physics.add.sprite (400, 300, 'slime0');
   slime.setSize(20,20, true).setOffset(5,4);
@@ -143,11 +161,19 @@ GameScene.create = function() {
   slime.setVelocityX(-100);
 
   cursors = this.input.keyboard.createCursorKeys();
+  keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+    keyA= this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+    keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+    keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
   //pointer = this.input.addPointer(1);
 
   // ADICIONANDO COLISAO AO JOGO
   this.physics.add.collider(player, topLayer);
   this.physics.add.collider(player, topLayer2);
+
+  this.physics.add.collider(player2, topLayer);
+  this.physics.add.collider(player2, topLayer2);
 
   this.physics.add.collider(slime, topLayer);
   this.physics.add.collider(slime, topLayer2);
@@ -157,6 +183,9 @@ GameScene.create = function() {
 
   this.physics.add.overlap(player,slime,hitSlime, null, this);
   this.physics.add.overlap(player, spike, hitSpike, null, this);
+
+  this.physics.add.overlap(player2,slime,hitSlime2, null, this);
+  this.physics.add.overlap(player2, spike, hitSpike2, null, this);
 
 
 
@@ -643,6 +672,308 @@ GameScene.update = function() {
     player.anims.play("idle", true);
   }
 
+  // PLAYER 2 ANIMATIONS
+
+  if (P2jump === true){
+    P2jumpdelay ++;
+  }
+
+  if (player2.anims.getCurrentKey("idle")){
+    player2.setSize(13, 25, true).setOffset(18, 10);
+  }
+
+  //          HURT
+  if (
+  player2.anims.getCurrentKey() === "hurt" &&
+  player2.anims.getProgress("hurt") < 1
+) {
+  player2.setTint(0xff0000);
+} else if (
+  player2.anims.getCurrentKey() === "hurt" &&
+  player2.anims.getProgress("hurt") === 1
+) {
+  player2.clearTint();
+  player2.anims.play("idle", true);
+
+
+
+
+  //      ATTACK 1
+} else if (
+  player2.anims.getCurrentKey() === "attack1" &&
+  player2.anims.getProgress("attack1") < 1 &&
+  player2Position === "right"
+) {
+  player2.setSize(15, 30, true).setOffset(25, 5);
+} else if (
+  player2.anims.getCurrentKey() === "attack1" &&
+  player2.anims.getProgress("attack1") < 1 &&
+  player2Position === "left"
+) {
+  player2.setSize(15, 30, true).setOffset(10, 5);
+} else if (
+  player2.anims.getCurrentKey() === "attack1" &&
+  player2.anims.getProgress("attack1") === 1
+) {
+  player2.anims.play("idle", true);
+}
+
+//          ATTACK 2
+else if (
+  player2.anims.getCurrentKey() === "attack2" &&
+  player2.anims.getProgress("attack2") < 1 &&
+  player2Position === "right"
+) {
+  player2.setSize(15, 30, true).setOffset(25, 5);
+} else if (
+  player2.anims.getCurrentKey() === "attack2" &&
+  player2.anims.getProgress("attack2") < 1 &&
+  player2Position === "left"
+) {
+  player2.setSize(15, 30, true).setOffset(10, 5);
+} else if (
+  player2.anims.getCurrentKey() === "attack2" &&
+  player2.anims.getProgress("attack2") === 1
+) {
+  player2.anims.play("idle", true);
+}
+
+//           ATTACK 3
+else if (
+  player2.anims.getCurrentKey() === "attack3" &&
+  player2.anims.getProgress("attack3") < 1 &&
+  player2Position === "right"
+) {
+  player2.setSize(15, 30, true).setOffset(25, 5);
+} else if (
+  player2.anims.getCurrentKey() === "attack3" &&
+  player2.anims.getProgress("attack3") < 1 &&
+  player2Position === "left"
+) {
+  player2.setSize(15, 30, true).setOffset(10, 5);
+} else if (
+  player2.anims.getCurrentKey() === "attack3" &&
+  player2.anims.getProgress("attack3") === 1
+) {
+  player2.anims.play("idle", true);
+}
+
+
+//          CONDICOES PARA EXECUTAR ACOES
+
+ else if (keyW.isDown && player2.body.blocked.down) {
+  player2.setVelocityY(-350);
+  jumping.play({
+    volume:0.3
+  });
+  P2jump = true;
+/*} else if (!player2.body.wasTouching.down && player2.body.touching.down){
+  landing.play({
+    volume: 0.3
+  });*/
+} else if (!player2.body.blocked.down && keyW.isDown && P2jump && P2jumpdelay >= 20){
+  player2.setVelocityY(-350);
+  jumping.play({
+    volume:0.3
+  });
+  P2jump = false;
+  P2jumpdelay = 0;
+
+} else if (
+  keyC.isDown &&
+  keyS.isUp &&
+  player2.body.blocked.down &&
+  player2Position === "left" &&
+  attackcombo2 === 0
+) {
+  player2.setFlipX(true);
+  player2.setVelocityX(0);
+  player2.anims.play("attack1", true);
+  swordwoosh.play();
+  attackcombo2 = 1;
+} else if (
+  keyC.isDown &&
+  keyS.isUp &&
+  player2.body.blocked.down &&
+  player2Position === "right" &&
+  attackcombo2 === 0
+) {
+  player2.setFlipX(false);
+  player2.setVelocityX(0);
+  player2.anims.play("attack1", true);
+  swordwoosh.play();
+  attackcombo2 = 1;
+} else if (
+  keyC.isDown &&
+  keyS.isUp &&
+  player2.body.blocked.down &&
+  player2Position === "left" &&
+  attackcombo2 === 1
+) {
+  player2.setFlipX(true);
+  player2.setVelocityX(0);
+  player2.anims.play("attack2", true);
+  swordwoosh.play();
+  attackcombo2 = 2;
+} else if (
+  keyC.isDown &&
+  keyS.isUp &&
+  player2.body.blocked.down &&
+  player2Position === "right" &&
+  attackcombo2 === 1
+) {
+  player2.setFlipX(false);
+  player2.setVelocityX(0);
+  player2.anims.play("attack2", true);
+  swordwoosh.play();
+  attackcombo2 = 2;
+} else if (
+  keyC.isDown &&
+  keyS.isUp &&
+  player2.body.blocked.down &&
+  player2Position === "left" &&
+  attackcombo2 === 2
+) {
+  player2.setFlipX(true);
+  player2.setVelocityX(0);
+  player2.anims.play("attack3", true);
+  swordwoosh.play();
+  attackcombo2 = 0;
+} else if (
+  keyC.isDown &&
+  keyS.isUp &&
+  player2.body.blocked.down &&
+  player2Position === "right" &&
+  attackcombo2 === 2
+) {
+  player2.setFlipX(false);
+  player2.setVelocityX(0);
+  player2.anims.play("attack3", true);
+  swordwoosh.play();
+  attackcombo2 = 0;
+} else if (
+  player2.body.velocity.y < 0 &&
+  keyA.isUp &&
+  keyD.isUp &&
+  player2Position === "left"
+) {
+  player2.setFlipX(true);
+  player2.setVelocityX(0);
+  player2.anims.play("jump", true);
+  attackcombo2 = 0;
+} else if (
+  player2.body.velocity.y < 0 &&
+  keyA.isUp &&
+  keyD.isUp &&
+  player2Position === "right"
+) {
+  player2.setFlipX(false);
+  player2.setVelocityX(0);
+  player2.anims.play("jump", true);
+  attackcombo2 = 0;
+} else if (player2.body.velocity.y < 0 && keyA.isDown) {
+  player2.setFlipX(true);
+  player2.setVelocityX(-300);
+  player2.anims.play("jump", true);
+  player2Position = "left";
+  attackcombo2 = 0;
+} else if (player2.body.velocity.y < 0 && keyD.isDown) {
+  player2.setFlipX(false);
+  player2.setVelocityX(300);
+  player2.anims.play("jump", true);
+  player2Position = "right";
+  attackcombo2 = 0;
+} else if (
+  !player2.body.blocked.down &&
+  player2.body.velocity.y > 0 &&
+  keyA.isUp &&
+  keyD.isUp &&
+  player2Position === "left"
+) {
+  player2.setFlipX(true);
+  player2.setVelocityX(0);
+  player2.anims.play("fall", true);
+  attackcombo2 = 0;
+} else if (
+  !player2.body.blocked.down &&
+  player2.body.velocity.y > 0 &&
+  keyA.isUp &&
+  keyD.isUp &&
+  player2Position === "right"
+) {
+  player2.setFlipX(false);
+  player2.setVelocityX(0);
+  player2.anims.play("fall", true);
+  attackcombo2 = 0;
+} else if (!player2.body.blocked.down && player2.body.velocity.y > 0 && keyA.isDown) {
+  player2.setFlipX(true);
+  player2.setVelocityX(-300);
+  player2.anims.play("fall", true);
+  player2Position = "left";
+  attackcombo2 = 0;
+} else if (!player2.body.blocked.down && player2.body.velocity.y > 0 && keyD.isDown) {
+  player2.setFlipX(false);
+  player2.setVelocityX(300);
+  player2.anims.play("fall", true);
+  player2Position = "right";
+  attackcombo2 = 0;
+} else if (keyA.isDown && player2.body.blocked.down) {
+  player2.setFlipX(true);
+  player2.setVelocityX(-300);
+  player2.anims.play("run", true);
+  player2Position = "left";
+  attackcombo2 = 0;
+} else if (keyD.isDown && player2.body.blocked.down) {
+  player2.setFlipX(false);
+  player2.setVelocityX(300);
+  player2.anims.play("run", true);
+  player2Position = "right";
+  attackcombo2 = 0;
+} else if (
+  keyS.isDown &&
+  player2.body.blocked.down &&
+  keyC.isUp &&
+  player2Position === "left"
+) {
+  player2.setFlipX(true);
+  player2.setVelocityX(0);
+  player2.anims.play("crouch", true);
+  attackcombo2 = 0;
+} else if (
+  keyS.isDown &&
+  player2.body.blocked.down &&
+  keyC.isUp &&
+  player2Position === "right"
+) {
+  player2.setFlipX(false);
+  player2.setVelocityX(0);
+  player2.anims.play("crouch", true);
+  player2.setSize(13, 20, true).setOffset(18, 15);
+  attackcombo2 = 0;
+} else if (
+  player2.body.blocked.down &&
+  keyD.isUp &&
+  keyA.isUp &&
+  keyC.isUp &&
+  keyS.isUp &&
+  player2Position === "left"
+) {
+  player2.setFlipX(true);
+  player2.setVelocityX(0);
+  player2.anims.play("idle", true);
+} else if (
+  player2.body.blocked.down &&
+  keyD.isUp &&
+  keyA.isUp &&
+  keyC.isUp &&
+  keyS.isUp &&
+  player2Position === "right"
+) {
+  player2.setFlipX(false);
+  player2.setVelocityX(0);
+  player2.anims.play("idle", true);
+}
+
   //          COMPORTAMENTO DO SLIME
     
   
@@ -778,6 +1109,57 @@ function hitSlime (player, slime){
       slimeatk.play();
   }
 };
+function hitSlime2 (player2, slime){
+  
+  //se o jogador ataca o slime, o slime eh jogado um pouco pra tras. 
+  if(player2.anims.getCurrentKey() === 'attack1' && (/*slime_P2 > 0 || */player2Position==="right")){
+      slime.setVelocityX(150);
+      slime.setVelocityY(-100);
+      player2.setVelocityX(0);
+      slime.anims.play("slime-hurt", true);
+  } else if(player2.anims.getCurrentKey() === 'attack1' && (/*slime_P2 < 0 || */player2Position==="left")){
+      slime.setVelocityX(-150);
+      slime.setVelocityY(-100);
+      player2.setVelocityX(0);
+      slime.anims.play("slime-hurt", true);
+  } else if(player2.anims.getCurrentKey() === 'attack2' && (/*slime_P2 > 0 || */player2Position==="right")){
+      slime.setVelocityX(150);
+      slime.setVelocityY(-100);
+      player2.setVelocityX(0);
+      slime.anims.play("slime-hurt", true);
+
+  } else if(player2.anims.getCurrentKey() === 'attack2' && (/*slime_P2 < 0 || */player2Position==="left")){
+      slime.setVelocityX(-150);
+      slime.setVelocityY(-100);
+      player2.setVelocityX(0);
+      slime.anims.play("slime-hurt", true);
+
+  } else if(player2.anims.getCurrentKey() === 'attack3' && (/*slime_P2 > 0 || */player2Position==="right")){
+      slime.setVelocityX(150);
+      slime.setVelocityY(-100);
+      player2.setVelocityX(0);
+      slime.anims.play("slime-hurt", true);
+
+  } else if(player2.anims.getCurrentKey() === 'attack3' && (/*slime_P2 < 0 || */player2Position==="left")){
+      slime.setVelocityX(-150);
+      slime.setVelocityY(-100);
+      player2.setVelocityX(0);
+      slime.anims.play("slime-hurt", true);
+
+  }
+    //se o slime ataca o jogador, o jogador eh empurrado pra tras
+    else if(slime.anims.getCurrentKey() === 'slime-attack' && slimeposition === "left" && slime.anims.getProgress('slime-attack') === 1){
+      player2.setVelocityX(-125);
+      player2.setVelocityY(-100);
+      player2.anims.play('hurt', true);
+      slimeatk.play();
+  } else if(slime.anims.getCurrentKey() === 'slime-attack' && slimeposition === "right" && slime.anims.getProgress('slime-attack') === 1){
+      player2.setVelocityX(125);
+      player2.setVelocityY(-100);
+      player2.anims.play('hurt', true);
+      slimeatk.play();
+  }
+};
 
 function hitSpike(player, spike) {
   this.physics.pause();
@@ -785,6 +1167,20 @@ function hitSpike(player, spike) {
   player.setTint(0xff0000);
 
   player.anims.play("idle");
+
+  gameOver = true;
+  if (gameOver === true) {
+    song.stop();
+    this.scene.start(gameover);
+  }
+};
+
+function hitSpike2(player2, spike) {
+  this.physics.pause();
+
+  player2.setTint(0xff0000);
+
+  player2.anims.play("idle");
 
   gameOver = true;
   if (gameOver === true) {
