@@ -1,5 +1,6 @@
 import { gameover } from "./gameover.js";
-export { GameScene };
+import Lancachamas from "./lancachamas.js";
+export { GameScene, topLayer };
 
 //VARIAVEIS DO PLAYER 1
 var player;
@@ -56,6 +57,11 @@ var slimeatk; // som do slime atacando
 var jumping; // som do player pulando
 var landing; // som do player caindo no chao
 
+//Variavel do lança-chamas
+
+var chamas = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: null};
+var topLayer;
+
 var GameScene = new Phaser.Scene("gamescene");
 
 
@@ -69,6 +75,12 @@ GameScene.preload = function() {
   this.load.image("fundoCaverna","assets/ambiente/tilesets/background1.png");
   this.load.image("background","assets/ambiente/tilesets/background.png");
   this.load.tilemapTiledJSON("fase1", "assets/ambiente/Fase1.2.json");
+  
+  
+  this.load.spritesheet("chamas", "assets/ambiente/Lança-chamas.png", {
+    frameWidth: 17,
+    frameHeight: 80
+  });
   
   
   this.load.image("spike", "assets/ambiente/spikes_1.png");
@@ -148,7 +160,7 @@ GameScene.create = function() {
 
   //criando os niveis do mapa
   var topLayer3 = map.createStaticLayer("topLayer3", [terrain3], 0, 0);
-  var topLayer = map.createStaticLayer("topLayer", [terrain], 0, 0);
+  topLayer = map.createStaticLayer("topLayer", [terrain], 0, 0);
   var topLayer2 = map.createStaticLayer("topLayer2", [terrain2], 0, 0);  
 
   // CRIACAO DOS ESPINHOS
@@ -156,8 +168,18 @@ GameScene.create = function() {
   spike.create(590, 480, "spike");
 
 
+  // CRIAÇAO DOS LANÇA-CHAMAS
+  chamas.p1 = new Lancachamas(this, 488, 1700, 0);
+  chamas.p2 = new Lancachamas(this, 600, 1700, 5100);
+  chamas.p3 = new Lancachamas(this, 712, 1700, 0);
+  chamas.p4 = new Lancachamas(this, 824, 1700, 5100);
+  chamas.p5 = new Lancachamas(this, 936, 1700, 0);
+  chamas.p6 = new Lancachamas(this, 1048, 1700, 5100);
+  chamas.p7 = new Lancachamas(this, 1160, 1700, 0);
+
+
   // CRIACAO DO JOGADOR 1
-  player = this.physics.add.sprite(100, 350, "yin").setScale(1);
+  player = this.physics.add.sprite(350, 1700, "yin").setScale(1);
   player.setSize(13, 25, true).setOffset(18, 10);
   player.setBounce(0);
   player.setCollideWorldBounds(true);
@@ -190,7 +212,7 @@ GameScene.create = function() {
 
   this.physics.add.collider(player2, topLayer);
   this.physics.add.collider(player2, topLayer2);
-
+  this.physics.add.collider(player, topLayer);
   this.physics.add.collider(slime, topLayer);
   this.physics.add.collider(slime, topLayer2);
 
