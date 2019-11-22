@@ -1,6 +1,7 @@
 import { gameover } from "./gameover.js";
 import Lancachamas from "./lancachamas.js";
-export { GameScene, topLayer };
+import { Slime } from "./slime.js";
+export { GameScene, topLayer, topLayer2, topLayer3, spike, player, player2, slimeatk, playerPosition, player2Position };
 
 //VARIAVEIS DO PLAYER 1
 var player;
@@ -15,7 +16,8 @@ var P2jumpdelay = 0;
 var player2Position = "right";
 var attackcombo2 = 0;
 
-var slime;
+var slime = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: null};
+/*var slime;
 var slimepoint = 400; //ponto que o slime vai ficar andando ao redor (X)
 var slimeposition = "left"; // se o slime tÃ¡ virado pra esquerda ou direita
 var slimevelocity;
@@ -32,6 +34,7 @@ var slimevelocity;
     var slime_P2; // x do slime menos o x do player2
     var slime_P2_Y; // y do slime menos o y do player2
     var slimeguard;// distancia do slime ate o slimepoint
+    */
 
 var platforms; //variavel das plataformas
 var cursors; //variavel das setas do teclado
@@ -61,6 +64,8 @@ var landing; // som do player caindo no chao
 
 var chamas = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: null};
 var topLayer;
+var topLayer2;
+var topLayer3;
 
 var GameScene = new Phaser.Scene("gamescene");
 
@@ -159,9 +164,9 @@ GameScene.create = function() {
   var terrain3 = map.addTilesetImage("background", "background");
 
   //criando os niveis do mapa
-  var topLayer3 = map.createStaticLayer("topLayer3", [terrain3], 0, 0);
+  topLayer3 = map.createStaticLayer("topLayer3", [terrain3], 0, 0);
   topLayer = map.createStaticLayer("topLayer", [terrain], 0, 0);
-  var topLayer2 = map.createStaticLayer("topLayer2", [terrain2], 0, 0);  
+  topLayer2 = map.createStaticLayer("topLayer2", [terrain2], 0, 0);  
 
   // CRIACAO DOS ESPINHOS
   spike = this.physics.add.staticGroup();
@@ -179,7 +184,7 @@ GameScene.create = function() {
 
 
   // CRIACAO DO JOGADOR 1
-  player = this.physics.add.sprite(350, 1700, "yin").setScale(1);
+  player = this.physics.add.sprite(200, 350, "yin").setScale(1);
   player.setSize(13, 25, true).setOffset(18, 10);
   player.setBounce(0);
   player.setCollideWorldBounds(true);
@@ -190,19 +195,29 @@ GameScene.create = function() {
   player2.setBounce(0);
   player2.setCollideWorldBounds(true);
 
-  // CRIACAO DO SLIME
+ 
+  // CRIACAO DOS SLIMES
+
+  slime.p1 = new Slime(this, 400, 350, 400);
+  slime.p2 = new Slime(this, 800, 350, 800);
+  slime.p3 = new Slime(this, 1200, 350, 1200);
+  slime.p4 = new Slime(this, 1600, 350, 1600);
+
+
+  /*
   slime = this.physics.add.sprite (400, 300, 'slime0');
   slime.setSize(20,20, true).setOffset(5,4);
   slime.setBounce(0);
   slime.setCollideWorldBounds(true);
   slime.setVelocityX(-100);
+*/
 
   cursors = this.input.keyboard.createCursorKeys();
   keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-    keyA= this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-    keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-    keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-    keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+  keyA= this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+  keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+  keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+  keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
   //pointer = this.input.addPointer(1);
 
@@ -213,16 +228,16 @@ GameScene.create = function() {
   this.physics.add.collider(player2, topLayer);
   this.physics.add.collider(player2, topLayer2);
   this.physics.add.collider(player, topLayer);
-  this.physics.add.collider(slime, topLayer);
-  this.physics.add.collider(slime, topLayer2);
+  //this.physics.add.collider(slime, topLayer);
+  //this.physics.add.collider(slime, topLayer2);
 
   topLayer.setCollisionByProperty({ collides: true });
   topLayer2.setCollisionByProperty({ collides: true });
 
-  this.physics.add.overlap(player,slime,hitSlime, null, this);
+  //this.physics.add.overlap(player,slime,hitSlime, null, this);
   this.physics.add.overlap(player, spike, hitSpike, null, this);
 
-  this.physics.add.overlap(player2,slime,hitSlime2, null, this);
+  //this.physics.add.overlap(player2,slime,hitSlime2, null, this);
   this.physics.add.overlap(player2, spike, hitSpike2, null, this);
 
 
@@ -415,7 +430,7 @@ GameScene.create = function() {
     repeat: -1
   });
 
-
+/*
   //          ANIMACOES DO SLIME
 
   this.anims.create({
@@ -445,12 +460,13 @@ GameScene.create = function() {
     frames: this.anims.generateFrameNumbers('slimesheet', { start: 17, end: 20 }),
     frameRate: 10
   });
-
+*/
 
 };
 
 // A FUNCAO UPDATE EH A QUE FAZ O JOGO ACONTECER, ELA SE REPETE INFINITAMENTE VÃRIAS VEZES POR SEGUNDO
 GameScene.update = function() {
+  slime.p1.update();
 
   //console.log(P1jump);  
   //console.log(P1jumpdelay);
@@ -458,6 +474,7 @@ GameScene.update = function() {
   
   // as variaveis de posicao do slime (de novo)
   // tive que botar la em cima pra terem escopo global
+    /*
     slimeX = slime.body.x;
     slimeY = slime.body.y;
     playerX = player.body.x;
@@ -470,6 +487,7 @@ GameScene.update = function() {
     slime_P2_Y = player2Y - slimeY;
     slimeguard = slimeX - slimepoint;
     slimevelocity = slime.body.velocity.x;
+    */
   
     //          PLAYER 1 ANIMATIONS
 
@@ -1081,6 +1099,7 @@ else if (
   player2.anims.play("yang-idle", true);
 }
 
+/*
   //          COMPORTAMENTO DO SLIME
     
   
@@ -1188,41 +1207,45 @@ else if (slime_P2 < 15 && slime_P2 > 0 && slime_P2_Y > -50){
       slime.setFlipX(true);
       slime.anims.play('slime-move', true);
   }
+  */
 };
 
+
 // A FUNCAO QUE DEFINE O QUE ACONTECE QUANDO HÃ COLISAO ENTRE PLAYER E SLIME
+
+/*
 function hitSlime (player, slime){
   
   //se o jogador ataca o slime, o slime eh jogado um pouco pra tras. 
-  if(player.anims.getCurrentKey() === 'yin-attack1' && (/*slime_P1 > 0 || */playerPosition==="right")){
+  if(player.anims.getCurrentKey() === 'yin-attack1' && playerPosition==="right"){
       slime.setVelocityX(150);
       slime.setVelocityY(-100);
       player.setVelocityX(0);
       slime.anims.play("slime-hurt", true);
-  } else if(player.anims.getCurrentKey() === 'yin-attack1' && (/*slime_P1 < 0 || */playerPosition==="left")){
+  } else if(player.anims.getCurrentKey() === 'yin-attack1' && playerPosition==="left"){
       slime.setVelocityX(-150);
       slime.setVelocityY(-100);
       player.setVelocityX(0);
       slime.anims.play("slime-hurt", true);
-  } else if(player.anims.getCurrentKey() === 'yin-attack2' && (/*slime_P1 > 0 || */playerPosition==="right")){
+  } else if(player.anims.getCurrentKey() === 'yin-attack2' && playerPosition==="right"){
       slime.setVelocityX(150);
       slime.setVelocityY(-100);
       player.setVelocityX(0);
       slime.anims.play("slime-hurt", true);
 
-  } else if(player.anims.getCurrentKey() === 'yin-attack2' && (/*slime_P1 < 0 || */playerPosition==="left")){
+  } else if(player.anims.getCurrentKey() === 'yin-attack2' && playerPosition==="left"){
       slime.setVelocityX(-150);
       slime.setVelocityY(-100);
       player.setVelocityX(0);
       slime.anims.play("slime-hurt", true);
 
-  } else if(player.anims.getCurrentKey() === 'yin-attack3' && (/*slime_P1 > 0 || */playerPosition==="right")){
+  } else if(player.anims.getCurrentKey() === 'yin-attack3' && playerPosition==="right"){
       slime.setVelocityX(150);
       slime.setVelocityY(-100);
       player.setVelocityX(0);
       slime.anims.play("slime-hurt", true);
 
-  } else if(player.anims.getCurrentKey() === 'yin-attack3' && (/*slime_P1 < 0 || */playerPosition==="left")){
+  } else if(player.anims.getCurrentKey() === 'yin-attack3' && playerPosition==="left"){
       slime.setVelocityX(-150);
       slime.setVelocityY(-100);
       player.setVelocityX(0);
@@ -1245,35 +1268,35 @@ function hitSlime (player, slime){
 function hitSlime2 (player2, slime){
   
   //se o jogador ataca o slime, o slime eh jogado um pouco pra tras. 
-  if(player2.anims.getCurrentKey() === 'yang-attack1' && (/*slime_P2 > 0 || */player2Position==="right")){
+  if(player2.anims.getCurrentKey() === 'yang-attack1' && player2Position==="right"){
       slime.setVelocityX(150);
       slime.setVelocityY(-100);
       player2.setVelocityX(0);
       slime.anims.play("slime-hurt", true);
-  } else if(player2.anims.getCurrentKey() === 'yang-attack1' && (/*slime_P2 < 0 || */player2Position==="left")){
+  } else if(player2.anims.getCurrentKey() === 'yang-attack1' && player2Position==="left"){
       slime.setVelocityX(-150);
       slime.setVelocityY(-100);
       player2.setVelocityX(0);
       slime.anims.play("slime-hurt", true);
-  } else if(player2.anims.getCurrentKey() === 'yang-attack2' && (/*slime_P2 > 0 || */player2Position==="right")){
+  } else if(player2.anims.getCurrentKey() === 'yang-attack2' && player2Position==="right"){
       slime.setVelocityX(150);
       slime.setVelocityY(-100);
       player2.setVelocityX(0);
       slime.anims.play("slime-hurt", true);
 
-  } else if(player2.anims.getCurrentKey() === 'yang-attack2' && (/*slime_P2 < 0 || */player2Position==="left")){
+  } else if(player2.anims.getCurrentKey() === 'yang-attack2' && player2Position==="left"){
       slime.setVelocityX(-150);
       slime.setVelocityY(-100);
       player2.setVelocityX(0);
       slime.anims.play("slime-hurt", true);
 
-  } else if(player2.anims.getCurrentKey() === 'yang-attack3' && (/*slime_P2 > 0 || */player2Position==="right")){
+  } else if(player2.anims.getCurrentKey() === 'yang-attack3' && player2Position==="right"){
       slime.setVelocityX(150);
       slime.setVelocityY(-100);
       player2.setVelocityX(0);
       slime.anims.play("slime-hurt", true);
 
-  } else if(player2.anims.getCurrentKey() === 'yang-attack3' && (/*slime_P2 < 0 || */player2Position==="left")){
+  } else if(player2.anims.getCurrentKey() === 'yang-attack3' && player2Position==="left"){
       slime.setVelocityX(-150);
       slime.setVelocityY(-100);
       player2.setVelocityX(0);
@@ -1292,7 +1315,9 @@ function hitSlime2 (player2, slime){
       player2.anims.play('yang-hurt', true);
       slimeatk.play();
   }
-};
+};*/
+
+
 
 function hitSpike(player, spike) {
   this.physics.pause();
