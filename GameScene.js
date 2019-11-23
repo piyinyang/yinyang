@@ -26,6 +26,7 @@ var keyW;
 var keyA;
 var keyS;
 var keyD;
+var keyP;
 var keyENTER;
 
 var spike; //variavel dos espinhos
@@ -46,7 +47,7 @@ var landing; // som do player caindo no chao
 
 //Variavel do lança-chamas
 
-var chamas = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: null};
+var chamas = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: null, p8: null, p9: null, p10: null, p11: null, p12: null, p13: null, p14: null, p15: null, p16: null, p17: null, p18: null, p19: null};
 var topLayer;
 var topLayer2;
 var topLayer3;
@@ -60,9 +61,13 @@ GameScene.preload = function() {
   //Assets do ambiente e dos objetos
   
   this.load.image("caverna","assets/ambiente/tilesets/cavernaSemfundo.png");
+  this.load.image("cavernaFundo","assets/ambiente/tilesets/cavernaFundo.png");
   this.load.image("superficie","assets/ambiente/tilesets/superficie.png");
-  this.load.image("fundoCaverna","assets/ambiente/tilesets/background1.png");
   this.load.image("background","assets/ambiente/tilesets/background.png");
+  this.load.image("background2","assets/ambiente/tilesets/background2.png");
+  this.load.image("environment","assets/ambiente/tilesets/environment.png");
+  this.load.image("ground","assets/ambiente/tilesets/ground.png");
+  this.load.image("madeiras","assets/ambiente/tilesets/madeiras.png");
   this.load.tilemapTiledJSON("fase1", "assets/ambiente/Fase1.2.json");
   
   
@@ -147,17 +152,27 @@ GameScene.create = function() {
 
   // CRIACAO DO CENARIO E DO BACKGROUND
   
-  this.add.image(500, 500, "fundoCaverna").setScale(100, 100);
-
   var map = this.add.tilemap("fase1");
   var terrain = map.addTilesetImage("cavernaSemfundo", "caverna");
   var terrain2 = map.addTilesetImage("superficie", "superficie");
   var terrain3 = map.addTilesetImage("background", "background");
+  var terrain4 = map.addTilesetImage("background2", "background2");
+  var terrain5 = map.addTilesetImage("madeiras", "madeiras");
+  var terrain6 = map.addTilesetImage("ground", "ground");
+  var terrain7 = map.addTilesetImage("environment", "environment");
+  var terrain8 = map.addTilesetImage("cavernaFundo", "cavernaFundo");
 
   //criando os niveis do mapa
-  topLayer3 = map.createStaticLayer("topLayer3", [terrain3], 0, 0);
+
+   var topLayer3 = map.createStaticLayer("topLayer3", [terrain3], 0, 0);
+  var topLayer4 = map.createStaticLayer("topLayer4", [terrain4], 0, 0);
   topLayer = map.createStaticLayer("topLayer", [terrain], 0, 0);
-  topLayer2 = map.createStaticLayer("topLayer2", [terrain2], 0, 0);  
+  var topLayer2 = map.createStaticLayer("topLayer2", [terrain2], 0, 0);
+  var topLayer5 = map.createStaticLayer("topLayerCastle1", [terrain5]);
+  var topLayer6 = map.createStaticLayer("topLayerCastle2", [terrain6]);
+  var topLayer7 = map.createStaticLayer("topLayerCastle3", [terrain7]);
+  var topLayer8 = map.createStaticLayer("LayerSecreto", [terrain8]);
+
 
   // CRIACAO DOS ESPINHOS
   spike = this.physics.add.staticGroup();
@@ -177,14 +192,26 @@ GameScene.create = function() {
   player2.setCollideWorldBounds(true);
 
   // CRIAÇAO DOS LANÇA-CHAMAS
-  chamas.p1 = new Lancachamas(this, 488, 1700, 0);
-  chamas.p2 = new Lancachamas(this, 600, 1700, 5100);
-  chamas.p3 = new Lancachamas(this, 712, 1700, 0);
-  chamas.p4 = new Lancachamas(this, 824, 1700, 5100);
-  chamas.p5 = new Lancachamas(this, 936, 1700, 0);
-  chamas.p6 = new Lancachamas(this, 1048, 1700, 5100);
-  chamas.p7 = new Lancachamas(this, 1160, 1700, 0);
- 
+
+  chamas.p1 = new Lancachamas(this, 1624, 1120, 0);
+  chamas.p2 = new Lancachamas(this, 1608, 1120, 0);
+  chamas.p3 = new Lancachamas(this, 1480, 1476, 0);
+  chamas.p4 = new Lancachamas(this, 1656, 1476, 5100);
+  chamas.p5 = new Lancachamas(this, 1832, 1476, 0);
+  chamas.p6 = new Lancachamas(this, 184, 1940, 0);
+  chamas.p7 = new Lancachamas(this, 263, 1940, 2550);
+  chamas.p8 = new Lancachamas(this, 392, 2167, 0);
+  chamas.p9 = new Lancachamas(this, 584, 2167, 5100);
+  chamas.p10 = new Lancachamas(this, 776, 2167, 0);
+  chamas.p11 = new Lancachamas(this, 968, 2167, 5100);
+  chamas.p12 = new Lancachamas(this, 1576, 2245, 0);
+  chamas.p13 = new Lancachamas(this, 1624, 2245, 5100);
+  chamas.p14 = new Lancachamas(this, 1672, 2245, 5100);
+  chamas.p15 = new Lancachamas(this, 1720, 2245, 0);
+  chamas.p16 = new Lancachamas(this, 1992, 2071, 5100);
+  chamas.p17 = new Lancachamas(this, 2008, 2071, 5100);
+
+
   // CRIACAO DOS SLIMES
 
   slime.p1 = new Slime(this, 400, 350, 400);
@@ -204,6 +231,7 @@ GameScene.create = function() {
   keyA= this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
   keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
   keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+  keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
   keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
   //pointer = this.input.addPointer(1);
@@ -419,6 +447,11 @@ GameScene.create = function() {
 
 // A FUNCAO UPDATE EH A QUE FAZ O JOGO ACONTECER, ELA SE REPETE INFINITAMENTE VÃRIAS VEZES POR SEGUNDO
 GameScene.update = function() {
+
+  if (keyP.isDown) {
+    console.log(playerX, playerY);
+  };
+
   slime.p1.update();
   //slime.p2.update();
   //slime.p3.update();
