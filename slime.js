@@ -1,4 +1,4 @@
-import { topLayer, topLayer2, topLayer3, player, player2, slimeatk, playerPosition, player2Position} from "./GameScene.js";
+import { GameScene, topLayer, topLayer2, topLayer3, player, player2, slimeatk, playerPosition, player2Position} from "./GameScene.js";
 export { Slime };
 
 export default class Slime {
@@ -64,7 +64,13 @@ export default class Slime {
   
     
   update() {
-
+    if(this.scene.physics.closest(this.sprite, [player, player2]) === player){
+      console.log("JOGADOR MAIS PROXIMO: PLAYER1");
+    }
+    else if(this.scene.physics.closest(this.sprite, [player, player2]) === player2){
+      console.log("JOGADOR MAIS PROXIMO: PLAYER 2");
+    }
+    //console.log(this.scene.physics.closest(this.sprite, [player]));
 
     // VARIAVEIS 
   

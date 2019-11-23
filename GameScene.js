@@ -1,6 +1,7 @@
 import { gameover } from "./gameover.js";
 import Lancachamas from "./lancachamas.js";
 import { Slime } from "./slime.js";
+import Skeleton from "./skeleton.js";
 export { GameScene, topLayer, topLayer2, topLayer3, spike, player, player2, slimeatk, playerPosition, player2Position };
 
 //VARIAVEIS DO PLAYER 1
@@ -17,24 +18,7 @@ var player2Position = "right";
 var attackcombo2 = 0;
 
 var slime = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: null};
-/*var slime;
-var slimepoint = 400; //ponto que o slime vai ficar andando ao redor (X)
-var slimeposition = "left"; // se o slime tÃ¡ virado pra esquerda ou direita
-var slimevelocity;
-
-//varias variaveis sobre a posicao do slime, so pra facilitar a programacao
-    var slimeX; // posicao x do slime
-    var slimeY; // posicao y do slime
-    var playerX; // posicao x do player
-    var playerY; // posicao y do player
-    var player2X; // posicao x do player2
-    var player2Y; // posicao y do player2
-    var slime_P1;// x do slime menos o x do player1
-    var slime_P1_Y; // y do slime menos o y do player1
-    var slime_P2; // x do slime menos o x do player2
-    var slime_P2_Y; // y do slime menos o y do player2
-    var slimeguard;// distancia do slime ate o slimepoint
-    */
+var skeleton = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: null};
 
 var platforms; //variavel das plataformas
 var cursors; //variavel das setas do teclado
@@ -119,6 +103,13 @@ GameScene.preload = function() {
   this.load.spritesheet('slimesheet', 'assets/slime/slime-Sheet.png', { frameWidth: 32, frameHeight: 25 });
   this.load.image('slime0', 'assets/slime/slime0.png');
 
+  //ASSETS DO SKELETON
+  this.load.spritesheet('skeleton-attack', 'assets/skeleton/skeleton-attack.png', {frameWidth: 43, frameHeight: 37});
+  this.load.spritesheet('skeleton-die', 'assets/skeleton/skeleton-die.png', {frameWidth: 33, frameHeight: 32});
+  this.load.spritesheet('skeleton-hurt', 'assets/skeleton/skeleton-hurt.png', {frameWidth: 30, frameHeight: 32});
+  this.load.spritesheet('skeleton-idle', 'assets/skeleton/skeleton-idle.png', {frameWidth: 24, frameHeight: 32});
+  this.load.spritesheet('skeleton-walk', 'assets/skeleton/skeleton-walk.png', {frameWidth: 22, frameHeight: 33});
+
   
   //PRELOAD DE AUDIOS
   this.load.audio("song", "assets/sounds/bgm/Techno-Caper.mp3");
@@ -173,16 +164,6 @@ GameScene.create = function() {
   spike.create(590, 480, "spike");
 
 
-  // CRIAÇAO DOS LANÇA-CHAMAS
-  chamas.p1 = new Lancachamas(this, 488, 1700, 0);
-  chamas.p2 = new Lancachamas(this, 600, 1700, 5100);
-  chamas.p3 = new Lancachamas(this, 712, 1700, 0);
-  chamas.p4 = new Lancachamas(this, 824, 1700, 5100);
-  chamas.p5 = new Lancachamas(this, 936, 1700, 0);
-  chamas.p6 = new Lancachamas(this, 1048, 1700, 5100);
-  chamas.p7 = new Lancachamas(this, 1160, 1700, 0);
-
-
   // CRIACAO DO JOGADOR 1
   player = this.physics.add.sprite(200, 350, "yin").setScale(1);
   player.setSize(13, 25, true).setOffset(18, 10);
@@ -195,22 +176,28 @@ GameScene.create = function() {
   player2.setBounce(0);
   player2.setCollideWorldBounds(true);
 
+  // CRIAÇAO DOS LANÇA-CHAMAS
+  chamas.p1 = new Lancachamas(this, 488, 1700, 0);
+  chamas.p2 = new Lancachamas(this, 600, 1700, 5100);
+  chamas.p3 = new Lancachamas(this, 712, 1700, 0);
+  chamas.p4 = new Lancachamas(this, 824, 1700, 5100);
+  chamas.p5 = new Lancachamas(this, 936, 1700, 0);
+  chamas.p6 = new Lancachamas(this, 1048, 1700, 5100);
+  chamas.p7 = new Lancachamas(this, 1160, 1700, 0);
  
   // CRIACAO DOS SLIMES
 
   slime.p1 = new Slime(this, 400, 350, 400);
-  slime.p2 = new Slime(this, 800, 350, 800);
-  slime.p3 = new Slime(this, 1200, 350, 1200);
-  slime.p4 = new Slime(this, 1600, 350, 1600);
+  //slime.p2 = new Slime(this, 800, 350, 800);
+  //slime.p3 = new Slime(this, 1200, 350, 1200);
+  //slime.p4 = new Slime(this, 1600, 350, 1600);
+
+  // CRIACAO DOS SKELETONS
+
+  skeleton.p1 = new Skeleton(this, 350, 1700, 350);
 
 
-  /*
-  slime = this.physics.add.sprite (400, 300, 'slime0');
-  slime.setSize(20,20, true).setOffset(5,4);
-  slime.setBounce(0);
-  slime.setCollideWorldBounds(true);
-  slime.setVelocityX(-100);
-*/
+  // ADICAO DO TECLADO
 
   cursors = this.input.keyboard.createCursorKeys();
   keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -228,16 +215,12 @@ GameScene.create = function() {
   this.physics.add.collider(player2, topLayer);
   this.physics.add.collider(player2, topLayer2);
   this.physics.add.collider(player, topLayer);
-  //this.physics.add.collider(slime, topLayer);
-  //this.physics.add.collider(slime, topLayer2);
 
   topLayer.setCollisionByProperty({ collides: true });
   topLayer2.setCollisionByProperty({ collides: true });
 
-  //this.physics.add.overlap(player,slime,hitSlime, null, this);
   this.physics.add.overlap(player, spike, hitSpike, null, this);
 
-  //this.physics.add.overlap(player2,slime,hitSlime2, null, this);
   this.physics.add.overlap(player2, spike, hitSpike2, null, this);
 
 
@@ -430,64 +413,20 @@ GameScene.create = function() {
     repeat: -1
   });
 
-/*
-  //          ANIMACOES DO SLIME
 
-  this.anims.create({
-    key: 'slime-idle',
-    frames: this.anims.generateFrameNumbers('slimesheet', { start: 0, end: 2 }),
-    frameRate: 10,
-    repeat: -1
-  });
-  this.anims.create({
-    key: 'slime-move',
-    frames: this.anims.generateFrameNumbers('slimesheet', { start: 4, end: 7 }),
-    frameRate: 10,
-    repeat: -1
-  });
-  this.anims.create({
-    key: 'slime-attack',
-    frames: this.anims.generateFrameNumbers('slimesheet', { start: 8, end: 12 }),
-    frameRate: 10,
-  });
-  this.anims.create({
-    key: 'slime-hurt',
-    frames: this.anims.generateFrameNumbers('slimesheet', { start: 13, end: 16 }),
-    frameRate: 15
-  });
-  this.anims.create({
-    key: 'slime-die',
-    frames: this.anims.generateFrameNumbers('slimesheet', { start: 17, end: 20 }),
-    frameRate: 10
-  });
-*/
-
+// FIM DO CREATE
 };
 
 // A FUNCAO UPDATE EH A QUE FAZ O JOGO ACONTECER, ELA SE REPETE INFINITAMENTE VÃRIAS VEZES POR SEGUNDO
 GameScene.update = function() {
   slime.p1.update();
+  //slime.p2.update();
+  //slime.p3.update();
+  //slime.p4.update();
 
-  //console.log(P1jump);  
-  //console.log(P1jumpdelay);
-  //console.log(slimevelocity);
-  
-  // as variaveis de posicao do slime (de novo)
-  // tive que botar la em cima pra terem escopo global
-    /*
-    slimeX = slime.body.x;
-    slimeY = slime.body.y;
-    playerX = player.body.x;
-    playerY = player.body.y;
-    player2X = player2.body.x;
-    player2Y = player2.body.y;
-    slime_P1 = slimeX - playerX;
-    slime_P1_Y = playerY - slimeY;
-    slime_P2 = slimeX - player2X;
-    slime_P2_Y = player2Y - slimeY;
-    slimeguard = slimeX - slimepoint;
-    slimevelocity = slime.body.velocity.x;
-    */
+  skeleton.p1.update();
+
+
   
     //          PLAYER 1 ANIMATIONS
 
@@ -1098,224 +1037,9 @@ else if (
   player2.setVelocityX(0);
   player2.anims.play("yang-idle", true);
 }
-
-/*
-  //          COMPORTAMENTO DO SLIME
-    
-  
-  
-  //      MUDANCA DE HITBOX DURANTE ANIMACAO     
-  if (
-    slime.anims.getCurrentKey() === "slime-hurt" &&
-    slime.anims.getProgress("slime-hurt") < 1 && slimeposition === "right"
-  ) {
-    slime.setSize(20, 20, true).setOffset(0, 4);
-    slime.setTint(0xff0000);
-  } else if (
-    slime.anims.getCurrentKey() === "slime-hurt" &&
-    slime.anims.getProgress("slime-hurt") < 1 && slimeposition === "left"
-  ) {
-    slime.setSize(20, 20, true).setOffset(0, 4);
-    slime.setTint(0xff0000);
-  } else if (
-    slime.anims.getCurrentKey() === "slime-hurt" &&
-    slime.anims.getProgress("slime-hurt") === 1
-  ) {
-    slime.setVelocityX(0);
-    slime.setSize(20, 20, true).setOffset(0, 4);
-    slime.clearTint();
-    slime.anims.play("slime-idle", true);
-
-    
-  } else if (slime.anims.getCurrentKey() === 'slime-attack'
-  && slime.anims.getProgress('slime-attack') < 1 && slimeposition === 'left'){
-      slime.setSize(30,20).setOffset(-8,4);
-
-  } else if (slime.anims.getCurrentKey() === 'slime-attack'
-  && slime.anims.getProgress('slime-attack') === 1 && slimeposition==="left"){
-      slime.anims.play('slime-idle', true);
-      slime.setSize(20,20).setOffset(0,4);
-    
-  } else if (slime.anims.getCurrentKey() === 'slime-attack'
-  && slime.anims.getProgress('slime-attack') < 1 && slimeposition === 'right'){
-      slime.setSize(30,20).setOffset(8,4);
-
-  } else if (slime.anims.getCurrentKey() === 'slime-attack'
-  && slime.anims.getProgress('slime-attack') === 1 && slimeposition==="right"){
-      slime.anims.play('slime-idle', true);
-      slime.setSize(20,20).setOffset(0,4);
-  
-  //      CONDICIONAIS PARA COMPORTAMENTO/ANIMACAO P/ PLAYER 1
-  
-  } else if (slime_P1 < 15 && slime_P1 > 0 && slime_P1_Y > -50){
-      slime.setVelocityX(0);
-      slime.setFlipX(false);
-      slime.anims.play('slime-attack', true);
-      slimeposition = 'left';
-  } else if (slime_P1 > -20 && slime_P1 < 0 && slime_P1_Y > -50){
-      slime.setVelocityX(0);
-      slime.setFlipX(true);
-      slime.anims.play('slime-attack', true);
-      slimeposition = 'right';
-  } else if (slime_P1 < 150 && slime_P1 > 0 && slime_P1_Y > -50){
-      slime.setVelocityX(-150);
-      slime.setSize(20,20, true).setOffset(7,4);
-      slime.setFlipX(false);
-      slime.anims.play('slime-move', true);
-      slimeposition = 'left';
-  } else if (slime_P1 > -150 && slime_P1 < 0 && slime_P1_Y > -50){
-      slime.setVelocityX(150);
-      slime.setSize(20,20, true).setOffset(7,4);
-      slime.setFlipX(true);
-      slime.anims.play('slime-move', true);
-      slimeposition = 'right';
-  }
-
-  //      CONDICIONAIS PARA COMPORTAMENTO/ANIMACAO P/ PLAYER 2
-  
-else if (slime_P2 < 15 && slime_P2 > 0 && slime_P2_Y > -50){
-  slime.setVelocityX(0);
-  slime.setFlipX(false);
-  slime.anims.play('slime-attack', true);
-  slimeposition = 'left';
-} else if (slime_P2 > -20 && slime_P2 < 0 && slime_P2_Y > -50){
-  slime.setVelocityX(0);
-  slime.setFlipX(true);
-  slime.anims.play('slime-attack', true);
-  slimeposition = 'right';
-} else if (slime_P2 < 150 && slime_P2 > 0 && slime_P2_Y > -50){
-  slime.setVelocityX(-150);
-  slime.setSize(20,20, true).setOffset(7,4);
-  slime.setFlipX(false);
-  slime.anims.play('slime-move', true);
-  slimeposition = 'left';
-} else if (slime_P2 > -150 && slime_P2 < 0 && slime_P2_Y > -50){
-  slime.setVelocityX(150);
-  slime.setSize(20,20, true).setOffset(7,4);
-  slime.setFlipX(true);
-  slime.anims.play('slime-move', true);
-  slimeposition = 'right';
-}
-
-  else if (slimeguard > 75){
-      slime.setVelocityX(-100);
-      slime.setFlipX(false);
-      slime.anims.play('slime-move', true);
-  }
-  else if (slimeguard < -75){
-      slime.setVelocityX(100);
-      slime.setFlipX(true);
-      slime.anims.play('slime-move', true);
-  }
-  */
+// FIM DO UPDATE
 };
 
-
-// A FUNCAO QUE DEFINE O QUE ACONTECE QUANDO HÃ COLISAO ENTRE PLAYER E SLIME
-
-/*
-function hitSlime (player, slime){
-  
-  //se o jogador ataca o slime, o slime eh jogado um pouco pra tras. 
-  if(player.anims.getCurrentKey() === 'yin-attack1' && playerPosition==="right"){
-      slime.setVelocityX(150);
-      slime.setVelocityY(-100);
-      player.setVelocityX(0);
-      slime.anims.play("slime-hurt", true);
-  } else if(player.anims.getCurrentKey() === 'yin-attack1' && playerPosition==="left"){
-      slime.setVelocityX(-150);
-      slime.setVelocityY(-100);
-      player.setVelocityX(0);
-      slime.anims.play("slime-hurt", true);
-  } else if(player.anims.getCurrentKey() === 'yin-attack2' && playerPosition==="right"){
-      slime.setVelocityX(150);
-      slime.setVelocityY(-100);
-      player.setVelocityX(0);
-      slime.anims.play("slime-hurt", true);
-
-  } else if(player.anims.getCurrentKey() === 'yin-attack2' && playerPosition==="left"){
-      slime.setVelocityX(-150);
-      slime.setVelocityY(-100);
-      player.setVelocityX(0);
-      slime.anims.play("slime-hurt", true);
-
-  } else if(player.anims.getCurrentKey() === 'yin-attack3' && playerPosition==="right"){
-      slime.setVelocityX(150);
-      slime.setVelocityY(-100);
-      player.setVelocityX(0);
-      slime.anims.play("slime-hurt", true);
-
-  } else if(player.anims.getCurrentKey() === 'yin-attack3' && playerPosition==="left"){
-      slime.setVelocityX(-150);
-      slime.setVelocityY(-100);
-      player.setVelocityX(0);
-      slime.anims.play("slime-hurt", true);
-
-  }
-    //se o slime ataca o jogador, o jogador eh empurrado pra tras
-    else if(slime.anims.getCurrentKey() === 'slime-attack' && slimeposition === "left" && slime.anims.getProgress('slime-attack') === 1){
-      player.setVelocityX(-125);
-      player.setVelocityY(-100);
-      player.anims.play('yin-hurt', true);
-      slimeatk.play();
-  } else if(slime.anims.getCurrentKey() === 'slime-attack' && slimeposition === "right" && slime.anims.getProgress('slime-attack') === 1){
-      player.setVelocityX(125);
-      player.setVelocityY(-100);
-      player.anims.play('yin-hurt', true);
-      slimeatk.play();
-  }
-};
-function hitSlime2 (player2, slime){
-  
-  //se o jogador ataca o slime, o slime eh jogado um pouco pra tras. 
-  if(player2.anims.getCurrentKey() === 'yang-attack1' && player2Position==="right"){
-      slime.setVelocityX(150);
-      slime.setVelocityY(-100);
-      player2.setVelocityX(0);
-      slime.anims.play("slime-hurt", true);
-  } else if(player2.anims.getCurrentKey() === 'yang-attack1' && player2Position==="left"){
-      slime.setVelocityX(-150);
-      slime.setVelocityY(-100);
-      player2.setVelocityX(0);
-      slime.anims.play("slime-hurt", true);
-  } else if(player2.anims.getCurrentKey() === 'yang-attack2' && player2Position==="right"){
-      slime.setVelocityX(150);
-      slime.setVelocityY(-100);
-      player2.setVelocityX(0);
-      slime.anims.play("slime-hurt", true);
-
-  } else if(player2.anims.getCurrentKey() === 'yang-attack2' && player2Position==="left"){
-      slime.setVelocityX(-150);
-      slime.setVelocityY(-100);
-      player2.setVelocityX(0);
-      slime.anims.play("slime-hurt", true);
-
-  } else if(player2.anims.getCurrentKey() === 'yang-attack3' && player2Position==="right"){
-      slime.setVelocityX(150);
-      slime.setVelocityY(-100);
-      player2.setVelocityX(0);
-      slime.anims.play("slime-hurt", true);
-
-  } else if(player2.anims.getCurrentKey() === 'yang-attack3' && player2Position==="left"){
-      slime.setVelocityX(-150);
-      slime.setVelocityY(-100);
-      player2.setVelocityX(0);
-      slime.anims.play("slime-hurt", true);
-
-  }
-    //se o slime ataca o jogador, o jogador eh empurrado pra tras
-    else if(slime.anims.getCurrentKey() === 'slime-attack' && slimeposition === "left" && slime.anims.getProgress('slime-attack') === 1){
-      player2.setVelocityX(-125);
-      player2.setVelocityY(-100);
-      player2.anims.play('yang-hurt', true);
-      slimeatk.play();
-  } else if(slime.anims.getCurrentKey() === 'slime-attack' && slimeposition === "right" && slime.anims.getProgress('slime-attack') === 1){
-      player2.setVelocityX(125);
-      player2.setVelocityY(-100);
-      player2.anims.play('yang-hurt', true);
-      slimeatk.play();
-  }
-};*/
 
 
 

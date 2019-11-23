@@ -10,14 +10,13 @@ export default class Lancachamas {
         
         anims.create({
             key: "chamas",
-            frames: anims.generateFrameNumbers("chamas", { start: 0, end: 50 }),
+            frames: anims.generateFrameNumbers("chamas", { start: 0, end: 49 }),
             frameRate: 5,
             repeat: -1
           });
 
         this.sprite = scene.physics.add.sprite( x, y, "chamas").setScale(0.9,1);
         this.sprite.setSize(16,100).setOffset(1,-20);
-
         //cria um delay entre os lança chamas
 
         scene.time.addEvent({

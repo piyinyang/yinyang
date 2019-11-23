@@ -8,7 +8,7 @@ var config = {
     default: "arcade",
     arcade: {
       gravity: { y: 800 },
-      debug: false
+      debug: true
     }
   },
   // Suporte a tela cheia
