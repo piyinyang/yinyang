@@ -4,6 +4,16 @@ import { Slime } from "./slime.js";
 import Skeleton from "./skeleton.js";
 export { GameScene, topLayer, topLayer2, topLayer3, spike, player, player2, slimeatk, playerPosition, player2Position };
 
+/*
+  Coordenadas para teleporte:
+
+  Da sala escondida para o easter egg: 1744, 2573
+  Do easter egg, dos portais, das chaves e de um dos bosses para a posição default: 1312, 1440
+  Dos portais para boss 1: 96, 3616
+  Dos portais para boss 2: 4000, 3616
+
+*/
+
 //VARIAVEIS DO PLAYER 1
 var player;
 var P1jump = false;
@@ -68,6 +78,7 @@ GameScene.preload = function() {
   this.load.image("environment","assets/ambiente/tilesets/environment.png");
   this.load.image("ground","assets/ambiente/tilesets/ground.png");
   this.load.image("madeiras","assets/ambiente/tilesets/madeiras.png");
+  this.load.image("Easter Egg", "assets/ambiente/tilesets/Easter Egg.png");
   this.load.tilemapTiledJSON("fase1", "assets/ambiente/Fase1.2.json");
   
   
@@ -161,6 +172,8 @@ GameScene.create = function() {
   var terrain6 = map.addTilesetImage("ground", "ground");
   var terrain7 = map.addTilesetImage("environment", "environment");
   var terrain8 = map.addTilesetImage("cavernaFundo", "cavernaFundo");
+  var terrain9 = map.addTilesetImage("Easter Egg", "Easter Egg");
+
 
   //criando os niveis do mapa
 
@@ -172,15 +185,15 @@ GameScene.create = function() {
   var topLayer6 = map.createStaticLayer("topLayerCastle2", [terrain6]);
   var topLayer7 = map.createStaticLayer("topLayerCastle3", [terrain7]);
   var topLayer8 = map.createStaticLayer("LayerSecreto", [terrain8]);
+  var topLayer9 = map.createStaticLayer("EasterEgg", [terrain9]);
 
 
   // CRIACAO DOS ESPINHOS
   spike = this.physics.add.staticGroup();
   spike.create(590, 480, "spike");
 
-
   // CRIACAO DO JOGADOR 1
-  player = this.physics.add.sprite(200, 350, "yin").setScale(1);
+  player = this.physics.add.sprite(155, 350, "yin").setScale(1);
   player.setSize(13, 25, true).setOffset(18, 10);
   player.setBounce(0);
   player.setCollideWorldBounds(true);
