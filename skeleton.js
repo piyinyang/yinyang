@@ -50,6 +50,10 @@ export default class Skeleton {
           scene.physics.add.collider(this.sprite, topLayer);
           scene.physics.add.collider(this.sprite, topLayer2);
           scene.physics.add.collider(this.sprite, topLayer3);
+
+          scene.physics.add.overlap(player, this.sprite, this.hitSkeleton, null, this)
+          scene.physics.add.overlap(player2, this.sprite, this.hitSkeleton2, null, this)
+
           
           //FIM DO CONSTRUCTOR
     }
@@ -90,43 +94,45 @@ export default class Skeleton {
           //this.sprite.setSize(20, 32, true).setOffset(0, 0);
           this.sprite.clearTint();
           this.sprite.anims.play("skeleton-idle", true);
-          
+      
+        } else if (this.sprite.anims.getCurrentKey() === 'skeleton-attack'
+        && this.sprite.anims.getProgress('skeleton-attack') < 0.5 && this.skeletonposition === 'left'){
+            //this.sprite.setSize(30,37).setOffset(-8,0);
+
+        } else if (this.sprite.anims.getCurrentKey() === 'skeleton-attack'
+        && this.sprite.anims.getProgress('skeleton-attack') < 1 && this.sprite.anims.getProgress('skeleton-attack') > 0.5 && this.skeletonposition === 'left'){
+            //this.sprite.setSize(30,37).setOffset(-8,0);
+      
         } else if (this.sprite.anims.getCurrentKey() === 'skeleton-attack'
         && this.sprite.anims.getProgress('skeleton-attack') === 1 && this.skeletonposition==="left"){
             this.sprite.anims.play('skeleton-idle', true);
-            this.sprite.setSize(20,30).setOffset(0,0);
+            //this.sprite.setSize(20,37).setOffset(0,0);
 
-        } else if (this.sprite.anims.getCurrentKey() === 'skeleton-attack'
-        && this.sprite.anims.getProgress('skeleton-attack') > 0.5 && this.skeletonposition === 'left'){
-            this.sprite.setSize(30,37).setOffset(0,0);
-        
         } else if (this.sprite.anims.getCurrentKey() === 'skeleton-attack'
         && this.sprite.anims.getProgress('skeleton-attack') < 0.5 && this.skeletonposition === 'left'){
-            this.sprite.setSize(30,37).setOffset(0,0);
+            //this.sprite.setSize(30,37).setOffset(-8,0);
 
+        } else if (this.sprite.anims.getCurrentKey() === 'skeleton-attack'
+        && this.sprite.anims.getProgress('skeleton-attack') < 0.5 && this.skeletonposition === 'right'){
+            //this.sprite.setSize(30,37).setOffset(8,0);
+          
+        } else if (this.sprite.anims.getCurrentKey() === 'skeleton-attack'
+        && this.sprite.anims.getProgress('skeleton-attack') < 1 && this.sprite.anims.getProgress('skeleton-attack') > 0.5 && this.skeletonposition === 'right'){
+            //this.sprite.setSize(30,37).setOffset(8,0);
       
         } else if (this.sprite.anims.getCurrentKey() === 'skeleton-attack'
         && this.sprite.anims.getProgress('skeleton-attack') === 1 && this.skeletonposition==="right"){
             this.sprite.anims.play('skeleton-idle', true);
-            this.sprite.setSize(20,30).setOffset(0,0);
-          
-        } else if (this.sprite.anims.getCurrentKey() === 'skeleton-attack'
-        && this.sprite.anims.getProgress('skeleton-attack') > 0.5 && this.skeletonposition === 'right'){
-            this.sprite.setSize(30,30).setOffset(0,0);
-      
-        } else if (this.sprite.anims.getCurrentKey() === 'skeleton-attack'
-        && this.sprite.anims.getProgress('skeleton-attack') < 0.5 && this.skeletonposition === 'right'){
-            this.sprite.setSize(30,30).setOffset(0,0);
-          }
+            //this.sprite.setSize(20,32).setOffset(0,0);
         
         //      CONDICIONAIS PARA COMPORTAMENTO/ANIMACAO P/ PLAYER 1
         
-         else if (this.skeleton_P1 < 15 && this.skeleton_P1 > 0 && this.skeleton_P1_Y > -50){
+        } else if (this.skeleton_P1 < 15 && this.skeleton_P1 > 0 && this.skeleton_P1_Y > -50){
             this.sprite.setVelocityX(0);
             this.sprite.setFlipX(true);
             this.sprite.anims.play('skeleton-attack', true);
             this.skeletonposition = 'left';
-        } else if (this.skeleton_P1 > -20 && this.skeleton_P1 < 0 && this.skeleton_P1_Y > -50){
+        } else if (this.skeleton_P1 > -15 && this.skeleton_P1 < 0 && this.skeleton_P1_Y > -50){
             this.sprite.setVelocityX(0);
             this.sprite.setFlipX(false);
             this.sprite.anims.play('skeleton-attack', true);
@@ -152,7 +158,7 @@ export default class Skeleton {
         this.sprite.setFlipX(true);
         this.sprite.anims.play('skeleton-attack', true);
         this.skeletonposition = 'left';
-      } else if (this.skeleton_P2 > -20 && this.skeleton_P2 < 0 && this.skeleton_P2_Y > -50){
+      } else if (this.skeleton_P2 > -15 && this.skeleton_P2 < 0 && this.skeleton_P2_Y > -50){
         this.sprite.setVelocityX(0);
         this.sprite.setFlipX(false);
         this.sprite.anims.play('skeleton-attack', true);
@@ -184,6 +190,111 @@ export default class Skeleton {
         
     //FIM DO UPDATE
 
+    }
+
+    // FUNCOES DE COMBATE
+    hitSkeleton (player){
+
+  
+      //se o jogador ataca o skeleton, o skeleton eh jogado um pouco pra tras. 
+      if(player.anims.getCurrentKey() === 'yin-attack1' && playerPosition==="right"){
+          this.sprite.setVelocityX(150);
+          this.sprite.setVelocityY(-100);
+          player.setVelocityX(0);
+          this.sprite.anims.play("skeleton-hurt", true);
+      } else if(player.anims.getCurrentKey() === 'yin-attack1' && playerPosition==="left"){
+          this.sprite.setVelocityX(-150);
+          this.sprite.setVelocityY(-100);
+          player.setVelocityX(0);
+          this.sprite.anims.play("skeleton-hurt", true);
+      } else if(player.anims.getCurrentKey() === 'yin-attack2' && playerPosition==="right"){
+          this.sprite.setVelocityX(150);
+          this.sprite.setVelocityY(-100);
+          player.setVelocityX(0);
+          this.sprite.anims.play("skeleton-hurt", true);
+    
+      } else if(player.anims.getCurrentKey() === 'yin-attack2' && playerPosition==="left"){
+          this.sprite.setVelocityX(-150);
+          this.sprite.setVelocityY(-100);
+          player.setVelocityX(0);
+          this.sprite.anims.play("skeleton-hurt", true);
+    
+      } else if(player.anims.getCurrentKey() === 'yin-attack3' && playerPosition==="right"){
+          this.sprite.setVelocityX(150);
+          this.sprite.setVelocityY(-100);
+          player.setVelocityX(0);
+          this.sprite.anims.play("skeleton-hurt", true);
+    
+      } else if(player.anims.getCurrentKey() === 'yin-attack3' && playerPosition==="left"){
+          this.sprite.setVelocityX(-150);
+          this.sprite.setVelocityY(-100);
+          player.setVelocityX(0);
+          this.sprite.anims.play("skeleton-hurt", true);
+    
+      }
+        //se o skeleton ataca o jogador, o jogador eh empurrado pra tras
+        else if(this.sprite.anims.getCurrentKey() === 'skeleton-attack' && this.skeletonposition === "left" && this.sprite.anims.getProgress('skeleton-attack') === 1){
+          player.setVelocityX(-125);
+          player.setVelocityY(-100);
+          player.anims.play('yin-hurt', true);
+          slimeatk.play();
+      } else if(this.sprite.anims.getCurrentKey() === 'skeleton-attack' && this.skeletonposition === "right" && this.sprite.anims.getProgress('skeleton-attack') === 1){
+          player.setVelocityX(125);
+          player.setVelocityY(-100);
+          player.anims.play('yin-hurt', true);
+          slimeatk.play();
+      }
+    }
+    hitSkeleton2 (player2){
+      
+      //se o jogador ataca o skeleton, o skeleton eh jogado um pouco pra tras. 
+      if(player2.anims.getCurrentKey() === 'yang-attack1' && player2Position==="right"){
+          this.sprite.setVelocityX(150);
+          this.sprite.setVelocityY(-100);
+          player2.setVelocityX(0);
+          this.sprite.anims.play("skeleton-hurt", true);
+      } else if(player2.anims.getCurrentKey() === 'yang-attack1' && player2Position==="left"){
+          this.sprite.setVelocityX(-150);
+          this.sprite.setVelocityY(-100);
+          player2.setVelocityX(0);
+          this.sprite.anims.play("skeleton-hurt", true);
+      } else if(player2.anims.getCurrentKey() === 'yang-attack2' && player2Position==="right"){
+          this.sprite.setVelocityX(150);
+          this.sprite.setVelocityY(-100);
+          player2.setVelocityX(0);
+          this.sprite.anims.play("skeleton-hurt", true);
+    
+      } else if(player2.anims.getCurrentKey() === 'yang-attack2' && player2Position==="left"){
+          this.sprite.setVelocityX(-150);
+          this.sprite.setVelocityY(-100);
+          player2.setVelocityX(0);
+          this.sprite.anims.play("skeleton-hurt", true);
+    
+      } else if(player2.anims.getCurrentKey() === 'yang-attack3' && player2Position==="right"){
+          this.sprite.setVelocityX(150);
+          this.sprite.setVelocityY(-100);
+          player2.setVelocityX(0);
+          this.sprite.anims.play("skeleton-hurt", true);
+    
+      } else if(player2.anims.getCurrentKey() === 'yang-attack3' && player2Position==="left"){
+          this.sprite.setVelocityX(-150);
+          this.sprite.setVelocityY(-100);
+          player2.setVelocityX(0);
+          this.sprite.anims.play("skeleton-hurt", true);
+    
+      }
+        //se o skeleton ataca o jogador, o jogador eh empurrado pra tras
+        else if(this.sprite.anims.getCurrentKey() === 'skeleton-attack' && this.skeletonposition === "left" && this.sprite.anims.getProgress('skeleton-attack') === 1){
+          player2.setVelocityX(-125);
+          player2.setVelocityY(-100);
+          player2.anims.play('yang-hurt', true);
+          slimeatk.play();
+      } else if(this.sprite.anims.getCurrentKey() === 'skeleton-attack' && this.skeletonposition === "right" && this.sprite.anims.getProgress('skeleton-attack') === 1){
+          player2.setVelocityX(125);
+          player2.setVelocityY(-100);
+          player2.anims.play('yang-hurt', true);
+          slimeatk.play();
+      }
     }
 
 }

@@ -2,7 +2,8 @@ import { gameover } from "./gameover.js";
 import Lancachamas from "./lancachamas.js";
 import { Slime } from "./slime.js";
 import Skeleton from "./skeleton.js";
-export { GameScene, topLayer, topLayer2, topLayer3, spike, player, player2, slimeatk, playerPosition, player2Position };
+export { GameScene, spike, player, player2, slimeatk, playerPosition, player2Position };
+export { topLayer, topLayer2, topLayer3 }
 
 /*
   Coordenadas para teleporte:
@@ -61,6 +62,13 @@ var chamas = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: nu
 var topLayer;
 var topLayer2;
 var topLayer3;
+var topLayer4;
+var topLayer5;
+var topLayer6;
+var topLayer7;
+var topLayer8;
+var topLayer9;
+
 
 var GameScene = new Phaser.Scene("gamescene");
 
@@ -177,15 +185,15 @@ GameScene.create = function() {
 
   //criando os niveis do mapa
 
-   var topLayer3 = map.createStaticLayer("topLayer3", [terrain3], 0, 0);
-  var topLayer4 = map.createStaticLayer("topLayer4", [terrain4], 0, 0);
-  topLayer = map.createStaticLayer("topLayer", [terrain], 0, 0);
-  var topLayer2 = map.createStaticLayer("topLayer2", [terrain2], 0, 0);
-  var topLayer5 = map.createStaticLayer("topLayerCastle1", [terrain5]);
-  var topLayer6 = map.createStaticLayer("topLayerCastle2", [terrain6]);
-  var topLayer7 = map.createStaticLayer("topLayerCastle3", [terrain7]);
-  var topLayer8 = map.createStaticLayer("LayerSecreto", [terrain8]);
-  var topLayer9 = map.createStaticLayer("EasterEgg", [terrain9]);
+    topLayer3 = map.createStaticLayer("topLayer3", [terrain3], 0, 0);
+    topLayer4 = map.createStaticLayer("topLayer4", [terrain4], 0, 0);
+    topLayer = map.createStaticLayer("topLayer", [terrain], 0, 0);
+    topLayer2 = map.createStaticLayer("topLayer2", [terrain2], 0, 0);
+    topLayer5 = map.createStaticLayer("topLayerCastle1", [terrain5]);
+    topLayer6 = map.createStaticLayer("topLayerCastle2", [terrain6]);
+    topLayer7 = map.createStaticLayer("topLayerCastle3", [terrain7]);
+    topLayer8 = map.createStaticLayer("LayerSecreto", [terrain8]);
+    topLayer9 = map.createStaticLayer("EasterEgg", [terrain9]);
 
 
   // CRIACAO DOS ESPINHOS
@@ -193,7 +201,7 @@ GameScene.create = function() {
   spike.create(590, 480, "spike");
 
   // CRIACAO DO JOGADOR 1
-  player = this.physics.add.sprite(155, 350, "yin").setScale(1);
+  player = this.physics.add.sprite(350, 1700, "yin").setScale(1);
   player.setSize(13, 25, true).setOffset(18, 10);
   player.setBounce(0);
   player.setCollideWorldBounds(true);
