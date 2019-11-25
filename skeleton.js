@@ -90,29 +90,38 @@ export default class Skeleton {
           //this.sprite.setSize(20, 32, true).setOffset(0, 0);
           this.sprite.clearTint();
           this.sprite.anims.play("skeleton-idle", true);
-      
           
-        } else if (this.sprite.anims.getCurrentKey() === 'skeleton-attack'
-        && this.sprite.anims.getProgress('skeleton-attack') < 1 && this.skeletonposition === 'left'){
-            this.sprite.setSize(30,37).setOffset(-8,0);
-      
         } else if (this.sprite.anims.getCurrentKey() === 'skeleton-attack'
         && this.sprite.anims.getProgress('skeleton-attack') === 1 && this.skeletonposition==="left"){
             this.sprite.anims.play('skeleton-idle', true);
-            this.sprite.setSize(20,37).setOffset(0,0);
-          
+            this.sprite.setSize(20,30).setOffset(0,0);
+
         } else if (this.sprite.anims.getCurrentKey() === 'skeleton-attack'
-        && this.sprite.anims.getProgress('skeleton-attack') < 1 && this.skeletonposition === 'right'){
-            this.sprite.setSize(30,37).setOffset(8,0);
+        && this.sprite.anims.getProgress('skeleton-attack') > 0.5 && this.skeletonposition === 'left'){
+            this.sprite.setSize(30,37).setOffset(0,0);
+        
+        } else if (this.sprite.anims.getCurrentKey() === 'skeleton-attack'
+        && this.sprite.anims.getProgress('skeleton-attack') < 0.5 && this.skeletonposition === 'left'){
+            this.sprite.setSize(30,37).setOffset(0,0);
+
       
         } else if (this.sprite.anims.getCurrentKey() === 'skeleton-attack'
         && this.sprite.anims.getProgress('skeleton-attack') === 1 && this.skeletonposition==="right"){
             this.sprite.anims.play('skeleton-idle', true);
-            this.sprite.setSize(20,32).setOffset(0,0);
+            this.sprite.setSize(20,30).setOffset(0,0);
+          
+        } else if (this.sprite.anims.getCurrentKey() === 'skeleton-attack'
+        && this.sprite.anims.getProgress('skeleton-attack') > 0.5 && this.skeletonposition === 'right'){
+            this.sprite.setSize(30,30).setOffset(0,0);
+      
+        } else if (this.sprite.anims.getCurrentKey() === 'skeleton-attack'
+        && this.sprite.anims.getProgress('skeleton-attack') < 0.5 && this.skeletonposition === 'right'){
+            this.sprite.setSize(30,30).setOffset(0,0);
+          }
         
         //      CONDICIONAIS PARA COMPORTAMENTO/ANIMACAO P/ PLAYER 1
         
-        } else if (this.skeleton_P1 < 15 && this.skeleton_P1 > 0 && this.skeleton_P1_Y > -50){
+         else if (this.skeleton_P1 < 15 && this.skeleton_P1 > 0 && this.skeleton_P1_Y > -50){
             this.sprite.setVelocityX(0);
             this.sprite.setFlipX(true);
             this.sprite.anims.play('skeleton-attack', true);
