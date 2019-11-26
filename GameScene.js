@@ -172,6 +172,8 @@ GameScene.create = function() {
   // CRIACAO DO CENARIO E DO BACKGROUND
   
   var map = this.add.tilemap("fase1");
+
+  
   var terrain = map.addTilesetImage("cavernaSemfundo", "caverna");
   var terrain2 = map.addTilesetImage("superficie", "superficie");
   var terrain3 = map.addTilesetImage("background", "background");
@@ -187,6 +189,28 @@ GameScene.create = function() {
 
     topLayer3 = map.createStaticLayer("topLayer3", [terrain3], 0, 0);
     topLayer4 = map.createStaticLayer("topLayer4", [terrain4], 0, 0);
+
+    // CRIACAO DOS ESPINHOS
+    spike = this.physics.add.staticGroup();
+    spike.create(590, 490, "spike");
+    spike.create(992, 410, "spike").setScale(1.3).setSize(150,20);
+    spike.create(2188, 1670, "spike").setScale(1.3).setSize(115,20).setOffset(-6,-1);
+    spike.create(2314, 1670, "spike").setScale(1.3).setSize(115,20).setOffset(-6,-1);
+    spike.create(2440, 1670, "spike").setScale(1.3).setSize(115,20).setOffset(-6,-1);
+    spike.create(2566, 1670, "spike").setScale(1.3).setSize(115,20).setOffset(-6,-1);
+    spike.create(3710, 887, "spike").setScale(1.3).setSize(115,20).setOffset(-6,-1);
+    spike.create(3836, 887, "spike").setScale(1.3).setSize(115,20).setOffset(-6,-1);
+    spike.create(3962, 887, "spike").setScale(1.3).setSize(115,18).setOffset(-6,2);
+    //ADICIONAR 126 AO X PARA CONSECUTIVOS
+    spike.create(1820, 2263, "spike").setScale(1.3).setSize(115,20).setOffset(-6,-1);
+    spike.create(1946, 2263, "spike").setScale(1.3).setSize(115,20).setOffset(-6,-1);
+    spike.create(2072, 2263, "spike").setScale(1.3).setSize(115,20).setOffset(-6,-1);
+    spike.create(2198, 2263, "spike").setScale(1.3).setSize(115,20).setOffset(-6,-1);
+    spike.create(2326, 2263, "spike").setScale(1.3).setSize(115,20).setOffset(-6,-1);
+    spike.create(2452, 2263, "spike").setScale(1.3).setSize(115,20).setOffset(-6,-1);
+    
+    
+
     topLayer = map.createStaticLayer("topLayer", [terrain], 0, 0);
     topLayer2 = map.createStaticLayer("topLayer2", [terrain2], 0, 0);
     topLayer5 = map.createStaticLayer("topLayerCastle1", [terrain5]);
@@ -196,12 +220,8 @@ GameScene.create = function() {
     topLayer9 = map.createStaticLayer("EasterEgg", [terrain9]);
 
 
-  // CRIACAO DOS ESPINHOS
-  spike = this.physics.add.staticGroup();
-  spike.create(590, 480, "spike");
-
   // CRIACAO DO JOGADOR 1
-  player = this.physics.add.sprite(350, 1700, "yin").setScale(1);
+  player = this.physics.add.sprite(1735, 2231, "yin").setScale(1);
   player.setSize(13, 25, true).setOffset(18, 10);
   player.setBounce(0);
   player.setCollideWorldBounds(true);
@@ -469,10 +489,6 @@ GameScene.create = function() {
 // A FUNCAO UPDATE EH A QUE FAZ O JOGO ACONTECER, ELA SE REPETE INFINITAMENTE VÃRIAS VEZES POR SEGUNDO
 GameScene.update = function() {
 
-  if (keyP.isDown) {
-    console.log(playerX, playerY);
-  };
-
   slime.p1.update();
   //slime.p2.update();
   //slime.p3.update();
@@ -484,11 +500,9 @@ GameScene.update = function() {
   
     //          PLAYER 1 ANIMATIONS
 
-    /*if(player.body.blocked.down && cursors.up.isUp){
-      player.setVelocityY(0);
-      P1jump = false;
-      P1jumpdelay = 0;
-    }*/
+    if (keyP.isDown) {
+      console.log(player.body.position.x, player.body.position.y);
+    }
 
     if (P1jump === true){
       P1jumpdelay ++;
