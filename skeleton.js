@@ -13,30 +13,30 @@ export default class Skeleton {
         anims.create({
             key: 'skeleton-idle',
             frames: anims.generateFrameNumbers('skeleton-idle', { start: 0, end: 10 }),
-            frameRate: 10,
+            frameRate: 15,
             repeat: -1
           });
 
         anims.create({
             key: 'skeleton-walk',
             frames: anims.generateFrameNumbers('skeleton-walk', { start: 0, end: 12 }),
-            frameRate: 10,
+            frameRate: 20,
             repeat: -1
           });
         anims.create({
             key: 'skeleton-hurt',
             frames: anims.generateFrameNumbers('skeleton-hurt', { start: 0, end: 7 }),
-            frameRate: 10,
+            frameRate: 20,
           });
         anims.create({
             key: 'skeleton-attack',
             frames: anims.generateFrameNumbers('skeleton-attack', { start: 0, end: 10 }),
-            frameRate: 10,
+            frameRate: 20,
           });
         anims.create({
             key: 'skeleton-die',
             frames: anims.generateFrameNumbers('skeleton-die', { start: 0, end: 14 }),
-            frameRate: 10,
+            frameRate: 20,
             repeat: -1
           });
         
@@ -158,12 +158,12 @@ export default class Skeleton {
         this.sprite.setFlipX(true);
         this.sprite.anims.play('skeleton-attack', true);
         this.skeletonposition = 'left';
-      } else if (this.skeleton_P2 > -15 && this.skeleton_P2 < 0 && this.skeleton_P2_Y > -50){
+      } else if (this.skeleton_P2 > -15 && this.skeleton_P2 < 0/* && this.skeleton_P2_Y > -50*/){
         this.sprite.setVelocityX(0);
         this.sprite.setFlipX(false);
         this.sprite.anims.play('skeleton-attack', true);
         this.skeletonposition = 'right';
-      } else if (this.skeleton_P2 < 150 && this.skeleton_P2 > 0 && this.skeleton_P2_Y > -50){
+      } else if (this.skeleton_P2 < 150 && this.skeleton_P2 > 0/* && this.skeleton_P2_Y > -50*/){
         this.sprite.setVelocityX(-150);
         //this.sprite.setSize(20,32, true).setOffset(7,0);
         this.sprite.setFlipX(true);
@@ -198,36 +198,36 @@ export default class Skeleton {
   
       //se o jogador ataca o skeleton, o skeleton eh jogado um pouco pra tras. 
       if(player.anims.getCurrentKey() === 'yin-attack1' && playerPosition==="right"){
-          this.sprite.setVelocityX(150);
-          this.sprite.setVelocityY(-100);
+          this.sprite.setVelocityX(100);
+          this.sprite.setVelocityY(-75);
           player.setVelocityX(0);
           this.sprite.anims.play("skeleton-hurt", true);
       } else if(player.anims.getCurrentKey() === 'yin-attack1' && playerPosition==="left"){
-          this.sprite.setVelocityX(-150);
-          this.sprite.setVelocityY(-100);
+          this.sprite.setVelocityX(-100);
+          this.sprite.setVelocityY(-75);
           player.setVelocityX(0);
           this.sprite.anims.play("skeleton-hurt", true);
       } else if(player.anims.getCurrentKey() === 'yin-attack2' && playerPosition==="right"){
-          this.sprite.setVelocityX(150);
-          this.sprite.setVelocityY(-100);
+          this.sprite.setVelocityX(100);
+          this.sprite.setVelocityY(-75);
           player.setVelocityX(0);
           this.sprite.anims.play("skeleton-hurt", true);
     
       } else if(player.anims.getCurrentKey() === 'yin-attack2' && playerPosition==="left"){
-          this.sprite.setVelocityX(-150);
-          this.sprite.setVelocityY(-100);
+          this.sprite.setVelocityX(-100);
+          this.sprite.setVelocityY(-75);
           player.setVelocityX(0);
           this.sprite.anims.play("skeleton-hurt", true);
     
       } else if(player.anims.getCurrentKey() === 'yin-attack3' && playerPosition==="right"){
-          this.sprite.setVelocityX(150);
-          this.sprite.setVelocityY(-100);
+          this.sprite.setVelocityX(100);
+          this.sprite.setVelocityY(-75);
           player.setVelocityX(0);
           this.sprite.anims.play("skeleton-hurt", true);
     
       } else if(player.anims.getCurrentKey() === 'yin-attack3' && playerPosition==="left"){
-          this.sprite.setVelocityX(-150);
-          this.sprite.setVelocityY(-100);
+          this.sprite.setVelocityX(-100);
+          this.sprite.setVelocityY(-75);
           player.setVelocityX(0);
           this.sprite.anims.play("skeleton-hurt", true);
     
