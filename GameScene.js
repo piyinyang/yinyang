@@ -496,6 +496,25 @@ GameScene.update = function() {
 
   skeleton.p1.update();
 
+  chamas.p1.update();
+  chamas.p2.update();
+  chamas.p3.update();
+  chamas.p4.update();
+  chamas.p5.update();
+  chamas.p6.update();
+  chamas.p7.update();
+  chamas.p8.update();
+  chamas.p9.update();
+  chamas.p10.update();
+  chamas.p11.update();
+  chamas.p12.update();
+  chamas.p13.update();
+  chamas.p14.update();
+  chamas.p15.update();
+  chamas.p16.update();
+  chamas.p17.update();
+
+
 
   
     //          PLAYER 1 ANIMATIONS
@@ -508,7 +527,7 @@ GameScene.update = function() {
       P1jumpdelay ++;
     }
   
-    if (player.anims.getCurrentKey("yin-idle")){
+    if (player.anims.getCurrentKey() === "yin-idle"){
       player.setSize(13, 25, true).setOffset(18, 10);
     }
 
