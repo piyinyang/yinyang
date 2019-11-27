@@ -140,7 +140,7 @@ GameScene.preload = function() {
   this.load.spritesheet('skeleton-walk', 'assets/skeleton/skeleton-walk.png', {frameWidth: 22, frameHeight: 33});
 
   //ASSETS DO JUMPER
-  this.load.spritesheet("jumper", "assets/ambiente/Jumper.png", {frameWidth: 48, frameHeight: 32});  
+  this.load.spritesheet("jumper", "assets/ambiente/jumper.png", {frameWidth: 48, frameHeight: 32});  
 
 
   //PRELOAD DE AUDIOS
