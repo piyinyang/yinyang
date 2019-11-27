@@ -1,4 +1,4 @@
-import { topLayer } from "./GameScene.js";
+import { topLayer, player, player2 } from "./GameScene.js";
 export default class Lancachamas {
 
     //cria o lança chamas
@@ -57,13 +57,16 @@ export default class Lancachamas {
         });
         //criando colisão entre lança chamas e o chao
         scene.physics.add.collider(this.sprite, topLayer);
+        scene.physics.add.collider(player, this.sprite, this.hitFire, null, this);
+        scene.physics.add.collider(player, this.sprite, this.hitFire2, null, this);
+
         
         // FIM DO CONSTRUCTOR
     }
 
     update(){
 
-        console.log(this.sprite.anims.getCurrentKey());
+        //console.log(this.sprite.anims.getCurrentKey());
 
         if(this.sprite.anims.getCurrentKey() === "chamas-altas-subindo" && this.sprite.anims.getProgress("chamas-altas-subindo") === 1){
             this.sprite.anims.play("chamas-maximas");
@@ -118,13 +121,52 @@ export default class Lancachamas {
             this.sprite.setSize(16,30).setOffset(1,48);
         }
 
-
-
-
-
-
         // FIM DO UPDATE
     }
 
+    // INICIO DAS FUNCOES DE DANO
+
+    hitFire(player){
+        if(this.sprite.anims.getCurrentKey() != "recarga"){
+        
+            if(this.sprite.body.touching.left){
+                player.anims.play("yin-hurt");
+                player.setVelocityX(-100);
+                player.setVelocityY(-75);
+            }
+            else if(this.sprite.body.touching.right){
+                player.anims.play("yin-hurt");
+                player.setVelocityX(100);
+                player.setVelocityY(-75);
+            }
+            else{
+                player.anims.play("yin-hurt");
+                player.setVelocityX(-100);
+                player.setVelocityY(-75);
+            }
+        }
+    // FIM DA FUNCAO
+    }
+
+    hitFire2(player2){
+        if(this.sprite.anims.getCurrentKey() != "recarga"){
+        
+            if(this.sprite.body.touching.left){
+                player2.anims.play("yang-hurt");
+                player2.setVelocityX(-100);
+                player2.setVelocityY(-75);
+            }
+            else if(this.sprite.body.touching.right){
+                player2.anims.play("yang-hurt");
+                player2.setVelocityX(100);
+                player2.setVelocityY(-75);
+            }
+            else{
+                player2.anims.play("yang-hurt");
+                player2.setVelocityX(-100);
+                player2.setVelocityY(-75);
+            }
+        }
+    }
 
 }
