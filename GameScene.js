@@ -1,7 +1,9 @@
 import { gameover } from "./gameover.js";
 import Lancachamas from "./lancachamas.js";
 import { Slime } from "./slime.js";
-import Skeleton from "./skeleton.js";
+import {Skeleton} from "./skeleton.js";
+import {Jumper} from "./jumper.js";
+
 export { GameScene, spike, player, player2, slimeatk, playerPosition, player2Position};
 export { topLayer, topLayer2, topLayer3 }
 
@@ -57,8 +59,11 @@ var jumping; // som do player pulando
 var landing; // som do player caindo no chao
 
 //Variavel do lança-chamas
-
 var chamas = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: null, p8: null, p9: null, p10: null, p11: null, p12: null, p13: null, p14: null, p15: null, p16: null, p17: null, p18: null, p19: null};
+
+//Variavel do jumper
+var jumper = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: null};
+
 var topLayer;
 var topLayer2;
 var topLayer3;
@@ -134,7 +139,10 @@ GameScene.preload = function() {
   this.load.spritesheet('skeleton-idle', 'assets/skeleton/skeleton-idle.png', {frameWidth: 24, frameHeight: 32});
   this.load.spritesheet('skeleton-walk', 'assets/skeleton/skeleton-walk.png', {frameWidth: 22, frameHeight: 33});
 
-  
+  //ASSETS DO JUMPER
+  this.load.spritesheet("jumper", "assets/ambiente/Jumper.png", {frameWidth: 48, frameHeight: 32});  
+
+
   //PRELOAD DE AUDIOS
   this.load.audio("song", "assets/sounds/bgm/Techno-Caper.mp3");
   this.load.audio("swordwoosh", "assets/sounds/sfx/battle/swordwoosh.mp3");
@@ -150,7 +158,8 @@ GameScene.preload = function() {
     frameWidth: 64,
     frameHeight: 64
   });
-  
+
+// FIM DO PRELOAD
 };
 
 // A FUNCAO CREATE CRIA AS COISAS DENTRO DO JOGO
@@ -221,7 +230,7 @@ GameScene.create = function() {
 
 
   // CRIACAO DO JOGADOR 1
-  player = this.physics.add.sprite(545, 1800, "yin").setScale(1);
+  player = this.physics.add.sprite(1590, 1460, "yin").setScale(1);
   player.setSize(13, 25, true).setOffset(18, 10);
   player.setBounce(0);
   player.setCollideWorldBounds(true);
@@ -251,6 +260,10 @@ GameScene.create = function() {
   chamas.p15 = new Lancachamas(this, 1720, 2245, 0);
   chamas.p16 = new Lancachamas(this, 1992, 2071, 5100);
   chamas.p17 = new Lancachamas(this, 2008, 2071, 5100);
+
+  // CRIACAO DOS JUMPERS
+
+  jumper.p1 = new Jumper(this, 1301, 1461, -800);
 
 
   // CRIACAO DOS SLIMES
@@ -513,6 +526,8 @@ GameScene.update = function() {
   chamas.p15.update();
   chamas.p16.update();
   chamas.p17.update();
+
+  jumper.p1.update()
 
 
 
