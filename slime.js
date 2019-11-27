@@ -64,12 +64,12 @@ export default class Slime {
   
     
   update() {
-    if(this.scene.physics.closest(this.sprite, [player, player2]) === player){
+    /*if(this.scene.physics.closest(this.sprite, [player, player2]) === player){
       console.log("JOGADOR MAIS PROXIMO: PLAYER1");
     }
     else if(this.scene.physics.closest(this.sprite, [player, player2]) === player2){
       console.log("JOGADOR MAIS PROXIMO: PLAYER 2");
-    }
+    }*/
     //console.log(this.scene.physics.closest(this.sprite, [player]));
 
     // VARIAVEIS 

@@ -230,7 +230,7 @@ GameScene.create = function() {
 
 
   // CRIACAO DO JOGADOR 1
-  player = this.physics.add.sprite(1590, 1460, "yin").setScale(1);
+  player = this.physics.add.sprite(515, 1805, "yin").setScale(1);
   player.setSize(13, 25, true).setOffset(18, 10);
   player.setBounce(0);
   player.setCollideWorldBounds(true);
@@ -263,7 +263,8 @@ GameScene.create = function() {
 
   // CRIACAO DOS JUMPERS
 
-  jumper.p1 = new Jumper(this, 1301, 1461, -800);
+  jumper.p1 = new Jumper(this, 496, 1815, -800);
+  
 
 
   // CRIACAO DOS SLIMES

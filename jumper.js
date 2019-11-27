@@ -18,13 +18,13 @@ export default class Jumper {
             frameRate: 5
           });
         anims.create({
-            key: "recarga",
+            key: "recarga2",
             frames: anims.generateFrameNumbers("jumper", { start: 22, end: 27 }),
             frameRate: 5
           });
 
         // CRIA O JUMPER
-        this.sprite = scene.physics.add.sprite( x, y, "jumper");
+        this.sprite = scene.physics.add.sprite( x, y, "jumper").setScale(0.64, 0.45);
         
 
         //CRIA COLISAO ENTRE PLAYERS E JUMPER
@@ -42,10 +42,10 @@ export default class Jumper {
     update(){
         console.log(this.sprite.anims.getCurrentKey());
         
-        /*if(player.body.touching.down && this.sprite.body.touching.up){
+        if(player.body.touching.down && this.sprite.body.touching.up){
             if(this.sprite.anims.getCurrentKey() === "subindo" && this.sprite.anims.getProgress("subindo") === 1){
                 player.setVelocityY(this.velocidade);
-                this.sprite.anims.play("recarga");
+                this.sprite.anims.play("recarga2");
             }
             else if(this.sprite.anims.getCurrentKey() === "subindo" && this.sprite.anims.getProgress("subindo") < 1){ 
             }
@@ -59,7 +59,7 @@ export default class Jumper {
             else {
                 this.sprite.anims.play("descendo");
             } 
-        }*/
+        }
     }
 
     SuperJump(player){
