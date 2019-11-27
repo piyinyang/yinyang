@@ -5,7 +5,6 @@ export default class Lancachamas {
     
     constructor(scene, x, y, delay) {
         this.scene = scene;
-
         const anims = scene.anims;
         
         anims.create({
@@ -58,7 +57,7 @@ export default class Lancachamas {
         //criando colisão entre lança chamas e o chao
         scene.physics.add.collider(this.sprite, topLayer);
         scene.physics.add.collider(player, this.sprite, this.hitFire, null, this);
-        scene.physics.add.collider(player, this.sprite, this.hitFire2, null, this);
+        scene.physics.add.collider(player2, this.sprite, this.hitFire2, null, this);
 
         
         // FIM DO CONSTRUCTOR
