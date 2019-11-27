@@ -503,6 +503,8 @@ GameScene.create = function() {
 // A FUNCAO UPDATE EH A QUE FAZ O JOGO ACONTECER, ELA SE REPETE INFINITAMENTE VÃRIAS VEZES POR SEGUNDO
 GameScene.update = function() {
 
+  jumper.p1.update();
+  
   slime.p1.update();
   //slime.p2.update();
   //slime.p3.update();
@@ -527,9 +529,6 @@ GameScene.update = function() {
   chamas.p15.update();
   chamas.p16.update();
   chamas.p17.update();
-
-  jumper.p1.update()
-
 
 
 

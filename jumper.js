@@ -10,12 +10,12 @@ export default class Jumper {
         anims.create({
             key: "descendo",
             frames: anims.generateFrameNumbers("jumper", { start: 0, end: 17 }),
-            frameRate: 10
+            frameRate: 20
           });
         anims.create({
             key: "subindo",
             frames: anims.generateFrameNumbers("jumper", { start: 18, end: 21 }),
-            frameRate: 5
+            frameRate: 10
           });
         anims.create({
             key: "recarga2",
@@ -25,14 +25,17 @@ export default class Jumper {
 
         // CRIA O JUMPER
         this.sprite = scene.physics.add.sprite( x, y, "jumper").setScale(0.64, 0.45);
+        this.sprite.setBounce(0);
+        this.sprite.setCollideWorldBounds(true);
+        this.sprite.setImmovable(true);
         
 
         //CRIA COLISAO ENTRE PLAYERS E JUMPER
         scene.physics.add.collider(this.sprite, topLayer);
 
 
-        scene.physics.add.collider(player, this.sprite, this.SuperJump, null, this);
-        scene.physics.add.collider(player2, this.sprite, this.SuperJump2, null, this);
+        scene.physics.add.collider(this.sprite, player);
+        scene.physics.add.collider(this.sprite, player2);
 
 
 
@@ -42,33 +45,24 @@ export default class Jumper {
     update(){
         console.log(this.sprite.anims.getCurrentKey());
         
-        if(player.body.touching.down && this.sprite.body.touching.up){
-            if(this.sprite.anims.getCurrentKey() === "subindo" && this.sprite.anims.getProgress("subindo") === 1){
+        //if(player.body.touching.down && this.sprite.body.touching.up){
+            if(player.body.touching.down && this.sprite.body.touching.up && this.sprite.anims.getCurrentKey() === "subindo" && this.sprite.anims.getProgress("subindo") === 1){
                 player.setVelocityY(this.velocidade);
                 this.sprite.anims.play("recarga2");
             }
-            else if(this.sprite.anims.getCurrentKey() === "subindo" && this.sprite.anims.getProgress("subindo") < 1){ 
+            else if(player.body.touching.down && this.sprite.body.touching.up && this.sprite.anims.getCurrentKey() === "subindo" && this.sprite.anims.getProgress("subindo") < 1){ 
             }
 
-            else if(this.sprite.anims.getCurrentKey() === "descendo" && this.sprite.anims.getProgress("descendo") === 1){
+            else if(player.body.touching.down && this.sprite.body.touching.up && this.sprite.anims.getCurrentKey() === "descendo" && this.sprite.anims.getProgress("descendo") === 1){
             this.sprite.anims.play("subindo");
             }
-            else if(this.sprite.anims.getCurrentKey() === "descendo" && this.sprite.anims.getProgress("descendo") < 1){
+            else if(player.body.touching.down && this.sprite.body.touching.up && this.sprite.anims.getCurrentKey() === "descendo" && this.sprite.anims.getProgress("descendo") < 1){
             }
 
-            else {
+            else if (player.body.touching.down && this.sprite.body.touching.up){
                 this.sprite.anims.play("descendo");
-            } 
-        }
-    }
-
-    SuperJump(player){
-        
-        
-    }
-
-    SuperJump2(player2){
-        
+            }
+        //}
     }
 
 // FIM DA CLASSE
