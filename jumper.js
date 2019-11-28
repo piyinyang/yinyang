@@ -10,7 +10,7 @@ export default class Jumper {
         anims.create({
             key: "descendo",
             frames: anims.generateFrameNumbers("jumper", { start: 0, end: 17 }),
-            frameRate: 20
+            frameRate: 25
           });
         anims.create({
             key: "subindo",
@@ -20,11 +20,12 @@ export default class Jumper {
         anims.create({
             key: "recarga2",
             frames: anims.generateFrameNumbers("jumper", { start: 22, end: 27 }),
-            frameRate: 5
+            frameRate: 10
           });
 
         // CRIA O JUMPER
-        this.sprite = scene.physics.add.sprite( x, y, "jumper").setScale(0.64, 0.45);
+        this.sprite = scene.physics.add.sprite( x, y, "jumper").setScale(0.64, 1.25)
+        .setSize(45, 12).setOffset(2,20);
         this.sprite.setBounce(0);
         this.sprite.setCollideWorldBounds(true);
         this.sprite.setImmovable(true);
