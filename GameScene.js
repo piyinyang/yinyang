@@ -30,6 +30,9 @@ var P2jumpdelay = 0;
 var player2Position = "right";
 var attackcombo2 = 0;
 
+var players = {player, player2}; // refere-se a qualquer um dois dois players
+
+
 var slime = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: null};
 var skeleton = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: null};
 
@@ -49,7 +52,11 @@ var spike; //variavel dos espinhos
 var portal1;
 var portal2;
 var barreira1;
+var barreira1open = false;
 var barreira2;
+var barreira2open = false;
+var possuiChaveAmarela = true;
+var possuiChaveAzul = true;
 
 
 var graphics; //nem me pergunte
@@ -371,8 +378,8 @@ GameScene.create = function() {
 
   this.physics.add.collider(barreira2, topLayer);
   this.physics.add.collider(barreira2, topLayer2);
-  this.physics.add.collider(barreira2, player);
-  this.physics.add.collider(barreira2, player2);
+  this.physics.add.collider(player, barreira1, Barreira1OPEN, null, this);
+  this.physics.add.collider(player, barreira2, Barreira2OPEN, null, this);
 
 
 
@@ -619,7 +626,7 @@ GameScene.create = function() {
   });
   this.anims.create({
     key: "barreira2open",
-    frames: this.anims.generateFrameNumbers("barreira2idle", { start: 0, end: 6 }),
+    frames: this.anims.generateFrameNumbers("barreira2open", { start: 0, end: 6 }),
     frameRate: 7,
     repeat: 0
   });
@@ -629,6 +636,8 @@ GameScene.create = function() {
 
 // A FUNCAO UPDATE EH A QUE FAZ O JOGO ACONTECER, ELA SE REPETE INFINITAMENTE VÃRIAS VEZES POR SEGUNDO
 GameScene.update = function() {
+
+  console.log(barreira2.anims.getCurrentKey());
 
   jumper.p1.update();
   jumper.p2.update();
@@ -678,6 +687,16 @@ GameScene.update = function() {
 
     if(portal2.anims.getCurrentKey() != "portal2girando"){
       portal2.anims.play("portal2girando", true);
+    }
+
+    // ANIMACAO DA BARREIRA 1
+    if(barreira1.anims.getCurrentKey() != "barreira1idle" && barreira1.anims.getCurrentKey() != "barreira1open" && barreira1open === false){
+      barreira1.anims.play("barreira1idle", true);
+    }
+
+    // ANIMACAO DA BARREIRA 2
+    if(barreira2.anims.getCurrentKey() != "barreira2idle" && barreira2.anims.getCurrentKey() != "barreira2open" && barreira2open === false){
+      barreira2.anims.play("barreira2idle", true);
     }
 
   
@@ -1294,6 +1313,7 @@ else if (
 
 
 
+// FUNCOES DE DANO DOS ESPINHOS
 
 function hitSpike(player, spike) {
   this.physics.pause();
@@ -1323,6 +1343,8 @@ function hitSpike2(player2, spike) {
   }
 };
 
+// FUNCOES DE TELEPORTE
+
 function P1Teleport1(player, portal1){
   player.setPosition(96, 3616);
   portalsound.play();
@@ -1341,4 +1363,16 @@ function P2Teleport2(player2, portal2){
   player2.setPosition(4000, 3616);
   portalsound.play();
 
+}
+
+function Barreira1OPEN(player, barreira1){
+  if(barreira1open === false && possuiChaveAmarela === true){
+    barreira1.anims.play("barreira1open");
+  }
+}
+
+function Barreira2OPEN(player, barreira2){
+  if(barreira2open === false && possuiChaveAzul === true){
+    barreira2.anims.play("barreira2open");
+  }
 }
