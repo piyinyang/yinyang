@@ -44,7 +44,7 @@ export default class Lancachamas {
           });
 
         this.sprite = scene.physics.add.sprite( x, y, "chamas").setScale(0.9,1);
-        this.sprite.setSize(16,16).setOffset(1, 62);
+        this.sprite.setSize(16,14).setOffset(1, 66).setImmovable(true);
         //cria um delay entre os lança chamas
 
         scene.time.addEvent({
@@ -87,37 +87,37 @@ export default class Lancachamas {
 
         if(this.sprite.anims.getCurrentKey() === "chamas-altas-descendo" && this.sprite.anims.getProgress("chamas-altas-descendo") === 1){
             this.sprite.anims.play("chamas-baixas-descendo");
-            this.sprite.setSize(16,50).setOffset(1,28);
+            this.sprite.setSize(16,50).setOffset(1,30);
         }  
         else if(this.sprite.anims.getCurrentKey() === "chamas-altas-descendo" && this.sprite.anims.getProgress("chamas-altas-descendo") < 1){
-            this.sprite.setSize(16,50).setOffset(1,28);
+            this.sprite.setSize(16,50).setOffset(1,30);
         }
 
 
         if(this.sprite.anims.getCurrentKey() === "chamas-baixas-descendo" && this.sprite.anims.getProgress("chamas-baixas-descendo") === 1){
             this.sprite.anims.play("recarga");
-            this.sprite.setSize(16,30).setOffset(1,48);
+            this.sprite.setSize(16,30).setOffset(1,50);
         }
         else if(this.sprite.anims.getCurrentKey() === "chamas-baixas-descendo" && this.sprite.anims.getProgress("chamas-baixas-descendo") < 1){
-            this.sprite.setSize(16,30).setOffset(1,48);
+            this.sprite.setSize(16,30).setOffset(1,50);
         }
 
 
         if(this.sprite.anims.getCurrentKey() === "recarga" && this.sprite.anims.getProgress("recarga") === 1){
             this.sprite.anims.play("chamas-baixas-subindo");
-            this.sprite.setSize(16,16).setOffset(1, 62);
+            this.sprite.setSize(16,14).setOffset(1, 66);
         }
         else if(this.sprite.anims.getCurrentKey() === "recarga" && this.sprite.anims.getProgress("recarga") < 1){
-            this.sprite.setSize(16,16).setOffset(1, 62);
+            this.sprite.setSize(16,14).setOffset(1, 66);
         }
 
 
         if(this.sprite.anims.getCurrentKey() === "chamas-baixas-subindo" && this.sprite.anims.getProgress("chamas-baixas-subindo") === 1){
             this.sprite.anims.play("chamas-altas-subindo");
-            this.sprite.setSize(16,30).setOffset(1,48);
+            this.sprite.setSize(16,30).setOffset(1,50);
         }
         else if(this.sprite.anims.getCurrentKey() === "chamas-baixas-subindo" && this.sprite.anims.getProgress("chamas-baixas-subindo") < 1){
-            this.sprite.setSize(16,30).setOffset(1,48);
+            this.sprite.setSize(16,30).setOffset(1,50);
         }
 
         // FIM DO UPDATE

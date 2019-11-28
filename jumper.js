@@ -43,9 +43,7 @@ export default class Jumper {
     }
 
     update(){
-        console.log(this.sprite.anims.getCurrentKey());
         
-        //if(player.body.touching.down && this.sprite.body.touching.up){
             if(player.body.touching.down && this.sprite.body.touching.up && this.sprite.anims.getCurrentKey() === "subindo" && this.sprite.anims.getProgress("subindo") === 1){
                 player.setVelocityY(this.velocidade);
                 this.sprite.anims.play("recarga2");
@@ -62,8 +60,6 @@ export default class Jumper {
             else if (player.body.touching.down && this.sprite.body.touching.up){
                 this.sprite.anims.play("descendo");
             }
-        //}
     }
-
 // FIM DA CLASSE
 }
