@@ -373,8 +373,6 @@ GameScene.create = function() {
 
   this.physics.add.collider(barreira1, topLayer);
   this.physics.add.collider(barreira1, topLayer2);
-  this.physics.add.collider(barreira1, player);
-  this.physics.add.collider(barreira1, player2);
 
   this.physics.add.collider(barreira2, topLayer);
   this.physics.add.collider(barreira2, topLayer2);
@@ -637,8 +635,6 @@ GameScene.create = function() {
 // A FUNCAO UPDATE EH A QUE FAZ O JOGO ACONTECER, ELA SE REPETE INFINITAMENTE VÃRIAS VEZES POR SEGUNDO
 GameScene.update = function() {
 
-  console.log(barreira2.anims.getCurrentKey());
-
   jumper.p1.update();
   jumper.p2.update();
   jumper.p3.update();
@@ -679,7 +675,6 @@ GameScene.update = function() {
 
     // ANIMACAO DO PORTAL 1
 
-    console.log(portal1.anims.getCurrentKey());
     if(portal1.anims.getCurrentKey() != "portal1girando"){
       portal1.anims.play("portal1girando", true);
     }
@@ -690,12 +685,24 @@ GameScene.update = function() {
     }
 
     // ANIMACAO DA BARREIRA 1
-    if(barreira1.anims.getCurrentKey() != "barreira1idle" && barreira1.anims.getCurrentKey() != "barreira1open" && barreira1open === false){
+
+    if(barreira1.anims.getCurrentKey() === "barreira1open" && barreira1.anims.getProgress("barreira1open") === 1){
+      barreira1.disableBody(true, true);
+    }
+    else if(barreira1.anims.getCurrentKey() === "barreira1open" && barreira1.anims.getProgress("barreira1open") < 1){
+    }
+    else if(barreira1.anims.getCurrentKey() != "barreira1idle" && barreira1.anims.getCurrentKey() != "barreira1open" && barreira1open === false){
       barreira1.anims.play("barreira1idle", true);
     }
 
     // ANIMACAO DA BARREIRA 2
-    if(barreira2.anims.getCurrentKey() != "barreira2idle" && barreira2.anims.getCurrentKey() != "barreira2open" && barreira2open === false){
+
+    if(barreira2.anims.getCurrentKey() === "barreira2open" && barreira2.anims.getProgress("barreira2open") === 1){
+      barreira2.disableBody(true, true);
+    }
+    else if(barreira2.anims.getCurrentKey() === "barreira2open" && barreira2.anims.getProgress("barreira2open") < 1){
+    }
+    else if(barreira2.anims.getCurrentKey() != "barreira2idle" && barreira2.anims.getCurrentKey() != "barreira2open" && barreira2open === false){
       barreira2.anims.play("barreira2idle", true);
     }
 
@@ -1368,11 +1375,13 @@ function P2Teleport2(player2, portal2){
 function Barreira1OPEN(player, barreira1){
   if(barreira1open === false && possuiChaveAmarela === true){
     barreira1.anims.play("barreira1open");
+    possuiChaveAmarela === false;
   }
 }
 
 function Barreira2OPEN(player, barreira2){
   if(barreira2open === false && possuiChaveAzul === true){
     barreira2.anims.play("barreira2open");
+    possuiChaveAzul === false;
   }
 }
