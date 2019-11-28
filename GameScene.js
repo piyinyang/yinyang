@@ -591,13 +591,14 @@ GameScene.update = function() {
 
     // ANIMACAO DO PORTAL 1
 
+    console.log(portal1.anims.getCurrentKey());
     if(portal1.anims.getCurrentKey() != "portal1girando"){
       portal1.anims.play("portal1girando", true);
     }
     // ANIMACAO DO PORTAL 2
 
-    if(portal1.anims.getCurrentKey() != "portal2girando"){
-      portal1.anims.play("portal2girando", true);
+    if(portal2.anims.getCurrentKey() != "portal2girando"){
+      portal2.anims.play("portal2girando", true);
     }
 
   
