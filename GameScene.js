@@ -43,10 +43,8 @@ var keyP;
 var keyENTER;
 
 var spike; //variavel dos espinhos
-//var pointer;
-//var touchX;
-//var touchY;
-//var scoreText;
+var portal1;
+var portal2;
 var graphics; //nem me pergunte
 var gameOver = false;
 var button;
@@ -95,14 +93,28 @@ GameScene.preload = function() {
   this.load.tilemapTiledJSON("fase1", "assets/ambiente/Fase1.2.json");
   
   
-  this.load.spritesheet("chamas", "assets/ambiente/Lança-chamas.png", {
-    frameWidth: 17,
-    frameHeight: 80
-  });
+
+  // ASSETS DO LANÇA-CHAMAS
+  this.load.spritesheet("chamas", "assets/ambiente/Lança-chamas.png", {frameWidth: 17, frameHeight: 80});
   
-  
+  // ESPINHOS  
   this.load.image("spike", "assets/ambiente/spikes_1.png");
 
+  //ASSETS DO JUMPER
+  this.load.spritesheet("jumper", "assets/ambiente/jumper.png", {frameWidth: 48, frameHeight: 32});  
+
+  // ASSETS DOS PORTAIS
+  this.load.spritesheet("portal1", "assets/ambiente/Portal 1.png", {frameWidth: 33, frameHeight: 33});
+  this.load.spritesheet("portal2", "assets/ambiente/Portal 2.png", {frameWidth: 33, frameHeight: 33});
+
+
+  // ASSETS DA BARREIRA 1
+  this.load.spritesheet("barreira1open", "assets/ambiente/OpeningBarrier1.png", {frameWidth: 32, frameHeight: 32});
+  this.load.spritesheet("barreira1idle", "assets/ambiente/IdleBarrier1.png", {frameWidth: 32, frameHeight: 32});
+
+  // ASSETS DA BARREIRA 2
+  this.load.spritesheet("barreira2open", "assets/ambiente/OpeningBarrier2.png", {frameWidth: 32, frameHeight: 32});
+  this.load.spritesheet("barreira2idle", "assets/ambiente/IdleBarrier2.png", {frameWidth: 32, frameHeight: 32});
 
   //Assets do Jogador Yin
 
@@ -138,9 +150,6 @@ GameScene.preload = function() {
   this.load.spritesheet('skeleton-hurt', 'assets/skeleton/skeleton-hurt.png', {frameWidth: 30, frameHeight: 32});
   this.load.spritesheet('skeleton-idle', 'assets/skeleton/skeleton-idle.png', {frameWidth: 24, frameHeight: 32});
   this.load.spritesheet('skeleton-walk', 'assets/skeleton/skeleton-walk.png', {frameWidth: 22, frameHeight: 33});
-
-  //ASSETS DO JUMPER
-  this.load.spritesheet("jumper", "assets/ambiente/jumper.png", {frameWidth: 48, frameHeight: 32});  
 
 
   //PRELOAD DE AUDIOS
@@ -217,6 +226,7 @@ GameScene.create = function() {
     spike.create(2326, 2263, "spike").setScale(1.3).setSize(115,20).setOffset(-6,-1);
     spike.create(2452, 2263, "spike").setScale(1.3).setSize(115,20).setOffset(-6,-1);
     spike.create(3456, 1880, "spike");
+    
 
     //FIM DA CRIAÇAO DE ESPINHOS
 
@@ -228,15 +238,27 @@ GameScene.create = function() {
     topLayer8 = map.createStaticLayer("LayerSecreto", [terrain8]);
     topLayer9 = map.createStaticLayer("EasterEgg", [terrain9]);
 
+    // CRIACAO DO PORTAL 1
+    portal1 = this.physics.add.sprite(2825, 1927 , "portal1");
+    portal1.setSize(15, 30);
+    portal1.setBounce(0);
+    portal1.setCollideWorldBounds(true);
+
+    // CRIACAO DO PORTAL 1
+    portal2 = this.physics.add.sprite(2825, 2100 , "portal2");
+    portal2.setSize(15, 30);
+    portal2.setBounce(0);
+    portal2.setCollideWorldBounds(true);
+    
 
   // CRIACAO DO JOGADOR 1
-  player = this.physics.add.sprite(515, 1805, "yin").setScale(1);
+  player = this.physics.add.sprite(2820, 1927, "yin");
   player.setSize(13, 25, true).setOffset(18, 10);
   player.setBounce(0);
   player.setCollideWorldBounds(true);
 
   // CRIACAO DO JOGADOR 2
-  player2 = this.physics.add.sprite(150, 350, "yang").setScale(1);
+  player2 = this.physics.add.sprite(150, 350, "yang");
   player2.setSize(13, 25, true).setOffset(18, 10);
   player2.setBounce(0);
   player2.setCollideWorldBounds(true);
@@ -264,6 +286,14 @@ GameScene.create = function() {
   // CRIACAO DOS JUMPERS
 
   jumper.p1 = new Jumper(this, 496, 1815, -800);
+  jumper.p2 = new Jumper(this, 624, 1527, -800);
+  jumper.p3 = new Jumper(this, 1136, 2183, -800);
+  jumper.p4 = new Jumper(this, 4048, 2487, -800);
+  jumper.p5 = new Jumper(this, 3744, 2263, -800);
+  jumper.p6 = new Jumper(this, 3936, 1943, -1200);
+  jumper.p7 = new Jumper(this, 144, 3159, -800);
+
+
   
 
 
@@ -298,6 +328,13 @@ GameScene.create = function() {
   this.physics.add.collider(player2, topLayer);
   this.physics.add.collider(player2, topLayer2);
   this.physics.add.collider(player, topLayer);
+
+  this.physics.add.collider(portal1, topLayer);
+  this.physics.add.collider(portal1, topLayer2);
+
+  this.physics.add.collider(portal2, topLayer);
+  this.physics.add.collider(portal2, topLayer2);
+
 
   topLayer.setCollisionByProperty({ collides: true });
   topLayer2.setCollisionByProperty({ collides: true });
@@ -496,6 +533,21 @@ GameScene.create = function() {
     repeat: -1
   });
 
+  // ANIMACAO DO PORTAL 1
+  this.anims.create({
+    key: "portal1girando",
+    frames: this.anims.generateFrameNumbers("portal1", { start: 0, end: 19 }),
+    frameRate: 9,
+    repeat: -1
+  });
+  // ANIMACAO DO PORTAL 2
+  this.anims.create({
+    key: "portal2girando",
+    frames: this.anims.generateFrameNumbers("portal2", { start: 0, end: 19 }),
+    frameRate: 9,
+    repeat: -1
+  });
+
 
 // FIM DO CREATE
 };
@@ -504,6 +556,12 @@ GameScene.create = function() {
 GameScene.update = function() {
 
   jumper.p1.update();
+  jumper.p2.update();
+  jumper.p3.update();
+  jumper.p4.update();
+  jumper.p5.update();
+  jumper.p6.update();
+  jumper.p7.update();  
   
   slime.p1.update();
   //slime.p2.update();
@@ -531,6 +589,16 @@ GameScene.update = function() {
   chamas.p17.update();
 
 
+    // ANIMACAO DO PORTAL 1
+
+    if(portal1.anims.getCurrentKey() != "portal1girando"){
+      portal1.anims.play("portal1girando", true);
+    }
+    // ANIMACAO DO PORTAL 2
+
+    if(portal1.anims.getCurrentKey() != "portal2girando"){
+      portal1.anims.play("portal2girando", true);
+    }
 
   
     //          PLAYER 1 ANIMATIONS
