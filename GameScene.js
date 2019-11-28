@@ -42,9 +42,16 @@ var keyD;
 var keyP;
 var keyENTER;
 
+
+// Variavel dos objetos do mapa
+
 var spike; //variavel dos espinhos
 var portal1;
 var portal2;
+var barreira1;
+var barreira2;
+
+
 var graphics; //nem me pergunte
 var gameOver = false;
 var button;
@@ -55,12 +62,14 @@ var swordwoosh; // som da espada
 var slimeatk; // som do slime atacando
 var jumping; // som do player pulando
 var landing; // som do player caindo no chao
+var portalsound;
 
 //Variavel do lança-chamas
 var chamas = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: null, p8: null, p9: null, p10: null, p11: null, p12: null, p13: null, p14: null, p15: null, p16: null, p17: null, p18: null, p19: null};
 
 //Variavel do jumper
-var jumper = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: null};
+var jumper = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: null, p8: null, p9: null, p10: null, p11: null};
+
 
 var topLayer;
 var topLayer2;
@@ -158,6 +167,7 @@ GameScene.preload = function() {
   this.load.audio("slimeatk", "assets/sounds/sfx/battle/slime-attack.mp3");
   this.load.audio("jumping", "assets/sounds/sfx/movement/jump1.mp3");
   this.load.audio("landing", "assets/sounds/sfx/movement/landing1.mp3");
+  this.load.audio("portalsound", "assets/sounds/sfx/SFX_Portal.mp3");
 
 
 
@@ -180,6 +190,7 @@ GameScene.create = function() {
   slimeatk = this.sound.add("slimeatk");
   jumping = this.sound.add("jumping");
   landing = this.sound.add("landing");
+  portalsound = this.sound.add("portalsound");
 
   //toca musica em loop
   song.play({
@@ -249,10 +260,24 @@ GameScene.create = function() {
     portal2.setSize(15, 30);
     portal2.setBounce(0);
     portal2.setCollideWorldBounds(true);
+
+    // CRIACAO DA BARREIRA 1
+    barreira1 = this.physics.add.sprite(2735, 1895, "barreira1idle").setScale(1.5, 2);
+    barreira1.setSize(20, 32).setOffset(6, 0);
+    barreira1.setBounce(0);
+    barreira1.setCollideWorldBounds(true);
+    barreira1.setImmovable(true);
+
+    // CRIACAO DA BARREIRA 2
+    barreira2 = this.physics.add.sprite(2735, 2100, "barreira2idle").setScale(1.5, 2);
+    barreira2.setSize(20, 32).setOffset(6, 0);
+    barreira2.setBounce(0);
+    barreira2.setCollideWorldBounds(true);
+    barreira2.setImmovable(true);
     
 
   // CRIACAO DO JOGADOR 1
-  player = this.physics.add.sprite(2820, 1927, "yin");
+  player = this.physics.add.sprite(2800, 2100, "yin");
   player.setSize(13, 25, true).setOffset(18, 10);
   player.setBounce(0);
   player.setCollideWorldBounds(true);
@@ -285,13 +310,17 @@ GameScene.create = function() {
 
   // CRIACAO DOS JUMPERS
 
-  jumper.p1 = new Jumper(this, 496, 1815, -800);
-  jumper.p2 = new Jumper(this, 624, 1527, -800);
-  jumper.p3 = new Jumper(this, 1136, 2183, -800);
-  jumper.p4 = new Jumper(this, 4048, 2487, -800);
-  jumper.p5 = new Jumper(this, 3744, 2263, -800);
+  jumper.p1 = new Jumper(this, 496, 1815, -900);
+  jumper.p2 = new Jumper(this, 624, 1527, -900);
+  jumper.p3 = new Jumper(this, 1136, 2183, -900);
+  jumper.p4 = new Jumper(this, 4048, 2487, -900);
+  jumper.p5 = new Jumper(this, 3744, 2263, -900);
   jumper.p6 = new Jumper(this, 3936, 1943, -1200);
-  jumper.p7 = new Jumper(this, 144, 3159, -800);
+  jumper.p7 = new Jumper(this, 144, 3159, -1000);
+  jumper.p8 = new Jumper(this, 2496, 3334, -1200);
+  jumper.p9 = new Jumper(this, 2240, 3655, -1200);
+  jumper.p10 = new Jumper(this, 1328, 3335, -1200);
+  jumper.p11 = new Jumper(this, 1584, 3655, -1200);
 
 
   
@@ -335,12 +364,30 @@ GameScene.create = function() {
   this.physics.add.collider(portal2, topLayer);
   this.physics.add.collider(portal2, topLayer2);
 
+  this.physics.add.collider(barreira1, topLayer);
+  this.physics.add.collider(barreira1, topLayer2);
+  this.physics.add.collider(barreira1, player);
+  this.physics.add.collider(barreira1, player2);
+
+  this.physics.add.collider(barreira2, topLayer);
+  this.physics.add.collider(barreira2, topLayer2);
+  this.physics.add.collider(barreira2, player);
+  this.physics.add.collider(barreira2, player2);
+
+
+
+
 
   topLayer.setCollisionByProperty({ collides: true });
   topLayer2.setCollisionByProperty({ collides: true });
 
-  this.physics.add.overlap(player, spike, hitSpike, null, this);
+  this.physics.add.overlap(player, portal1, P1Teleport1, null, this);
+  this.physics.add.overlap(player2, portal1, P2Teleport1, null, this);
+  this.physics.add.overlap(player, portal2, P1Teleport2, null, this);
+  this.physics.add.overlap(player2, portal2, P2Teleport2, null, this);
 
+  
+  this.physics.add.overlap(player, spike, hitSpike, null, this);
   this.physics.add.overlap(player2, spike, hitSpike2, null, this);
 
 
@@ -548,6 +595,34 @@ GameScene.create = function() {
     repeat: -1
   });
 
+  //ANIMACOES DA BARREIRA 1
+  this.anims.create({
+    key: "barreira1idle",
+    frames: this.anims.generateFrameNumbers("barreira1idle", { start: 0, end: 11 }),
+    frameRate: 9,
+    repeat: -1
+  });
+  
+  this.anims.create({
+    key: "barreira1open",
+    frames: this.anims.generateFrameNumbers("barreira1open", { start: 0, end: 6 }),
+    frameRate: 7,
+    repeat: 0
+  });
+
+    // ANIMACOES DA BARREIRA 2
+  this.anims.create({
+    key: "barreira2idle",
+    frames: this.anims.generateFrameNumbers("barreira2idle", { start: 0, end: 11 }),
+    frameRate: 9,
+    repeat: -1
+  });
+  this.anims.create({
+    key: "barreira2open",
+    frames: this.anims.generateFrameNumbers("barreira2idle", { start: 0, end: 6 }),
+    frameRate: 7,
+    repeat: 0
+  });
 
 // FIM DO CREATE
 };
@@ -561,7 +636,11 @@ GameScene.update = function() {
   jumper.p4.update();
   jumper.p5.update();
   jumper.p6.update();
-  jumper.p7.update();  
+  jumper.p7.update();
+  jumper.p8.update();
+  jumper.p9.update();
+  jumper.p10.update();
+  jumper.p11.update();
   
   slime.p1.update();
   //slime.p2.update();
@@ -1243,3 +1322,23 @@ function hitSpike2(player2, spike) {
     this.scene.start(gameover);
   }
 };
+
+function P1Teleport1(player, portal1){
+  player.setPosition(96, 3616);
+  portalsound.play();
+}
+function P2Teleport1(player2, portal1){
+  player2.setPosition(96, 3616);
+  portalsound.play();
+
+}
+function P1Teleport2(player, portal2){
+  player.setPosition(4000, 3616);
+  portalsound.play();
+
+}
+function P2Teleport2(player2, portal2){
+  player2.setPosition(4000, 3616);
+  portalsound.play();
+
+}
