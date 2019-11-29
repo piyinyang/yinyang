@@ -14,6 +14,10 @@ export { topLayer, topLayer2, topLayer3 }
   Do easter egg, dos portais, das chaves e de um dos bosses para a posição default: 1312, 1440
   Dos portais para boss 1: 96, 3616
   Dos portais para boss 2: 4000, 3616
+  PRIMEIRO PORTAL NEUTRO: 3770, 1666
+  SEGUNDO PORTAL NEUTRO: 2330, 1924
+  Do portal neutro para posição default: 1307, 1443
+  
 
 */
 
