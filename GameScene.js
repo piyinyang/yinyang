@@ -30,9 +30,6 @@ var P2jumpdelay = 0;
 var player2Position = "right";
 var attackcombo2 = 0;
 
-var players = {player, player2}; // refere-se a qualquer um dois dois players
-
-
 var slime = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: null};
 var skeleton = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: null};
 
@@ -55,8 +52,12 @@ var barreira1;
 var barreira1open = false;
 var barreira2;
 var barreira2open = false;
-var possuiChaveAmarela = true;
-var possuiChaveAzul = true;
+
+var ChaveAmarela;
+var possuiChaveAmarela = false;
+
+var ChaveAzul;
+var possuiChaveAzul = false;
 
 
 var graphics; //nem me pergunte
@@ -127,10 +128,16 @@ GameScene.preload = function() {
   // ASSETS DA BARREIRA 1
   this.load.spritesheet("barreira1open", "assets/ambiente/OpeningBarrier1.png", {frameWidth: 32, frameHeight: 32});
   this.load.spritesheet("barreira1idle", "assets/ambiente/IdleBarrier1.png", {frameWidth: 32, frameHeight: 32});
+  // ASSETS DA CHAVE AMARELA
+  this.load.spritesheet("chaveamarela", "assets/ambiente/chaveamarela.png", {frameWidth: 32, frameHeight: 32});
 
   // ASSETS DA BARREIRA 2
   this.load.spritesheet("barreira2open", "assets/ambiente/OpeningBarrier2.png", {frameWidth: 32, frameHeight: 32});
   this.load.spritesheet("barreira2idle", "assets/ambiente/IdleBarrier2.png", {frameWidth: 32, frameHeight: 32});
+  // ASSETS DA CHAVE AZUL
+  this.load.spritesheet("chaveazu", "assets/ambiente/chaveazul.png", {frameWidth: 32, frameHeight: 32});
+
+
 
   //Assets do Jogador Yin
 
@@ -275,13 +282,24 @@ GameScene.create = function() {
     barreira1.setCollideWorldBounds(true);
     barreira1.setImmovable(true);
 
+    // CRIACAO DA CHAVE AMARELA
+    ChaveAmarela = this.physics.add.sprite(100, 100, "chaveamarela");
+    ChaveAmarela.setBounce(0);
+    ChaveAmarela.setCollideWorldBounds(true);
+    ChaveAmarela.setImmovable(true);
+
     // CRIACAO DA BARREIRA 2
     barreira2 = this.physics.add.sprite(2735, 2100, "barreira2idle").setScale(1.5, 2);
     barreira2.setSize(20, 32).setOffset(6, 0);
     barreira2.setBounce(0);
     barreira2.setCollideWorldBounds(true);
     barreira2.setImmovable(true);
-    
+
+    // CRIACAO DA CHAVE AZUL 
+    ChaveAzul = this.physics.add.sprite(200, 200, "chaveazul");
+    ChaveAzul.setBounce(0);
+    ChaveAzul.setCollideWorldBounds(true);
+    ChaveAzul.setImmovable(true);
 
   // CRIACAO DO JOGADOR 1
   player = this.physics.add.sprite(2800, 2100, "yin");
@@ -358,40 +376,45 @@ GameScene.create = function() {
   //pointer = this.input.addPointer(1);
 
   // ADICIONANDO COLISAO AO JOGO
+
+  // LAYERS
+  topLayer.setCollisionByProperty({ collides: true });
+  topLayer2.setCollisionByProperty({ collides: true });
+  // PLAYERS
   this.physics.add.collider(player, topLayer);
   this.physics.add.collider(player, topLayer2);
-
   this.physics.add.collider(player2, topLayer);
   this.physics.add.collider(player2, topLayer2);
-  this.physics.add.collider(player, topLayer);
-
-  this.physics.add.collider(portal1, topLayer);
-  this.physics.add.collider(portal1, topLayer2);
-
-  this.physics.add.collider(portal2, topLayer);
-  this.physics.add.collider(portal2, topLayer2);
-
+  // BARREIRAS
   this.physics.add.collider(barreira1, topLayer);
   this.physics.add.collider(barreira1, topLayer2);
-
   this.physics.add.collider(barreira2, topLayer);
   this.physics.add.collider(barreira2, topLayer2);
   this.physics.add.collider(player, barreira1, Barreira1OPEN, null, this);
   this.physics.add.collider(player, barreira2, Barreira2OPEN, null, this);
+  this.physics.add.collider(player2, barreira1, Barreira1OPEN2, null, this);
+  this.physics.add.collider(player2, barreira2, Barreira2OPEN2, null, this);
+  // CHAVES
+  this.physics.add.collider(ChaveAmarela, topLayer);
+  this.physics.add.collider(ChaveAmarela, topLayer2);
+  this.physics.add.collider(ChaveAzul, topLayer);
+  this.physics.add.collider(ChaveAzul, topLayer2);
+  this.physics.add.overlap(player, ChaveAmarela, ColetarChaveAM1, null, this);
+  this.physics.add.overlap(player2, ChaveAmarela, ColetarChaveAM2, null, this);
+  this.physics.add.overlap(player, ChaveAzul, ColetarChaveAZ1, null, this);
+  this.physics.add.overlap(player2, ChaveAzul, ColetarChaveAZ2, null, this);
 
 
-
-
-
-  topLayer.setCollisionByProperty({ collides: true });
-  topLayer2.setCollisionByProperty({ collides: true });
-
+  // PORTAIS
+  this.physics.add.collider(portal1, topLayer);
+  this.physics.add.collider(portal1, topLayer2);
+  this.physics.add.collider(portal2, topLayer);
+  this.physics.add.collider(portal2, topLayer2);
   this.physics.add.overlap(player, portal1, P1Teleport1, null, this);
   this.physics.add.overlap(player2, portal1, P2Teleport1, null, this);
   this.physics.add.overlap(player, portal2, P1Teleport2, null, this);
   this.physics.add.overlap(player2, portal2, P2Teleport2, null, this);
-
-  
+  // ESPINHOS
   this.physics.add.overlap(player, spike, hitSpike, null, this);
   this.physics.add.overlap(player2, spike, hitSpike2, null, this);
 
@@ -627,6 +650,21 @@ GameScene.create = function() {
     frames: this.anims.generateFrameNumbers("barreira2open", { start: 0, end: 6 }),
     frameRate: 7,
     repeat: 0
+  });
+
+  // ANIMACOES DAS CHAVES
+
+  this.anims.create({
+    key: "ChaveAmarela",
+    frames: this.anims.generateFrameNumbers("chaveamarela", { start: 0, end: 6}),
+    frameRate: 7,
+    repeat: -1
+  });
+  this.anims.create({
+    key: "ChaveAzul",
+    frames: this.anims.generateFrameNumbers("chaveazul", { start: 0, end: 9}),
+    frameRate: 9,
+    repeat: -1
   });
 
 // FIM DO CREATE
@@ -1384,4 +1422,33 @@ function Barreira2OPEN(player, barreira2){
     barreira2.anims.play("barreira2open");
     possuiChaveAzul === false;
   }
+}
+function Barreira1OPEN2(player2, barreira1){
+  if(barreira1open === false && possuiChaveAmarela === true){
+    barreira1.anims.play("barreira1open");
+    possuiChaveAmarela === false;
+  }
+}
+function Barreira2OPEN2(player2, barreira2){
+  if(barreira2open === false && possuiChaveAzul === true){
+    barreira2.anims.play("barreira2open");
+    possuiChaveAzul === false;
+  }
+}
+
+function ColetarChaveAM1(player, ChaveAmarela){
+  possuiChaveAmarela = true;
+  ChaveAmarela.disableBody(true, true);
+}
+function ColetarChaveAM2(player2, ChaveAmarela){
+  possuiChaveAmarela = true;
+  ChaveAmarela.disableBody(true, true);
+}
+function ColetarChaveAZ1(player, ChaveAzul){
+  possuiChaveAzul = true;
+  ChaveAzul.disableBody(true, true);
+}
+function ColetarChaveAZ2(player2, ChaveAzul){
+  possuiChaveAzul = true;
+  ChaveAzul.disableBody(true, true);
 }
