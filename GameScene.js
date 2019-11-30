@@ -52,12 +52,6 @@ var keyENTER;
 // Variavel dos objetos do mapa
 
 var spike; //variavel dos espinhos
-/*
-var portal1;
-var portal2;
-var portalNeutro;
-var portalEE;
-*/
 var barreira1;
 var barreira1open = false;
 var barreira2;
@@ -283,40 +277,6 @@ GameScene.create = function() {
     topLayer8 = map.createStaticLayer("LayerSecreto", [terrain8]);
     topLayer9 = map.createStaticLayer("EasterEgg", [terrain9]);
 
-/*
-    // CRIACAO DO PORTAL 1
-    portal1 = this.physics.add.sprite(2825, 1927 , "portal1");
-    portal1.setSize(15, 30);
-    portal1.setBounce(0);
-    portal1.setCollideWorldBounds(true);
-    portal1.setImmovable(true);
-
-    // CRIACAO DO PORTAL 2
-    portal2 = this.physics.add.sprite(2825, 2100 , "portal2");
-    portal2.setSize(15, 30);
-    portal2.setBounce(0);
-    portal2.setCollideWorldBounds(true);
-    portal2.setImmovable(true);
-
-    // CRIACAO DO PORTAL NEUTRO
-    portalNeutro = this.physics.add.sprite(700, 300, "portalNeutro");
-    portalNeutro.setSize(20, 30);
-    portalNeutro.setBounce(0);
-    portalNeutro.setCollideWorldBounds(true);
-    portalNeutro.setImmovable(true);
-    
-    portalNeutro2 = this.physics.add.sprite(700, 300, "portalNeutro");
-    portalNeutro2.setSize(20, 30);
-    portalNeutro2.setBounce(0);
-    portalNeutro2.setCollideWorldBounds(true);
-    portalNeutro2.setImmovable(true);
-
-    portalEE = this.physics.add.sprite(2000, 150, "portalNeutro");
-    portalEE.setSize(20, 30);
-    portalEE.setBounce(0);
-    portalEE.setCollideWorldBounds(true);
-    portalEE.setImmovable(true);
-*/
     // CRIACAO DA BARREIRA 1
     barreira1 = this.physics.add.sprite(2735, 1895, "barreira1idle").setScale(1.5, 2);
     barreira1.setSize(20, 32).setOffset(6, 0);
@@ -351,7 +311,7 @@ GameScene.create = function() {
     JailDoor.setImmovable(true);
 
   // CRIACAO DO JOGADOR 1
-  player = this.physics.add.sprite(200, 350, "yin");
+  player = this.physics.add.sprite(2800, 1927, "yin");
   player.setSize(13, 25, true).setOffset(18, 10);
   player.setBounce(0);
   player.setCollideWorldBounds(true);
@@ -467,25 +427,6 @@ GameScene.create = function() {
   this.physics.add.overlap(player2, ChaveAmarela, ColetarChaveAM2, null, this);
   this.physics.add.overlap(player, ChaveAzul, ColetarChaveAZ1, null, this);
   this.physics.add.overlap(player2, ChaveAzul, ColetarChaveAZ2, null, this);
- /*
-  // PORTAIS
-  this.physics.add.collider(portal1, topLayer);
-  this.physics.add.collider(portal1, topLayer2);
-  this.physics.add.collider(portal2, topLayer);
-  this.physics.add.collider(portal2, topLayer2);
-  this.physics.add.collider(portalNeutro, topLayer);
-  this.physics.add.collider(portalNeutro, topLayer2);
-  this.physics.add.collider(portalEE, topLayer);
-  this.physics.add.collider(portalEE, topLayer2);
-  this.physics.add.overlap(player, portal1, P1Teleport1, null, this);
-  this.physics.add.overlap(player2, portal1, P2Teleport1, null, this);
-  this.physics.add.overlap(player, portal2, P1Teleport2, null, this);
-  this.physics.add.overlap(player2, portal2, P2Teleport2, null, this);
-  this.physics.add.overlap(player, portalNeutro, P1Teleport3, null, this);
-  this.physics.add.overlap(player2, portalNeutro, P2Teleport3, null, this);
-  this.physics.add.overlap(player, portalEE, P1Teleport4, null, this);
-  this.physics.add.overlap(player2, portalEE, P2Teleport4, null, this);
-*/
 
   // ESPINHOS
   this.physics.add.overlap(player, spike, hitSpike, null, this);
@@ -680,29 +621,7 @@ GameScene.create = function() {
     frameRate: 9,
     repeat: -1
   });
-/*
-  // ANIMACAO DO PORTAL 1
-  this.anims.create({
-    key: "portal1girando",
-    frames: this.anims.generateFrameNumbers("portal1", { start: 0, end: 19 }),
-    frameRate: 9,
-    repeat: -1
-  });
-  // ANIMACAO DO PORTAL 2
-  this.anims.create({
-    key: "portal2girando",
-    frames: this.anims.generateFrameNumbers("portal2", { start: 0, end: 19 }),
-    frameRate: 9,
-    repeat: -1
-  });
-  // ANIMACOA DO PORTAL NEUTRO
-  this.anims.create({
-    key: "portalneutro",
-    frames: this.anims.generateFrameNumbers("portalNeutro", {start: 0, end: 8}),
-    frameRate: 9,
-    repeat: -1
-  });
-*/
+
   //ANIMACOES DA BARREIRA 1
   this.anims.create({
     key: "barreira1idle",
@@ -798,6 +717,13 @@ GameScene.update = function() {
   chamas.p16.update();
   chamas.p17.update();
 
+  portal.p1.update();
+  portal.p2.update();
+  portal.p3.update();
+  portal.p4.update();
+  portal.p5.update();
+
+
     // ANIMACAO DA JAILDOOR
     if (JailDoor.anims.getCurrentKey() === "JailDoor_Opening" && JailDoor.anims.getProgress("JailDoor_Opening" < 1)){
       JailDoor.disableBody();
@@ -814,23 +740,7 @@ GameScene.update = function() {
     if(ChaveAzul.anims.getCurrentKey() != "ChaveAzul" && possuiChaveAzul === false){
       ChaveAzul.anims.play("ChaveAzul", true);
     }
-/*
-    // ANIMACAO DO PORTAL 1
-    if(portal1.anims.getCurrentKey() != "portal1girando"){
-      portal1.anims.play("portal1girando", true);
-    }
-    // ANIMACAO DO PORTAL 2
-    if(portal2.anims.getCurrentKey() != "portal2girando"){
-      portal2.anims.play("portal2girando", true);
-    }
-    // ANIMACAO DO PORTAL NEUTRO
-    if(portalNeutro.anims.getCurrentKey() != "portalneutro"){
-      portalNeutro.anims.play("portalneutro", true);
-    }
-    if(portalEE.anims.getCurrentKey() != "portalneutro"){
-      portalEE.anims.play("portalneutro", true);
-    }
-*/
+
     // ANIMACAO DA BARREIRA 1
     if(barreira1.anims.getCurrentKey() === "barreira1open" && barreira1.anims.getProgress("barreira1open") === 1){
       barreira1.disableBody(true, true);
@@ -1494,42 +1404,7 @@ function hitSpike2(player2, spike) {
     this.scene.start(gameover);
   }
 };
-/*
-// FUNCOES DE TELEPORTE
 
-function P1Teleport1(player, portal1){
-  player.setPosition(96, 3616);
-  portalsound.play();
-}
-function P2Teleport1(player2, portal1){
-  player2.setPosition(96, 3616);
-  portalsound.play();
-}
-function P1Teleport2(player, portal2){
-  player.setPosition(4000, 3616);
-  portalsound.play();
-}
-function P2Teleport2(player2, portal2){
-  player2.setPosition(4000, 3616);
-  portalsound.play();
-}
-function P1Teleport3(player, portalNeutro){
-  player.setPosition(500, 500);
-  portalsound.play();
-}
-function P2Teleport3(player2, portalNeutro){
-  player2.setPosition(500, 500);
-  portalsound.play();
-}
-function P1Teleport4(player, portalEE){
-  player.setPosition(700, 700);
-  portalsound.play();
-}
-function P2Teleport4(player2, portalEE){
-  player2.setPosition(700, 700);
-  portalsound.play();
-}
-*/
 function Barreira1OPEN(player, barreira1){
   if(barreira1open === false && possuiChaveAmarela === true){
     barreira1.anims.play("barreira1open");
