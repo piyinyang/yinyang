@@ -4,6 +4,7 @@ import { Slime } from "./slime.js";
 import {Skeleton} from "./skeleton.js";
 import {Jumper} from "./jumper.js";
 import {Portal} from "./portal.js";
+import {Demon} from "./demon.js";
 
 export { GameScene, spike, player, player2, slimeatk, playerPosition, player2Position, portalsound};
 export { topLayer, topLayer2, topLayer3 }
@@ -39,6 +40,7 @@ var attackcombo2 = 0;
 // MONSTROS
 var slime = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: null};
 var skeleton = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: null};
+var demon = {p1: null, p2: null};
 
 var cursors; //variavel das setas do teclado
 var keyW;
@@ -183,6 +185,13 @@ GameScene.preload = function() {
   this.load.spritesheet('skeleton-idle', 'assets/skeleton/skeleton-idle.png', {frameWidth: 24, frameHeight: 32});
   this.load.spritesheet('skeleton-walk', 'assets/skeleton/skeleton-walk.png', {frameWidth: 22, frameHeight: 33});
 
+  // ASSETS DO BOSS
+  this.load.spritesheet("demon-attack1", "assets/demon/demon-attack_1.png", {frameWidth: 240, frameHeight: 192});
+  this.load.spritesheet("demon-attack2", "assets/demon/demon-attack_2.png", {frameWidth: 240, frameHeight: 192});
+  this.load.spritesheet("demon-idle1", "assets/demon/demon-idle_1.png", {frameWidth: 160, frameHeight: 144});
+  this.load.spritesheet("demon-idle2", "assets/demon/demon-idle_2.png", {frameWidth: 160, frameHeight: 144});
+
+
 
   //PRELOAD DE AUDIOS
   this.load.audio("song", "assets/sounds/bgm/Techno-Caper.mp3");
@@ -311,7 +320,7 @@ GameScene.create = function() {
     JailDoor.setImmovable(true);
 
   // CRIACAO DO JOGADOR 1
-  player = this.physics.add.sprite(2800, 1927, "yin");
+  player = this.physics.add.sprite(3400, 3319, "yin");
   player.setSize(13, 25, true).setOffset(18, 10);
   player.setBounce(0);
   player.setCollideWorldBounds(true);
@@ -378,6 +387,10 @@ GameScene.create = function() {
   // CRIACAO DOS SKELETONS
 
   skeleton.p1 = new Skeleton(this, 350, 1700, 350);
+
+  // CRIACAO DOS BOSSES DEMONS
+
+  demon.p1 = new Demon(this, 3400, 3319, 3300);
 
 
   // ADICAO DO TECLADO
@@ -698,6 +711,8 @@ GameScene.update = function() {
   //slime.p4.update();
 
   skeleton.p1.update();
+
+  demon.p1.update();
 
   chamas.p1.update();
   chamas.p2.update();
