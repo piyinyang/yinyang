@@ -56,6 +56,7 @@ var barreira1;
 var barreira1open = false;
 var barreira2;
 var barreira2open = false;
+var JailDoor;
 
 var ChaveAmarela;
 var possuiChaveAmarela = false;
@@ -75,6 +76,7 @@ var slimeatk; // som do slime atacando
 var jumping; // som do player pulando
 var landing; // som do player caindo no chao
 var portalsound;
+var JailDoorOpen;
 
 //Variavel do lança-chamas
 var chamas = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: null, p8: null, p9: null, p10: null, p11: null, p12: null, p13: null, p14: null, p15: null, p16: null, p17: null, p18: null, p19: null};
@@ -139,8 +141,10 @@ GameScene.preload = function() {
   this.load.spritesheet("barreira2open", "assets/ambiente/OpeningBarrier2.png", {frameWidth: 32, frameHeight: 32});
   this.load.spritesheet("barreira2idle", "assets/ambiente/IdleBarrier2.png", {frameWidth: 32, frameHeight: 32});
   // ASSETS DA CHAVE AZUL
-  this.load.spritesheet("chaveazu", "assets/ambiente/chaveazul.png", {frameWidth: 32, frameHeight: 32});
-
+  this.load.spritesheet("chaveazul", "assets/ambiente/chaveazul.png", {frameWidth: 32, frameHeight: 32});
+  
+  //ASSET DA JAILDOOR
+  this.load.spritesheet("jaildoor", "assets/ambiente/jaildoor.png", {frameWidth: 200, frameHeight: 200});
 
 
   //Assets do Jogador Yin
@@ -186,6 +190,10 @@ GameScene.preload = function() {
   this.load.audio("jumping", "assets/sounds/sfx/movement/jump1.mp3");
   this.load.audio("landing", "assets/sounds/sfx/movement/landing1.mp3");
   this.load.audio("portalsound", "assets/sounds/sfx/SFX_Portal.mp3");
+  this.load.audio("JaildoorOpeningSound", "assets/sounds/sfx/SFX_PortaDeCela.mp3");
+  this.load.audio("JumperSound", "assets/sounds/sfx/SFX_Trampolim.mp3");
+  this.load.audio("BossGateSound", "assets/sounds/sfx/SFX_PortãoChef.mp3");
+
 
 
 
@@ -209,6 +217,7 @@ GameScene.create = function() {
   jumping = this.sound.add("jumping");
   landing = this.sound.add("landing");
   portalsound = this.sound.add("portalsound");
+  JailDoorOpen = this.sound.add("JaildoorOpeningSound");
 
   //toca musica em loop
   song.play({
@@ -305,8 +314,15 @@ GameScene.create = function() {
     ChaveAzul.setCollideWorldBounds(true);
     ChaveAzul.setImmovable(true);
 
+    // CRIACAO DA JAILDOOR
+    JailDoor = this.physics.add.sprite(2703, 1011, "jaildoor");
+    JailDoor.setScale(0.5).setSize(40, 160).setOffset(40, 40);
+    JailDoor.setBounce(0);
+    JailDoor.setCollideWorldBounds(true);
+    JailDoor.setImmovable(true);
+
   // CRIACAO DO JOGADOR 1
-  player = this.physics.add.sprite(2800, 2100, "yin");
+  player = this.physics.add.sprite(2620, 1031, "yin");
   player.setSize(13, 25, true).setOffset(18, 10);
   player.setBounce(0);
   player.setCollideWorldBounds(true);
@@ -398,6 +414,13 @@ GameScene.create = function() {
   this.physics.add.collider(player, barreira2, Barreira2OPEN, null, this);
   this.physics.add.collider(player2, barreira1, Barreira1OPEN2, null, this);
   this.physics.add.collider(player2, barreira2, Barreira2OPEN2, null, this);
+  // JAILDOOR
+  this.physics.add.collider(JailDoor, topLayer);
+  this.physics.add.collider(JailDoor, topLayer2);
+  this.physics.add.collider(player, JailDoor, OpenJailDoor1, null, this);
+  this.physics.add.collider(player2, JailDoor, OpenJailDoor2, null, this);
+
+
   // CHAVES
   this.physics.add.collider(ChaveAmarela, topLayer);
   this.physics.add.collider(ChaveAmarela, topLayer2);
@@ -407,8 +430,6 @@ GameScene.create = function() {
   this.physics.add.overlap(player2, ChaveAmarela, ColetarChaveAM2, null, this);
   this.physics.add.overlap(player, ChaveAzul, ColetarChaveAZ1, null, this);
   this.physics.add.overlap(player2, ChaveAzul, ColetarChaveAZ2, null, this);
-
-
   // PORTAIS
   this.physics.add.collider(portal1, topLayer);
   this.physics.add.collider(portal1, topLayer2);
@@ -671,6 +692,14 @@ GameScene.create = function() {
     repeat: -1
   });
 
+  // ANIMACAO DA JAILDOOR
+  this.anims.create({
+    key: "JailDoor_Opening",
+    frames: this.anims.generateFrameNumbers("jaildoor", {start:0, end: 8}),
+    frameRate: 7,
+    repeat: 0
+  });
+
 // FIM DO CREATE
 };
 
@@ -714,20 +743,33 @@ GameScene.update = function() {
   chamas.p16.update();
   chamas.p17.update();
 
+    // ANIMACAO DA JAILDOOR
+    if (JailDoor.anims.getCurrentKey() === "JailDoor_Opening" && JailDoor.anims.getProgress("JailDoor_Opening" < 1)){
+      JailDoor.disableBody();
+    }
+    else if(JailDoor.anims.getCurrentKey() === "JailDoor_Opening" && JailDoor.anims.getProgress("JailDoor_Opening" === 1)){
+      JailDoor.disableBody();
+    }
+
+    // ANIMACAO DA CHAVE AMARELA
+    if(ChaveAmarela.anims.getCurrentKey() != "ChaveAmarela" && possuiChaveAmarela === false){
+      ChaveAmarela.anims.play("ChaveAmarela", true);
+    }
+    // ANIMACAO DA CHAVE AZUL
+    if(ChaveAzul.anims.getCurrentKey() != "ChaveAzul" && possuiChaveAzul === false){
+      ChaveAzul.anims.play("ChaveAzul", true);
+    }
 
     // ANIMACAO DO PORTAL 1
-
     if(portal1.anims.getCurrentKey() != "portal1girando"){
       portal1.anims.play("portal1girando", true);
     }
     // ANIMACAO DO PORTAL 2
-
     if(portal2.anims.getCurrentKey() != "portal2girando"){
       portal2.anims.play("portal2girando", true);
     }
 
     // ANIMACAO DA BARREIRA 1
-
     if(barreira1.anims.getCurrentKey() === "barreira1open" && barreira1.anims.getProgress("barreira1open") === 1){
       barreira1.disableBody(true, true);
     }
@@ -738,7 +780,6 @@ GameScene.update = function() {
     }
 
     // ANIMACAO DA BARREIRA 2
-
     if(barreira2.anims.getCurrentKey() === "barreira2open" && barreira2.anims.getProgress("barreira2open") === 1){
       barreira2.disableBody(true, true);
     }
@@ -1455,4 +1496,22 @@ function ColetarChaveAZ1(player, ChaveAzul){
 function ColetarChaveAZ2(player2, ChaveAzul){
   possuiChaveAzul = true;
   ChaveAzul.disableBody(true, true);
+}
+
+// FUNCOES DE ABERTURA DA JAILDOOR
+function OpenJailDoor1(player, JailDoor){
+  if(JailDoor.anims.getCurrentKey() != "JailDoor_Opening"){
+    JailDoor.anims.play("JailDoor_Opening", true);
+  }
+  if(!JailDoorOpen.isPlaying){
+    JailDoorOpen.play();
+  }
+}
+function OpenJailDoor2(player2, JailDoor){
+  if(JailDoor.anims.getCurrentKey() != "JailDoor_Opening"){
+    JailDoor.anims.play("JailDoor_Opening", true);
+  }
+  if(!JailDoorOpen.isPlaying){
+    JailDoorOpen.play();
+  }
 }
