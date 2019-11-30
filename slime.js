@@ -1,4 +1,4 @@
-import { GameScene, topLayer, topLayer2, topLayer3, player, player2, slimeatk, playerPosition, player2Position} from "./GameScene.js";
+import { GameScene, topLayer, topLayer2, player, player2, slimeatk, playerPosition, player2Position} from "./GameScene.js";
 export { Slime };
 
 export default class Slime {
@@ -50,7 +50,6 @@ export default class Slime {
   
   scene.physics.add.collider(this.sprite, topLayer);
   scene.physics.add.collider(this.sprite, topLayer2);
-  scene.physics.add.collider(this.sprite, topLayer3);
   
   scene.physics.add.overlap(player, this.sprite, this.hitSlime, null, this);
   scene.physics.add.overlap(player2, this.sprite, this.hitSlime2, null, this);
