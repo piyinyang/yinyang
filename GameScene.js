@@ -422,6 +422,7 @@ GameScene.create = function() {
   // CRIACAO DOS BOSSES DEMONS
 
   demon.p1 = new Demon(this, 3400, 3319, 3300);
+  demon.p2 = new Demon(this, 640, 2500, 640);
 
 
   // ADICAO DO TECLADO
