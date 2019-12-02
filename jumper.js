@@ -61,6 +61,22 @@ export default class Jumper {
             else if (player.body.touching.down && this.sprite.body.touching.up){
                 this.sprite.anims.play("descendo");
             }
+            if(player2.body.touching.down && this.sprite.body.touching.up && this.sprite.anims.getCurrentKey() === "subindo" && this.sprite.anims.getProgress("subindo") === 1){
+              player2.setVelocityY(this.velocidade);
+              this.sprite.anims.play("recarga2");
+            }
+            else if(player2.body.touching.down && this.sprite.body.touching.up && this.sprite.anims.getCurrentKey() === "subindo" && this.sprite.anims.getProgress("subindo") < 1){ 
+            }
+
+            else if(player2.body.touching.down && this.sprite.body.touching.up && this.sprite.anims.getCurrentKey() === "descendo" && this.sprite.anims.getProgress("descendo") === 1){
+            this.sprite.anims.play("subindo");
+            }
+            else if(player2.body.touching.down && this.sprite.body.touching.up && this.sprite.anims.getCurrentKey() === "descendo" && this.sprite.anims.getProgress("descendo") < 1){
+            }
+
+            else if (player2.body.touching.down && this.sprite.body.touching.up){
+              this.sprite.anims.play("descendo");
+            }
     }
 // FIM DA CLASSE
 }
