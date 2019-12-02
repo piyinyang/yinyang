@@ -1,4 +1,4 @@
-import { GameScene, topLayer, topLayer2, player, player2, slimeatk, playerPosition, player2Position} from "./GameScene.js";
+import { GameScene, topLayer, topLayer2, player, player2, SoulCount, slimeatk, playerPosition, player2Position} from "./GameScene.js";
 export { Slime };
 
 export default class Slime {
@@ -9,6 +9,8 @@ export default class Slime {
         const anims = scene.anims;
         this.slimepoint = point;
         this.slimeposition = "left";
+        this.Life = { valor: 20 };
+
 
         //          ANIMACOES DO SLIME
 
@@ -37,7 +39,7 @@ export default class Slime {
   anims.create({
     key: 'slime-die',
     frames: anims.generateFrameNumbers('slimesheet', { start: 17, end: 20 }),
-    frameRate: 10
+    frameRate: 8
   });
 
   this.sprite = scene.physics.add.sprite( x, y, "slime0");
@@ -85,7 +87,17 @@ export default class Slime {
         this.slime_P2 = this.slimeX - this.player2X;
         this.slime_P2_Y = this.player2Y - this.slimeY;
 
-        if (
+        console.log(this.Life.valor);
+        if(this.sprite.anims.getCurrentKey() === "slime-die" && this.sprite.anims.getProgress("slime-die") === 1){
+          this.sprite.disableBody(true, true);
+        }
+        else if(this.sprite.anims.getCurrentKey() === "slime-die" && this.sprite.anims.getProgress("slime-die") < 1){
+          this.sprite.setVelocity(0, 0);
+        }
+        else if(this.Life.valor <= 0){
+          this.sprite.anims.play("slime-die");
+        }
+        else if (
           this.sprite.anims.getCurrentKey() === "slime-hurt" &&
           this.sprite.anims.getProgress("slime-hurt") < 1 && this.slimeposition === "right"
         ) {
@@ -239,11 +251,13 @@ hitSlime (player){
       player.setVelocityY(-100);
       player.anims.play('yin-hurt', true);
       slimeatk.play();
+      SoulCount.valor -= 1;
   } else if(this.sprite.anims.getCurrentKey() === 'slime-attack' && this.slimeposition === "right" && this.sprite.anims.getProgress('slime-attack') === 1){
       player.setVelocityX(125);
       player.setVelocityY(-100);
       player.anims.play('yin-hurt', true);
       slimeatk.play();
+      SoulCount.valor -= 1;
   }
 }
 hitSlime2 (player2){
@@ -254,35 +268,37 @@ hitSlime2 (player2){
       this.sprite.setVelocityY(-100);
       player2.setVelocityX(0);
       this.sprite.anims.play("slime-hurt", true);
+      this.Life.valor -= 1;
   } else if(player2.anims.getCurrentKey() === 'yang-attack1' && player2Position==="left"){
       this.sprite.setVelocityX(-150);
       this.sprite.setVelocityY(-100);
       player2.setVelocityX(0);
       this.sprite.anims.play("slime-hurt", true);
+      this.Life.valor -= 1;
   } else if(player2.anims.getCurrentKey() === 'yang-attack2' && player2Position==="right"){
       this.sprite.setVelocityX(150);
       this.sprite.setVelocityY(-100);
       player2.setVelocityX(0);
       this.sprite.anims.play("slime-hurt", true);
-
+      this.Life.valor -= 1;
   } else if(player2.anims.getCurrentKey() === 'yang-attack2' && player2Position==="left"){
       this.sprite.setVelocityX(-150);
       this.sprite.setVelocityY(-100);
       player2.setVelocityX(0);
       this.sprite.anims.play("slime-hurt", true);
-
+      this.Life.valor -= 1;
   } else if(player2.anims.getCurrentKey() === 'yang-attack3' && player2Position==="right"){
       this.sprite.setVelocityX(150);
       this.sprite.setVelocityY(-100);
       player2.setVelocityX(0);
       this.sprite.anims.play("slime-hurt", true);
-
+      this.Life.valor -= 1;
   } else if(player2.anims.getCurrentKey() === 'yang-attack3' && player2Position==="left"){
       this.sprite.setVelocityX(-150);
       this.sprite.setVelocityY(-100);
       player2.setVelocityX(0);
       this.sprite.anims.play("slime-hurt", true);
-
+      this.Life.valor -= 1;
   }
     //se o slime ataca o jogador, o jogador eh empurrado pra tras
     else if(this.sprite.anims.getCurrentKey() === 'slime-attack' && this.slimeposition === "left" && this.sprite.anims.getProgress('slime-attack') === 1){
@@ -290,11 +306,13 @@ hitSlime2 (player2){
       player2.setVelocityY(-100);
       player2.anims.play('yang-hurt', true);
       slimeatk.play();
+      SoulCount.valor -= 1;
   } else if(this.sprite.anims.getCurrentKey() === 'slime-attack' && this.slimeposition === "right" && this.sprite.anims.getProgress('slime-attack') === 1){
       player2.setVelocityX(125);
       player2.setVelocityY(-100);
       player2.anims.play('yang-hurt', true);
       slimeatk.play();
+      SoulCount.valor -= 1;
   }
 }
 

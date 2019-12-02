@@ -6,7 +6,7 @@ import {Jumper} from "./jumper.js";
 import {Portal} from "./portal.js";
 import {Demon} from "./demon.js";
 
-export { GameScene, spike, player, player2, slimeatk, playerPosition, player2Position, portalsound};
+export { GameScene, spike, player, player2, SoulCount, slimeatk, playerPosition, player2Position, portalsound};
 export { topLayer, topLayer2, topLayer3 }
 
 /*
@@ -36,6 +36,10 @@ var P2jump = false;
 var P2jumpdelay = 0;
 var player2Position = "right";
 var attackcombo2 = 0;
+
+// VARIAVEL DA VIDA
+var Soul;
+var SoulCount = { valor: 19 };
 
 // MONSTROS
 var slime = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: null};
@@ -82,8 +86,13 @@ var portalsound;
 var JailDoorOpen;
 
 //Variavel do lança-chamas
-var chamas = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: null, p8: null, p9: null, p10: null, p11: null, p12: null, p13: null, p14: null, p15: null, p16: null, p17: null, p18: null, p19: null};
-
+var chamas = {p1: null, p2: null, p3: null, p4: null,
+  p5: null, p6: null, p7: null, p8: null, p9: null,
+  p10: null, p11: null, p12: null, p13: null,
+  p14: null, p15: null, p16: null, p17: null,
+  p18: null, p19: null, p20:null, p21:null, p22:null,
+  p23:null, p24:null, p25:null, p26:null, p27:null,
+  p28:null, p29:null};
 //Variavel do jumper
 var jumper = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: null, p8: null, p9: null, p10: null, p11: null};
 
@@ -173,6 +182,10 @@ GameScene.preload = function() {
     frameWidth: 50,
     frameHeight: 37
   });
+
+  // ASSETS DA VIDA DO PERSONAGEM
+  this.load.spritesheet("soul", "assets/interface/VIDA(19hits).png", { frameWidth:  31, frameHeight: 31});
+
 
   //SPRITESHEET DO SLIME
   this.load.spritesheet('slimesheet', 'assets/slime/slime-Sheet.png', { frameWidth: 32, frameHeight: 25 });
@@ -294,10 +307,11 @@ GameScene.create = function() {
     barreira1.setImmovable(true);
 
     // CRIACAO DA CHAVE AMARELA
-    ChaveAmarela = this.physics.add.sprite(100, 100, "chaveamarela");
+    ChaveAmarela = this.physics.add.sprite(3700, 1520, "chaveamarela");
     ChaveAmarela.setBounce(0);
     ChaveAmarela.setCollideWorldBounds(true);
     ChaveAmarela.setImmovable(true);
+    ChaveAmarela.setSize(20,20);
 
     // CRIACAO DA BARREIRA 2
     barreira2 = this.physics.add.sprite(2735, 2100, "barreira2idle").setScale(1.5, 2);
@@ -306,11 +320,12 @@ GameScene.create = function() {
     barreira2.setCollideWorldBounds(true);
     barreira2.setImmovable(true);
 
-    // CRIACAO DA CHAVE AZUL 
-    ChaveAzul = this.physics.add.sprite(200, 200, "chaveazul");
+    // CRIACAO DA CHAVE AZUL
+    ChaveAzul = this.physics.add.sprite(3830, 1500, "chaveazul");
     ChaveAzul.setBounce(0);
     ChaveAzul.setCollideWorldBounds(true);
     ChaveAzul.setImmovable(true);
+    ChaveAzul.setSize(20,20);
 
     // CRIACAO DA JAILDOOR
     JailDoor = this.physics.add.sprite(2703, 1011, "jaildoor");
@@ -330,6 +345,11 @@ GameScene.create = function() {
   player2.setSize(13, 25, true).setOffset(18, 10);
   player2.setBounce(0);
   player2.setCollideWorldBounds(true);
+
+  Soul = this.add
+  .image(20, 20, "soul")
+  .setOrigin(0.5)
+  .setScrollFactor(0);
 
   // CRIACAO DOS PORTAIS
   portal.p1 = new Portal(this, 2825, 1927, 96, 3616, 1);
@@ -358,6 +378,17 @@ GameScene.create = function() {
   chamas.p15 = new Lancachamas(this, 1720, 2245, 0);
   chamas.p16 = new Lancachamas(this, 1992, 2071, 5100);
   chamas.p17 = new Lancachamas(this, 2008, 2071, 5100);
+  chamas.p18 = new Lancachamas(this, 2568, 1351, 0);
+  chamas.p19 = new Lancachamas(this, 2568, 1551, 0);
+  chamas.p20 = new Lancachamas(this, 3368, 1123, 0);
+  chamas.p21 = new Lancachamas(this, 3864, 1170, 0);
+  chamas.p22 = new Lancachamas(this, 3704, 1170, 0);
+  chamas.p23 = new Lancachamas(this, 824, 2995, 0);
+  chamas.p24 = new Lancachamas(this, 760, 2960, 5100);
+  chamas.p25 = new Lancachamas(this, 488, 2960, 0);
+  chamas.p26 = new Lancachamas(this, 200, 3055, 5100);
+  chamas.p27 = new Lancachamas(this, 88, 3055, 5100);
+
 
   // CRIACAO DOS JUMPERS
 
@@ -445,18 +476,18 @@ GameScene.create = function() {
   this.physics.add.overlap(player, spike, hitSpike, null, this);
   this.physics.add.overlap(player2, spike, hitSpike2, null, this);
 
-
+  // VIDA
 
   
   // SISTEMA DE CAMERAS
   
-  this.cameras.main.setBounds(0, 0, 4096, 4096); //limites da camera
-  this.physics.world.setBounds(0, 0, 4096, 4096); //limites do mundo
+this.cameras.main.setBounds(0, 0, 4096, 4096).setSize(800, 300); //limites da camera
+this.physics.world.setBounds(0, 0, 4096, 4096); //limites do mundo
 
-  this.cameras.main.startFollow(player, true, 0.5, 0.5);
-  this.cameras.main.setZoom(1.5);
+this.cameras.main.startFollow(player2, true, 0.5, 0.5);
+this.cameras.add(0, 300, 800, 300).startFollow(player, true, 0.5, 0.5).setBounds(0, 300, 4096, 4096);
 
-  if (this.cameras.main.deadzone) {
+  /*if (this.cameras.main.deadzone) {
     graphics = this.add.graphics().setScrollFactor(0);
     graphics.strokeRect(
       200,
@@ -464,7 +495,7 @@ GameScene.create = function() {
       this.cameras.main.deadzone.width,
       this.cameras.main.deadzone.height
     );
-  }
+  }*/
   
   // CODIGO PARA IMPLEMENTAR FULLSCREEN
   
@@ -713,6 +744,7 @@ GameScene.update = function() {
   skeleton.p1.update();
 
   demon.p1.update();
+  demon.p2.update();
 
   chamas.p1.update();
   chamas.p2.update();
@@ -731,6 +763,16 @@ GameScene.update = function() {
   chamas.p15.update();
   chamas.p16.update();
   chamas.p17.update();
+  chamas.p18.update();
+  chamas.p19.update();
+  chamas.p20.update();
+  chamas.p21.update();
+  chamas.p22.update();
+  chamas.p23.update();
+  chamas.p24.update();
+  chamas.p25.update();
+  chamas.p26.update();
+  chamas.p27.update();
 
   portal.p1.update();
   portal.p2.update();
@@ -738,7 +780,20 @@ GameScene.update = function() {
   portal.p4.update();
   portal.p5.update();
 
+    // GAMEOVER
+    if (gameOver === true) {
+      song.stop();
+      this.scene.start(gameover);
+    }  
 
+    // VIDA
+    if (SoulCount.valor > 0 && SoulCount.valor <= 19){
+      Soul.setFrame(SoulCount.valor)
+    }
+    else if(SoulCount.valor === 0){
+      gameOver = true;
+    }
+    
     // ANIMACAO DA JAILDOOR
     if (JailDoor.anims.getCurrentKey() === "JailDoor_Opening" && JailDoor.anims.getProgress("JailDoor_Opening" < 1)){
       JailDoor.disableBody();
@@ -867,7 +922,7 @@ GameScene.update = function() {
   ) {
     player.anims.play("yin-idle", true);
   }
-
+  
 
   //          CONDICOES PARA EXECUTAR ACOES
 
@@ -1400,10 +1455,6 @@ function hitSpike(player, spike) {
   player.anims.play("yin-idle");
 
   gameOver = true;
-  if (gameOver === true) {
-    song.stop();
-    this.scene.start(gameover);
-  }
 };
 
 function hitSpike2(player2, spike) {
@@ -1414,10 +1465,6 @@ function hitSpike2(player2, spike) {
   player2.anims.play("yang-idle");
 
   gameOver = true;
-  if (gameOver === true) {
-    song.stop();
-    this.scene.start(gameover);
-  }
 };
 
 function Barreira1OPEN(player, barreira1){
