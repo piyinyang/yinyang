@@ -65,13 +65,6 @@ export default class Slime {
   
     
   update() {
-    /*if(this.scene.physics.closest(this.sprite, [player, player2]) === player){
-      console.log("JOGADOR MAIS PROXIMO: PLAYER1");
-    }
-    else if(this.scene.physics.closest(this.sprite, [player, player2]) === player2){
-      console.log("JOGADOR MAIS PROXIMO: PLAYER 2");
-    }*/
-    //console.log(this.scene.physics.closest(this.sprite, [player]));
 
     // VARIAVEIS 
   
@@ -87,7 +80,6 @@ export default class Slime {
         this.slime_P2 = this.slimeX - this.player2X;
         this.slime_P2_Y = this.player2Y - this.slimeY;
 
-        console.log(this.Life.valor);
         if(this.sprite.anims.getCurrentKey() === "slime-die" && this.sprite.anims.getProgress("slime-die") === 1){
           this.sprite.disableBody(true, true);
         }
@@ -215,35 +207,37 @@ hitSlime (player){
       this.sprite.setVelocityY(-100);
       player.setVelocityX(0);
       this.sprite.anims.play("slime-hurt", true);
+      this.Life.valor -= 1;
   } else if(player.anims.getCurrentKey() === 'yin-attack1' && playerPosition==="left"){
       this.sprite.setVelocityX(-150);
       this.sprite.setVelocityY(-100);
       player.setVelocityX(0);
       this.sprite.anims.play("slime-hurt", true);
+      this.Life.valor -= 1;
   } else if(player.anims.getCurrentKey() === 'yin-attack2' && playerPosition==="right"){
       this.sprite.setVelocityX(150);
       this.sprite.setVelocityY(-100);
       player.setVelocityX(0);
       this.sprite.anims.play("slime-hurt", true);
-
+      this.Life.valor -= 1;
   } else if(player.anims.getCurrentKey() === 'yin-attack2' && playerPosition==="left"){
       this.sprite.setVelocityX(-150);
       this.sprite.setVelocityY(-100);
       player.setVelocityX(0);
       this.sprite.anims.play("slime-hurt", true);
-
+      this.Life.valor -= 1;
   } else if(player.anims.getCurrentKey() === 'yin-attack3' && playerPosition==="right"){
       this.sprite.setVelocityX(150);
       this.sprite.setVelocityY(-100);
       player.setVelocityX(0);
       this.sprite.anims.play("slime-hurt", true);
-
+      this.Life.valor -= 1;
   } else if(player.anims.getCurrentKey() === 'yin-attack3' && playerPosition==="left"){
       this.sprite.setVelocityX(-150);
       this.sprite.setVelocityY(-100);
       player.setVelocityX(0);
       this.sprite.anims.play("slime-hurt", true);
-
+      this.Life.valor -= 1;
   }
     //se o slime ataca o jogador, o jogador eh empurrado pra tras
     else if(this.sprite.anims.getCurrentKey() === 'slime-attack' && this.slimeposition === "left" && this.sprite.anims.getProgress('slime-attack') === 1){

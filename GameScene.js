@@ -39,12 +39,26 @@ var attackcombo2 = 0;
 
 // VARIAVEL DA VIDA
 var Soul;
-var SoulCount = { valor: 19 };
+var SoulCount = { valor: 190 };
 
 // MONSTROS
-var slime = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: null};
-var skeleton = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: null};
-var demon = {p1: null, p2: null};
+var slime = {p1: null, p2: null, p3: null, p4: null,
+  p5: null, p6: null, p7: null, p8: null, p9: null,
+  p10: null, p11: null, p12: null, p13: null,
+  p14: null, p15: null, p16: null, p17: null,
+  p18: null, p19: null, p20:null, p21:null, p22:null,
+  p23:null, p24:null, p25:null, p26:null, p27:null,
+  p28:null, p29:null, p30:null, p31:null, p32:null, p33:null, p34:null, p35:null};
+  
+  var skeleton = {p1: null, p2: null, p3: null, p4: null,
+  p5: null, p6: null, p7: null, p8: null, p9: null,
+  p10: null, p11: null, p12: null, p13: null,
+  p14: null, p15: null, p16: null, p17: null,
+  p18: null, p19: null, p20:null, p21:null, p22:null,
+  p23:null, p24:null, p25:null, p26:null, p27:null,
+  p28:null, p29:null, p30:null, p31:null, p32:null, p33:null, p34:null, p35:null};
+  
+  var demon = {p1: null, p2: null};
 
 var cursors; //variavel das setas do teclado
 var keyW;
@@ -92,9 +106,10 @@ var chamas = {p1: null, p2: null, p3: null, p4: null,
   p14: null, p15: null, p16: null, p17: null,
   p18: null, p19: null, p20:null, p21:null, p22:null,
   p23:null, p24:null, p25:null, p26:null, p27:null,
-  p28:null, p29:null};
-//Variavel do jumper
-var jumper = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: null, p8: null, p9: null, p10: null, p11: null};
+  p28:null, p29:null, p30:null, p31:null, p32:null, p33:null, p34:null, p35:null};
+  //Variavel do jumper
+  var jumper = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: null,
+  p8: null, p9: null, p10: null, p11: null, p12:null};
 
 
 var topLayer;
@@ -184,7 +199,7 @@ GameScene.preload = function() {
   });
 
   // ASSETS DA VIDA DO PERSONAGEM
-  this.load.spritesheet("soul", "assets/interface/VIDA(19hits).png", { frameWidth:  31, frameHeight: 31});
+  this.load.spritesheet("soul", "assets/interface/VIDA(190hits).png", { frameWidth:  31, frameHeight: 31});
 
 
   //SPRITESHEET DO SLIME
@@ -296,7 +311,6 @@ GameScene.create = function() {
     topLayer5 = map.createStaticLayer("topLayerCastle1", [terrain5]);
     topLayer6 = map.createStaticLayer("topLayerCastle2", [terrain6]);
     topLayer7 = map.createStaticLayer("topLayerCastle3", [terrain7]);
-    topLayer8 = map.createStaticLayer("LayerSecreto", [terrain8]);
     topLayer9 = map.createStaticLayer("EasterEgg", [terrain9]);
 
     // CRIACAO DA BARREIRA 1
@@ -346,6 +360,8 @@ GameScene.create = function() {
   player2.setBounce(0);
   player2.setCollideWorldBounds(true);
 
+  topLayer8 = map.createStaticLayer("LayerSecreto", [terrain8]);
+
   Soul = this.add
   .image(20, 20, "soul")
   .setOrigin(0.5)
@@ -360,7 +376,6 @@ GameScene.create = function() {
 
 
   // CRIAÇAO DOS LANÇA-CHAMAS
-
   chamas.p1 = new Lancachamas(this, 1624, 1120, 0);
   chamas.p2 = new Lancachamas(this, 1608, 1120, 0);
   chamas.p3 = new Lancachamas(this, 1480, 1476, 0);
@@ -388,10 +403,15 @@ GameScene.create = function() {
   chamas.p25 = new Lancachamas(this, 488, 2960, 0);
   chamas.p26 = new Lancachamas(this, 200, 3055, 5100);
   chamas.p27 = new Lancachamas(this, 88, 3055, 5100);
-
-
+  chamas.p28 = new Lancachamas(this, 2984, 3105, 0);
+  chamas.p29 = new Lancachamas(this, 2984, 3125, 5100);
+  chamas.p30 = new Lancachamas(this, 3304, 3125, 5100);
+  chamas.p31 = new Lancachamas(this, 3304, 3105, 0);
+  chamas.p32 = new Lancachamas(this, 3592, 3335, 0);
+  chamas.p33 = new Lancachamas(this, 3592, 3115, 5100);
+  
   // CRIACAO DOS JUMPERS
-
+  
   jumper.p1 = new Jumper(this, 496, 1815, -900);
   jumper.p2 = new Jumper(this, 624, 1527, -900);
   jumper.p3 = new Jumper(this, 1136, 2183, -900);
@@ -403,25 +423,60 @@ GameScene.create = function() {
   jumper.p9 = new Jumper(this, 2240, 3655, -1200);
   jumper.p10 = new Jumper(this, 1328, 3335, -1200);
   jumper.p11 = new Jumper(this, 1584, 3655, -1200);
-
-
+  jumper.p12 = new Jumper(this, 3889, 3330, -1200);
   
-
-
   // CRIACAO DOS SLIMES
-
+  
   slime.p1 = new Slime(this, 400, 350, 400);
-  //slime.p2 = new Slime(this, 800, 350, 800);
-  //slime.p3 = new Slime(this, 1200, 350, 1200);
-  //slime.p4 = new Slime(this, 1600, 350, 1600);
-
+  slime.p2 = new Slime(this, 800, 350, 800);
+  slime.p3 = new Slime(this, 1200, 350, 1200);
+  slime.p4 = new Slime(this, 3144, 3150, 3144);
+  slime.p5 = new Slime(this, 3466, 3310, 1466);
+  slime.p6 = new Slime(this, 0, 0, 0);
+  slime.p7 = new Slime(this, 0, 0, 0);
+  slime.p8 = new Slime(this, 0, 0, 0);
+  slime.p9 = new Slime(this, 0, 0, 0);
+  slime.p10 = new Slime(this, 0, 0, 0);
+  slime.p11 = new Slime(this, 0, 0, 0);
+  slime.p12 = new Slime(this, 0, 0, 0);
+  slime.p13 = new Slime(this, 0, 0, 0);
+  slime.p14 = new Slime(this, 0, 0, 0);
+  slime.p15 = new Slime(this, 0, 0, 0);
+  slime.p16 = new Slime(this, 0, 0, 0);
+  slime.p17 = new Slime(this, 0, 0, 0);
+  slime.p18 = new Slime(this, 0, 0, 0);
+  slime.p19 = new Slime(this, 0, 0, 0);
+  slime.p20 = new Slime(this, 0, 0, 0);
+  slime.p21 = new Slime(this, 0, 0, 0);
+  slime.p22 = new Slime(this, 0, 0, 0);
+  
   // CRIACAO DOS SKELETONS
-
+  
   skeleton.p1 = new Skeleton(this, 350, 1700, 350);
-
+  skeleton.p2 = new Skeleton(this, 3142, 3310, 3142);
+  skeleton.p3 = new Skeleton(this, 3467, 3150, 3467);
+  skeleton.p4 = new Skeleton(this, 0, 0, 0);
+  skeleton.p5 = new Skeleton(this, 0, 0, 0);
+  skeleton.p6 = new Skeleton(this, 0, 0, 0);
+  skeleton.p7 = new Skeleton(this, 0, 0, 0);
+  skeleton.p8 = new Skeleton(this, 0, 0, 0);
+  skeleton.p9 = new Skeleton(this, 0, 0, 0);
+  skeleton.p10 = new Skeleton(this, 0, 0, 0);
+  skeleton.p11 = new Skeleton(this, 0, 0, 0);
+  skeleton.p12 = new Skeleton(this, 0, 0, 0);
+  skeleton.p13 = new Skeleton(this, 0, 0, 0);
+  skeleton.p14 = new Skeleton(this, 0, 0, 0);
+  skeleton.p15 = new Skeleton(this, 0, 0, 0);
+  skeleton.p16 = new Skeleton(this, 0, 0, 0);
+  skeleton.p17 = new Skeleton(this, 0, 0, 0);
+  skeleton.p18 = new Skeleton(this, 0, 0, 0);
+  skeleton.p19 = new Skeleton(this, 0, 0, 0);
+  skeleton.p20 = new Skeleton(this, 0, 0, 0);
+  skeleton.p21 = new Skeleton(this, 0, 0, 0);
+  
   // CRIACAO DOS BOSSES DEMONS
-
-  demon.p1 = new Demon(this, 3400, 3319, 3300);
+  
+  demon.p1 = new Demon(this, 3400, 2950, 3300);
   demon.p2 = new Demon(this, 640, 2500, 640);
 
 
@@ -725,55 +780,123 @@ this.cameras.add(0, 300, 800, 300).startFollow(player, true, 0.5, 0.5).setBounds
 // A FUNCAO UPDATE EH A QUE FAZ O JOGO ACONTECER, ELA SE REPETE INFINITAMENTE VÃRIAS VEZES POR SEGUNDO
 GameScene.update = function() {
 
-  jumper.p1.update();
-  jumper.p2.update();
-  jumper.p3.update();
-  jumper.p4.update();
-  jumper.p5.update();
-  jumper.p6.update();
-  jumper.p7.update();
-  jumper.p8.update();
-  jumper.p9.update();
-  jumper.p10.update();
-  jumper.p11.update();
-  
-  slime.p1.update();
-  //slime.p2.update();
-  //slime.p3.update();
-  //slime.p4.update();
+jumper.p1.update();
+jumper.p2.update();
+jumper.p3.update();
+jumper.p4.update();
+jumper.p5.update();
+jumper.p6.update();
+jumper.p7.update();
+jumper.p8.update();
+jumper.p9.update();
+jumper.p10.update();
+jumper.p11.update();
+jumper.p12.update();
 
-  skeleton.p1.update();
+slime.p1.update();
+slime.p2.update();
+slime.p3.update();
+slime.p4.update();
+slime.p5.update();
+slime.p6.update();
+slime.p7.update();
+slime.p8.update();
+slime.p9.update();
+slime.p10.update();
+slime.p11.update();
+slime.p12.update();
+slime.p13.update();
+slime.p14.update();
+slime.p15.update();
+slime.p16.update();
+slime.p17.update();
+slime.p18.update();
+slime.p19.update();
+slime.p20.update();
+slime.p21.update();
+slime.p22.update();
+/*slime.p23.update();
+slime.p24.update();
+slime.p25.update();
+slime.p26.update();
+slime.p27.update();
+slime.p28.update();
+slime.p29.update();
+slime.p30.update();
+slime.p31.update();
+slime.p32.update();
+slime.p33.update();*/
 
-  demon.p1.update();
-  demon.p2.update();
+skeleton.p1.update();
+skeleton.p2.update();
+skeleton.p3.update();
+skeleton.p4.update();
+skeleton.p5.update();
+skeleton.p6.update();
+skeleton.p7.update();
+skeleton.p8.update();
+skeleton.p9.update();
+skeleton.p10.update();
+skeleton.p11.update();
+skeleton.p12.update();
+skeleton.p13.update();
+skeleton.p14.update();
+skeleton.p15.update();
+skeleton.p16.update();
+skeleton.p17.update();
+skeleton.p18.update();
+skeleton.p19.update();
+skeleton.p20.update();
+skeleton.p21.update();
+/*skeleton.p22.update();
+skeleton.p23.update();
+skeleton.p24.update();
+skeleton.p25.update();
+skeleton.p26.update();
+skeleton.p27.update();
+skeleton.p28.update();
+skeleton.p29.update();
+skeleton.p30.update();
+skeleton.p31.update();
+skeleton.p32.update();
+skeleton.p33.update();*/
 
-  chamas.p1.update();
-  chamas.p2.update();
-  chamas.p3.update();
-  chamas.p4.update();
-  chamas.p5.update();
-  chamas.p6.update();
-  chamas.p7.update();
-  chamas.p8.update();
-  chamas.p9.update();
-  chamas.p10.update();
-  chamas.p11.update();
-  chamas.p12.update();
-  chamas.p13.update();
-  chamas.p14.update();
-  chamas.p15.update();
-  chamas.p16.update();
-  chamas.p17.update();
-  chamas.p18.update();
-  chamas.p19.update();
-  chamas.p20.update();
-  chamas.p21.update();
-  chamas.p22.update();
-  chamas.p23.update();
-  chamas.p24.update();
-  chamas.p25.update();
-  chamas.p26.update();
-  chamas.p27.update();
+demon.p1.update();
+demon.p2.update();
+
+chamas.p1.update();
+chamas.p2.update();
+chamas.p3.update();
+chamas.p4.update();
+chamas.p5.update();
+chamas.p6.update();
+chamas.p7.update();
+chamas.p8.update();
+chamas.p9.update();
+chamas.p10.update();
+chamas.p11.update();
+chamas.p12.update();
+chamas.p13.update();
+chamas.p14.update();
+chamas.p15.update();
+chamas.p16.update();
+chamas.p17.update();
+chamas.p18.update();
+chamas.p19.update();
+chamas.p20.update();
+chamas.p21.update();
+chamas.p22.update();
+chamas.p23.update();
+chamas.p24.update();
+chamas.p25.update();
+chamas.p26.update();
+chamas.p27.update();
+chamas.p28.update();
+chamas.p29.update();
+chamas.p30.update();
+chamas.p31.update();
+chamas.p32.update();
+chamas.p33.update();
 
   portal.p1.update();
   portal.p2.update();
@@ -788,7 +911,7 @@ GameScene.update = function() {
     }  
 
     // VIDA
-    if (SoulCount.valor > 0 && SoulCount.valor <= 19){
+    if (SoulCount.valor > 0 && SoulCount.valor <= 190){
       Soul.setFrame(SoulCount.valor)
     }
     else if(SoulCount.valor === 0){
