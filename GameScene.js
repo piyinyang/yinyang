@@ -77,7 +77,7 @@ var barreira1open = false;
 var barreira2;
 var barreira2open = false;
 var JailDoor;
-var portal = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: null};
+var portal = {p1: null, p2: null, p3: null, p4: null, p5: null, p6: null, p7: null, p8:null};
 
 var ChaveAmarela;
 var possuiChaveAmarela = false;
@@ -349,13 +349,13 @@ GameScene.create = function() {
     JailDoor.setImmovable(true);
 
   // CRIACAO DO JOGADOR 1
-  player = this.physics.add.sprite(1300, 1924, "yin");
+  player = this.physics.add.sprite(350, 350, "yin");
   player.setSize(13, 25, true).setOffset(18, 10);
   player.setBounce(0);
   player.setCollideWorldBounds(true);
 
   // CRIACAO DO JOGADOR 2
-  player2 = this.physics.add.sprite(2570, 1000, "yang");
+  player2 = this.physics.add.sprite(350, 350, "yang");
   player2.setSize(13, 25, true).setOffset(18, 10);
   player2.setBounce(0);
   player2.setCollideWorldBounds(true);
@@ -373,6 +373,9 @@ GameScene.create = function() {
   portal.p4 = new Portal(this, 2330, 1924, 1307, 1443, 3);
   portal.p5 = new Portal(this, 1257, 2167, 1744, 2573, 3);
   portal.p6 = new Portal(this, 2051, 2599, 1307, 1443, 3);
+  portal.p7 = new Portal(this, 860, 2480, 1307, 1443, 3);
+  portal.p8 = new Portal(this, 2938, 2910, 1307, 1443, 3);
+
  
   // CRIAÇAO DOS LANÇA-CHAMAS
 
@@ -530,19 +533,9 @@ GameScene.create = function() {
 this.cameras.main.setBounds(0, 0, 4096, 4096).setSize(800, 300); //limites da camera
 this.physics.world.setBounds(0, 0, 4096, 4096); //limites do mundo
 
-this.cameras.main.startFollow(player2, true, 0.5, 0.5);
-this.cameras.add(0, 300, 800, 300).startFollow(player, true, 0.5, 0.5).setBounds(0, 300, 4096, 4096);
+this.cameras.main.startFollow(player, true, 0.5, 0.5);
+this.cameras.add(0, 300, 800, 300).startFollow(player2, true, 0.5, 0.5).setBounds(0, 150, 4096, 4096);
 
-  /*if (this.cameras.main.deadzone) {
-    graphics = this.add.graphics().setScrollFactor(0);
-    graphics.strokeRect(
-      200,
-      200,
-      this.cameras.main.deadzone.width,
-      this.cameras.main.deadzone.height
-    );
-  }*/
-  
   // CODIGO PARA IMPLEMENTAR FULLSCREEN
   
   button = this.add
@@ -873,6 +866,8 @@ chamas.p34.update();
   portal.p4.update();
   portal.p5.update();
   portal.p6.update();
+  portal.p7.update();
+  portal.p8.update();
 
     // GAMEOVER
     if (gameOver === true) {
