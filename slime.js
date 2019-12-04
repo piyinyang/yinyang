@@ -200,7 +200,7 @@ export default class Slime {
 
 hitSlime (player){
 
-  
+  if(player.anims.getCurrentKey() != "yin-die"){
   //se o jogador ataca o slime, o slime eh jogado um pouco pra tras. 
   if(player.anims.getCurrentKey() === 'yin-attack1' && playerPosition==="right"){
       this.sprite.setVelocityX(150);
@@ -253,9 +253,12 @@ hitSlime (player){
       slimeatk.play();
       SoulCount.valor -= 5;
   }
+  }
 }
 hitSlime2 (player2){
   
+
+  if(player2.anims.getCurrentKey() != "yang-die"){
   //se o jogador ataca o slime, o slime eh jogado um pouco pra tras. 
   if(player2.anims.getCurrentKey() === 'yang-attack1' && player2Position==="right"){
       this.sprite.setVelocityX(150);
@@ -307,6 +310,7 @@ hitSlime2 (player2){
       player2.anims.play('yang-hurt', true);
       slimeatk.play();
       SoulCount.valor -= 5;
+  }
   }
 }
 

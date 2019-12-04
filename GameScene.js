@@ -375,7 +375,6 @@ GameScene.create = function() {
   portal.p6 = new Portal(this, 2051, 2599, 1307, 1443, 3);
   portal.p7 = new Portal(this, 860, 2480, 1307, 1443, 3);
   portal.p8 = new Portal(this, 2938, 2910, 1307, 1443, 3);
-
  
   // CRIAÇAO DOS LANÇA-CHAMAS
 
@@ -535,29 +534,8 @@ this.physics.world.setBounds(0, 0, 4096, 4096); //limites do mundo
 
 this.cameras.main.startFollow(player, true, 0.5, 0.5);
 this.cameras.add(0, 300, 800, 300).startFollow(player2, true, 0.5, 0.5).setBounds(0, 150, 4096, 4096);
-
-  // CODIGO PARA IMPLEMENTAR FULLSCREEN
   
-  button = this.add
-    .image()
-    .setOrigin(1, 0)
-    .setInteractive();
-
-  button.on(
-    "pointerup",
-    function() {
-      if (this.scale.isFullscreen) {
-        button.setFrame(0);
-
-        this.scale.stopFullscreen();
-      } else {
-        button.setFrame(1);
-
-        this.scale.startFullscreen();
-      }
-    },
-    this
-  );
+  // CODIGO PARA IMPLEMENTAR FULLSCREEN
 
   var FKey = this.input.keyboard.addKey("F");
 
@@ -565,10 +543,8 @@ this.cameras.add(0, 300, 800, 300).startFollow(player2, true, 0.5, 0.5).setBound
     "down",
     function() {
       if (this.scale.isFullscreen) {
-        button.setFrame(0);
         this.scale.stopFullscreen();
       } else {
-        button.setFrame(1);
         this.scale.startFullscreen();
       }
     },
@@ -869,13 +845,14 @@ chamas.p34.update();
   portal.p7.update();
   portal.p8.update();
 
+
     // GAMEOVER
     if (gameOver === true) {
       song.stop();
       if(player.anims.getCurrentKey() != "yin-die"){
       player.anims.play("yin-die");
       }
-      if(player.anims.getCurrentKey() != "yang-die"){
+      if(player2.anims.getCurrentKey() != "yang-die"){
       player2.anims.play("yang-die");
       }
     }  
@@ -929,7 +906,7 @@ chamas.p34.update();
     //          PLAYER 1 ANIMATIONS
 
     if (keyP.isDown) {
-      console.log(player.body.position.x, player.body.position.y);
+      console.log(player.body.position.x, player.body.position.y, BossesMortos.valor);
     }
 
     if (P1jump === true){
@@ -945,6 +922,7 @@ chamas.p34.update();
       player.anims.getCurrentKey() === "yin-die" &&
       player.anims.getProgress("yin-die") < 1
     ) {
+        player.setVelocity(0, 0);
     } else if (
       player.anims.getCurrentKey() === "yin-die" &&
       player.anims.getProgress("yin-die") === 1
@@ -1260,6 +1238,7 @@ chamas.p34.update();
     player2.anims.getCurrentKey() === "yang-die" &&
     player2.anims.getProgress("yang-die") < 1
   ) {
+      player2.setVelocity(0, 0);
   } else if (
     player2.anims.getCurrentKey() === "yang-die" &&
     player2.anims.getProgress("yang-die") === 1
@@ -1631,7 +1610,7 @@ function ColetarChaveAZ2(player2, ChaveAzul){
 
 // FUNCOES DE ABERTURA DA JAILDOOR
 function OpenJailDoor1(player, JailDoor){
-	if(BossesMortos.valor >= 2){
+	if(BossesMortos.valor === 2){
   if(JailDoor.anims.getCurrentKey() != "JailDoor_Opening"){
     JailDoor.anims.play("JailDoor_Opening", true);
   }
@@ -1641,7 +1620,7 @@ function OpenJailDoor1(player, JailDoor){
   }
 }
 function OpenJailDoor2(player2, JailDoor){
-	if(BossesMortos.valor >= 2){
+	if(BossesMortos.valor === 2){
   if(JailDoor.anims.getCurrentKey() != "JailDoor_Opening"){
     JailDoor.anims.play("JailDoor_Opening", true);
   }

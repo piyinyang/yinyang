@@ -7,8 +7,7 @@ export default class Demon {
         const anims = scene.anims;
         this.demonposition = "left";
         this.Life = { valor: 250 };
-        this.teleporte;
-        this.quantidade;
+        this.bossmorto;
 
 
         anims.create({
@@ -75,27 +74,14 @@ export default class Demon {
         // AQUI EH QUANDO O BOSS TOMA DANO
 
         if(this.sprite.anims.getCurrentKey() === "demon-die1" && this.sprite.anims.getProgress("demon-die1") === 1){
-            /*if(this.teleporte === 0 && BossesMortos.valor === 1){
-                player.setPosition(1307, 1443);
-                player2.setPosition(1307, 1443);
-                this.teleporte = 1;
-            }
-            if(this.teleporte === 1 && BossesMortos.valor === 2){
-                player.setPosition(1307, 1443);
-                player2.setPosition(1307, 1443);
-                this.teleporte = 2;
-            }
-            
             if(BossesMortos.valor === 0){
                 BossesMortos.valor = 1;
+                this.bossmorto = 1;
             }
-            if(BossesMortos.valor === 1 || BossesMortos.valor === 2){
-                this.sprite.disableBody(true, true);
-                this.sprite.anims.stop(); 
-            }
-            if(BossesMortos.valor === 1){
+            else if(this.bossmorto === 0 && BossesMortos.valor === 1){
                 BossesMortos.valor = 2;
-            }*/
+            }
+            this.sprite.anims.stop();
             
         }
         else if(this.sprite.anims.getCurrentKey() === "demon-die1" && this.sprite.anims.getProgress("demon-die1") < 1){
