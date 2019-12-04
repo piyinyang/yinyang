@@ -1,4 +1,4 @@
-import { GameScene, topLayer, topLayer2, topLayer3, player, player2, SoulCount,  playerPosition, player2Position } from "./GameScene.js";
+import { GameScene, topLayer, topLayer2, topLayer3, player, player2, SoulCount, BossesMortos,  playerPosition, player2Position } from "./GameScene.js";
 export {Demon};
 
 export default class Demon {
@@ -74,6 +74,7 @@ export default class Demon {
 
         if(this.sprite.anims.getCurrentKey() === "demon-die1" && this.sprite.anims.getProgress("demon-die1") === 1){
             this.sprite.disableBody(true, true);
+      		BossesMortos += 1;
         }
         else if(this.sprite.anims.getCurrentKey() === "demon-die1" && this.sprite.anims.getProgress("demon-die1") < 1){
             this.sprite.setVelocity(0, 0);

@@ -6,7 +6,7 @@ import {Jumper} from "./jumper.js";
 import {Portal} from "./portal.js";
 import {Demon} from "./demon.js";
 
-export { GameScene, spike, player, player2, SoulCount, slimeatk, playerPosition, player2Position, portalsound};
+export { GameScene, spike, player, player2, SoulCount, BossesMortos, slimeatk, playerPosition, player2Position, portalsound};
 export { topLayer, topLayer2, topLayer3 }
 
 /*
@@ -98,6 +98,7 @@ var jumping; // som do player pulando
 var landing; // som do player caindo no chao
 var portalsound;
 var JailDoorOpen;
+var BossesMortos;
 
 //Variavel do lança-chamas
 var chamas = {p1: null, p2: null, p3: null, p4: null,
@@ -869,7 +870,7 @@ chamas.p34.update();
     if (SoulCount.valor > 0 && SoulCount.valor <= 190){
       Soul.setFrame(SoulCount.valor)
     }
-    else if(SoulCount.valor === 0){
+    else if(SoulCount.valor <= 0){
       gameOver = true;
     }
     
@@ -1590,18 +1591,22 @@ function ColetarChaveAZ2(player2, ChaveAzul){
 
 // FUNCOES DE ABERTURA DA JAILDOOR
 function OpenJailDoor1(player, JailDoor){
+	if(BossesMortos >= 2){
   if(JailDoor.anims.getCurrentKey() != "JailDoor_Opening"){
     JailDoor.anims.play("JailDoor_Opening", true);
   }
   if(!JailDoorOpen.isPlaying){
     JailDoorOpen.play();
+  }
   }
 }
 function OpenJailDoor2(player2, JailDoor){
+	if(BossesMortos >= 2){
   if(JailDoor.anims.getCurrentKey() != "JailDoor_Opening"){
     JailDoor.anims.play("JailDoor_Opening", true);
   }
   if(!JailDoorOpen.isPlaying){
     JailDoorOpen.play();
+  }
   }
 }
