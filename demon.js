@@ -74,7 +74,9 @@ export default class Demon {
 
         if(this.sprite.anims.getCurrentKey() === "demon-die1" && this.sprite.anims.getProgress("demon-die1") === 1){
             this.sprite.disableBody(true, true);
-      		BossesMortos += 1;
+              BossesMortos.valor += 1;
+              player.setPosition(1307, 1443);
+              player2.setPosition(1307, 1443);
         }
         else if(this.sprite.anims.getCurrentKey() === "demon-die1" && this.sprite.anims.getProgress("demon-die1") < 1){
             this.sprite.setVelocity(0, 0);
@@ -91,7 +93,7 @@ export default class Demon {
         else if (
             this.sprite.anims.getCurrentKey() === "demon-hurt1" &&
             this.sprite.anims.getProgress("demon-hurt1") < 1 && this.demonposition === "left") {
-            this.sprite.setSize(70, 100).setOffset(30,35);
+            this.sprite.setSize(70, 100).setOffset(100,55);
             this.sprite.setTint(0xff0000);
         } 
         else if (
@@ -129,7 +131,7 @@ export default class Demon {
         // AQUI EH O COMPORTAMENTO EM RELACAO AO PLAYER 1
 
         else if(this.scene.physics.closest(this.sprite, [player, player2]) === player && ((this.demon_P1 > 0 && this.demon_P1 < 250) || (this.demon_P1 > -250 && this.demon_P1 < 0)) && this.demon_P1_Y > -75){
-            if (this.demon_P1 < 50 && this.demon_P1 > 0){
+            if (this.demon_P1 < 35 && this.demon_P1 > 0){
                 this.sprite.setVelocityX(0);
                 this.sprite.setFlipX(false);
                 this.sprite.anims.play('demon-attack1', true);
@@ -198,12 +200,12 @@ export default class Demon {
             player.setVelocityX(-125);
             player.setVelocityY(-100);
             player.anims.play('yin-hurt', true);
-            SoulCount.valor -= 1;
+            SoulCount.valor -= 2;
         } else if(this.sprite.anims.getCurrentKey() === 'demon-attack1' && this.demonposition === "right" && this.sprite.anims.getProgress('demon-attack1') === 0.5){
             player.setVelocityX(125);
             player.setVelocityY(-100);
             player.anims.play('yin-hurt', true);
-            SoulCount.valor -= 1;
+            SoulCount.valor -= 2;
         }
         //se o jogador ataca o demon, o demon eh jogado um pouco pra tras. 
         else if(player.anims.getCurrentKey() === 'yin-attack1' && playerPosition==="right"){
@@ -252,12 +254,12 @@ export default class Demon {
             player2.setVelocityX(-125);
             player2.setVelocityY(-100);
             player2.anims.play('yang-hurt', true);
-            SoulCount.valor -= 1;
+            SoulCount.valor -= 2;
         } else if(this.sprite.anims.getCurrentKey() === 'demon-attack1' && this.demonposition === "right" && this.sprite.anims.getProgress('demon-attack1') === 0.5){
             player2.setVelocityX(125);
             player2.setVelocityY(-100);
             player2.anims.play('yang-hurt', true);
-            SoulCount.valor -= 1;
+            SoulCount.valor -= 2;
         }
         //se o jogador ataca o demon, o demon eh jogado um pouco pra tras. 
         else if(player2.anims.getCurrentKey() === 'yang-attack1' && player2Position==="right"){

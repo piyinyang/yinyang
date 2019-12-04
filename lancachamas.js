@@ -64,12 +64,6 @@ export default class Lancachamas {
     }
 
     update(){
-    	
-    		if(SoulCount.valor != 190){
-    		console.log(SoulCount.valor)
-    		}
-
-        //console.log(this.sprite.anims.getCurrentKey());
 
         if(this.sprite.anims.getCurrentKey() === "chamas-altas-subindo" && this.sprite.anims.getProgress("chamas-altas-subindo") === 1){
             this.sprite.anims.play("chamas-maximas");
