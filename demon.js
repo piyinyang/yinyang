@@ -6,8 +6,8 @@ export default class Demon {
         this.scene = scene;
         const anims = scene.anims;
         this.demonposition = "left";
-        this.Life = { valor: 250 };
-        this.bossmorto;
+        this.Life = { valor: 5 };
+        this.bossmorto = 0;
 
 
         anims.create({
@@ -82,6 +82,7 @@ export default class Demon {
                 BossesMortos.valor = 2;
             }
             this.sprite.anims.stop();
+            this.sprite.disableBody();
             
         }
         else if(this.sprite.anims.getCurrentKey() === "demon-die1" && this.sprite.anims.getProgress("demon-die1") < 1){
