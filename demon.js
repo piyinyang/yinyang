@@ -57,7 +57,7 @@ export default class Demon {
         // FIM DO CONSTRUCTOR
     }
     update(){
-        console.log(this.Life.valor, SoulCount.valor);
+        //console.log(this.Life.valor, SoulCount.valor);
 
         this.demonX = this.sprite.body.position.x;
         this.demonY = this.sprite.body.position.y;
