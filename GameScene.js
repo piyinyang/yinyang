@@ -1527,23 +1527,22 @@ else if (
 // FUNCOES DE DANO DOS ESPINHOS
 
 function hitSpike(player, spike) {
-  this.physics.pause();
 
   player.setTint(0xff0000);
 
-  player.anims.play("yin-idle");
-
-  gameOver = true;
+  player.anims.play("yin-hurt");
+  player.setVelocityY(-300);
+	SoulCount.valor -= 4;
 };
 
 function hitSpike2(player2, spike) {
-  this.physics.pause();
 
   player2.setTint(0xff0000);
 
-  player2.anims.play("yang-idle");
+  player2.anims.play("yang-hurt");
+  player2.setVelocityY(-300);
+  SoulCount.valor -= 4;
 
-  gameOver = true;
 };
 
 function Barreira1OPEN(player, barreira1){
