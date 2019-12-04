@@ -1,4 +1,4 @@
-import { topLayer, player, player2 } from "./GameScene.js";
+import { topLayer, player, player2, SoulCount } from "./GameScene.js";
 export default class Lancachamas {
 
     //cria o lança chamas
@@ -64,6 +64,10 @@ export default class Lancachamas {
     }
 
     update(){
+    	
+    		if(SoulCount.valor != 190){
+    		console.log(SoulCount.valor)
+    		}
 
         //console.log(this.sprite.anims.getCurrentKey());
 
@@ -132,16 +136,19 @@ export default class Lancachamas {
                 player.anims.play("yin-hurt");
                 player.setVelocityX(-100);
                 player.setVelocityY(-75);
+                SoulCount.valor -= 3;
             }
             else if(this.sprite.body.touching.right){
                 player.anims.play("yin-hurt");
                 player.setVelocityX(100);
                 player.setVelocityY(-75);
+                SoulCount.valor -= 3;
             }
             else{
                 player.anims.play("yin-hurt");
                 player.setVelocityX(-100);
                 player.setVelocityY(-75);
+                SoulCount.valor -= 3;
             }
         }
     // FIM DA FUNCAO
@@ -154,16 +161,19 @@ export default class Lancachamas {
                 player2.anims.play("yang-hurt");
                 player2.setVelocityX(-100);
                 player2.setVelocityY(-75);
+                SoulCount.valor -= 3;
             }
             else if(this.sprite.body.touching.right){
                 player2.anims.play("yang-hurt");
                 player2.setVelocityX(100);
                 player2.setVelocityY(-75);
+                SoulCount.valor -= 3;
             }
             else{
                 player2.anims.play("yang-hurt");
                 player2.setVelocityX(-100);
                 player2.setVelocityY(-75);
+                SoulCount.valor -= 3;
             }
         }
     }
