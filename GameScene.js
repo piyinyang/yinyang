@@ -98,7 +98,7 @@ var jumping; // som do player pulando
 var landing; // som do player caindo no chao
 var portalsound;
 var JailDoorOpen;
-var BossesMortos;
+var BossesMortos = { valor: 0};
 
 //Variavel do lança-chamas
 var chamas = {p1: null, p2: null, p3: null, p4: null,
@@ -310,7 +310,6 @@ GameScene.create = function() {
     topLayer = map.createStaticLayer("topLayer", [terrain], 0, 0);
     topLayer2 = map.createStaticLayer("topLayer2", [terrain2], 0, 0);
     topLayer5 = map.createStaticLayer("topLayerCastle1", [terrain5]);
-    topLayer6 = map.createStaticLayer("topLayerCastle2", [terrain6]);
     topLayer7 = map.createStaticLayer("topLayerCastle3", [terrain7]);
     topLayer9 = map.createStaticLayer("EasterEgg", [terrain9]);
 
@@ -467,6 +466,7 @@ GameScene.create = function() {
   demon.p1 = new Demon(this, 3400, 2910, 3300);
   demon.p2 = new Demon(this, 640, 2464, 640);
 
+  topLayer6 = map.createStaticLayer("topLayerCastle2", [terrain6]);
   topLayer8 = map.createStaticLayer("LayerSecreto", [terrain8]);
 
 
@@ -591,6 +591,13 @@ this.cameras.add(0, 300, 800, 300).startFollow(player, true, 0.5, 0.5).setBounds
   });
 
   this.anims.create({
+    key: "yin-die",
+    frames: this.anims.generateFrameNumbers("yin", { start: 59, end: 68 }),
+    frameRate: 5,
+    repeat: -1
+  });
+
+  this.anims.create({
     key: "yin-run",
     frames: this.anims.generateFrameNumbers("yinrun", { start: 0, end: 5 }),
     frameRate: 10,
@@ -651,6 +658,13 @@ this.cameras.add(0, 300, 800, 300).startFollow(player, true, 0.5, 0.5).setBounds
   this.anims.create({
     key: "yang-idle",
     frames: this.anims.generateFrameNumbers("yang", { start: 38, end: 41 }),
+    frameRate: 5,
+    repeat: -1
+  });
+
+  this.anims.create({
+    key: "yang-die",
+    frames: this.anims.generateFrameNumbers("yang", { start: 59, end: 68 }),
     frameRate: 5,
     repeat: -1
   });
@@ -863,7 +877,12 @@ chamas.p34.update();
     // GAMEOVER
     if (gameOver === true) {
       song.stop();
-      this.scene.start(gameover);
+      if(player.anims.getCurrentKey() != "yin-die"){
+      player.anims.play("yin-die");
+      }
+      if(player.anims.getCurrentKey() != "yang-die"){
+      player2.anims.play("yang-die");
+      }
     }  
 
     // VIDA
@@ -926,9 +945,21 @@ chamas.p34.update();
       player.setSize(13, 25, true).setOffset(18, 10);
     }
     
+    // DIE
+    if (
+      player.anims.getCurrentKey() === "yin-die" &&
+      player.anims.getProgress("yin-die") < 1
+    ) {
+    } else if (
+      player.anims.getCurrentKey() === "yin-die" &&
+      player.anims.getProgress("yin-die") === 1
+    ) {
+      this.physics.pause();
+      this.scene.start(gameover);
+    }
 
     //          HURT
-    if (
+    else if (
     player.anims.getCurrentKey() === "yin-hurt" &&
     player.anims.getProgress("yin-hurt") < 1
   ) {
@@ -1228,9 +1259,22 @@ chamas.p34.update();
   if (player2.anims.getCurrentKey("yang-idle")){
     player2.setSize(13, 25, true).setOffset(18, 10);
   }
+  
+  //          DIE
+  if (
+    player2.anims.getCurrentKey() === "yang-die" &&
+    player2.anims.getProgress("yang-die") < 1
+  ) {
+  } else if (
+    player2.anims.getCurrentKey() === "yang-die" &&
+    player2.anims.getProgress("yang-die") === 1
+  ) {
+      this.physics.pause();
+      this.scene.start(gameover);
+  }
 
   //          HURT
-  if (
+  else if (
   player2.anims.getCurrentKey() === "yang-hurt" &&
   player2.anims.getProgress("yang-hurt") < 1
 ) {
@@ -1530,20 +1574,21 @@ else if (
 function hitSpike(player, spike) {
 
   player.setTint(0xff0000);
-
+  if(player.anims.getCurrentKey() != "yin-die"){
   player.anims.play("yin-hurt");
   player.setVelocityY(-300);
-	SoulCount.valor -= 4;
+  SoulCount.valor -= 4;
+  }
 };
 
 function hitSpike2(player2, spike) {
 
   player2.setTint(0xff0000);
-
+  if(player.anims.getCurrentKey() != "yang-die"){
   player2.anims.play("yang-hurt");
   player2.setVelocityY(-300);
   SoulCount.valor -= 4;
-
+  }
 };
 
 function Barreira1OPEN(player, barreira1){
@@ -1591,7 +1636,7 @@ function ColetarChaveAZ2(player2, ChaveAzul){
 
 // FUNCOES DE ABERTURA DA JAILDOOR
 function OpenJailDoor1(player, JailDoor){
-	if(BossesMortos >= 2){
+	if(BossesMortos.valor >= 2){
   if(JailDoor.anims.getCurrentKey() != "JailDoor_Opening"){
     JailDoor.anims.play("JailDoor_Opening", true);
   }
@@ -1601,7 +1646,7 @@ function OpenJailDoor1(player, JailDoor){
   }
 }
 function OpenJailDoor2(player2, JailDoor){
-	if(BossesMortos >= 2){
+	if(BossesMortos.valor >= 2){
   if(JailDoor.anims.getCurrentKey() != "JailDoor_Opening"){
     JailDoor.anims.play("JailDoor_Opening", true);
   }

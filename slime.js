@@ -245,13 +245,13 @@ hitSlime (player){
       player.setVelocityY(-100);
       player.anims.play('yin-hurt', true);
       slimeatk.play();
-      SoulCount.valor -= 1;
+      SoulCount.valor -= 5;
   } else if(this.sprite.anims.getCurrentKey() === 'slime-attack' && this.slimeposition === "right" && this.sprite.anims.getProgress('slime-attack') === 1){
       player.setVelocityX(125);
       player.setVelocityY(-100);
       player.anims.play('yin-hurt', true);
       slimeatk.play();
-      SoulCount.valor -= 1;
+      SoulCount.valor -= 5;
   }
 }
 hitSlime2 (player2){
@@ -300,13 +300,13 @@ hitSlime2 (player2){
       player2.setVelocityY(-100);
       player2.anims.play('yang-hurt', true);
       slimeatk.play();
-      SoulCount.valor -= 1;
+      SoulCount.valor -= 5;
   } else if(this.sprite.anims.getCurrentKey() === 'slime-attack' && this.slimeposition === "right" && this.sprite.anims.getProgress('slime-attack') === 1){
       player2.setVelocityX(125);
       player2.setVelocityY(-100);
       player2.anims.play('yang-hurt', true);
       slimeatk.play();
-      SoulCount.valor -= 1;
+      SoulCount.valor -= 5;
   }
 }
 

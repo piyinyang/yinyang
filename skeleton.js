@@ -210,7 +210,7 @@ export default class Skeleton {
     // FUNCOES DE COMBATE
     hitSkeleton (player){
 
-  
+      if(player.anims.getCurrentKey() != "yin-die"){
       //se o jogador ataca o skeleton, o skeleton eh jogado um pouco pra tras. 
       if(player.anims.getCurrentKey() === 'yin-attack1' && playerPosition==="right"){
           this.sprite.setVelocityX(100);
@@ -254,18 +254,20 @@ export default class Skeleton {
           player.setVelocityX(-125);
           player.setVelocityY(-100);
           player.anims.play('yin-hurt', true);
-          slimeatk.play();
-          SoulCount.valor -= 2;
+          //slimeatk.play();
+          SoulCount.valor -= 5;
       } else if(this.sprite.anims.getCurrentKey() === 'skeleton-attack' && this.skeletonposition === "right" && this.sprite.anims.getProgress('skeleton-attack') === 0.5294117647058824){
           player.setVelocityX(125);
           player.setVelocityY(-100);
           player.anims.play('yin-hurt', true);
-          slimeatk.play();
-          SoulCount.valor -= 2;
+          //slimeatk.play();
+          SoulCount.valor -= 5;
       }
+    }
     }
     hitSkeleton2 (player2){
       
+      if(player2.anims.getCurrentKey() != "yang-die"){
       //se o jogador ataca o skeleton, o skeleton eh jogado um pouco pra tras. 
       if(player2.anims.getCurrentKey() === 'yang-attack1' && player2Position==="right"){
           this.sprite.setVelocityX(150);
@@ -308,15 +310,16 @@ export default class Skeleton {
           player2.setVelocityX(-125);
           player2.setVelocityY(-100);
           player2.anims.play('yang-hurt', true);
-          slimeatk.play();
-          SoulCount.valor -= 2;
+          //slimeatk.play();
+          SoulCount.valor -= 5;
       } else if(this.sprite.anims.getCurrentKey() === 'skeleton-attack' && this.skeletonposition === "right" && this.sprite.anims.getProgress('skeleton-attack') === 0.5294117647058824){
           player2.setVelocityX(125);
           player2.setVelocityY(-100);
           player2.anims.play('yang-hurt', true);
-          slimeatk.play();
-          SoulCount.valor -= 2;
+          //slimeatk.play();
+          SoulCount.valor -= 5;
       }
+    }
     }
 
 }
