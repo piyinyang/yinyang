@@ -76,9 +76,9 @@ export default class Slime {
         this.player2X = player2.body.position.x;
         this.player2Y = player2.body.position.y;
         this.slime_P1 = this.slimeX - this.playerX;
-        this.slime_P1_Y = this.playerY - this.slimeY;
+        //this.slime_P1_Y = this.playerY - this.slimeY;
         this.slime_P2 = this.slimeX - this.player2X;
-        this.slime_P2_Y = this.player2Y - this.slimeY;
+        //this.slime_P2_Y = this.player2Y - this.slimeY;
 
         if(this.sprite.anims.getCurrentKey() === "slime-die" && this.sprite.anims.getProgress("slime-die") === 1){
           this.sprite.disableBody(true, true);
@@ -131,62 +131,62 @@ export default class Slime {
         
         //      CONDICIONAIS PARA COMPORTAMENTO/ANIMACAO P/ PLAYER 1
         
-        } else if (this.slime_P1 < 15 && this.slime_P1 > 0 && this.slime_P1_Y > -50){
+        } else if (this.slime_P1 < 15 && this.slime_P1 > 0){
             this.sprite.setVelocityX(0);
             this.sprite.setFlipX(false);
             this.sprite.anims.play('slime-attack', true);
             this.slimeposition = 'left';
-        } else if (this.slime_P1 > -20 && this.slime_P1 < 0 && this.slime_P1_Y > -50){
+        } else if (this.slime_P1 > -20 && this.slime_P1 < 0){
             this.sprite.setVelocityX(0);
             this.sprite.setFlipX(true);
             this.sprite.anims.play('slime-attack', true);
             this.slimeposition = 'right';
-        } else if (this.slime_P1 < 150 && this.slime_P1 > 0 && this.slime_P1_Y > -50){
-            this.sprite.setVelocityX(-150);
+        } else if (this.slime_P1 < 75 && this.slime_P1 > 0){
+            this.sprite.setVelocityX(-110);
             this.sprite.setSize(20,20, true).setOffset(7,4);
             this.sprite.setFlipX(false);
             this.sprite.anims.play('slime-move', true);
             this.slimeposition = 'left';
-        } else if (this.slime_P1 > -150 && this.slime_P1 < 0 && this.slime_P1_Y > -50){
-            this.sprite.setVelocityX(150);
+        } else if (this.slime_P1 > -75 && this.slime_P1 < 0){
+            this.sprite.setVelocityX(110);
             this.sprite.setSize(20,20, true).setOffset(7,4);
             this.sprite.setFlipX(true);
             this.sprite.anims.play('slime-move', true);
             this.slimeposition = 'right';
-        }
+        } 
       
         //      CONDICIONAIS PARA COMPORTAMENTO/ANIMACAO P/ PLAYER 2
         
-      else if (this.slime_P2 < 15 && this.slime_P2 > 0 && this.slime_P2_Y > -50){
+      else if (this.slime_P2 < 15 && this.slime_P2 > 0){
         this.sprite.setVelocityX(0);
         this.sprite.setFlipX(false);
         this.sprite.anims.play('slime-attack', true);
         this.slimeposition = 'left';
-      } else if (this.slime_P2 > -20 && this.slime_P2 < 0 && this.slime_P2_Y > -50){
+      } else if (this.slime_P2 > -20 && this.slime_P2 < 0){
         this.sprite.setVelocityX(0);
         this.sprite.setFlipX(true);
         this.sprite.anims.play('slime-attack', true);
         this.slimeposition = 'right';
-      } else if (this.slime_P2 < 150 && this.slime_P2 > 0 && this.slime_P2_Y > -50){
-        this.sprite.setVelocityX(-150);
+      } else if (this.slime_P2 < 75 && this.slime_P2 > 0){
+        this.sprite.setVelocityX(-110);
         this.sprite.setSize(20,20, true).setOffset(7,4);
         this.sprite.setFlipX(false);
         this.sprite.anims.play('slime-move', true);
         this.slimeposition = 'left';
-      } else if (this.slime_P2 > -150 && this.slime_P2 < 0 && this.slime_P2_Y > -50){
-        this.sprite.setVelocityX(150);
+      } else if (this.slime_P2 > -75 && this.slime_P2 < 0){
+        this.sprite.setVelocityX(110);
         this.sprite.setSize(20,20, true).setOffset(7,4);
         this.sprite.setFlipX(true);
         this.sprite.anims.play('slime-move', true);
         this.slimeposition = 'right';
       }
       
-        else if (this.slimeguard > 75){
+        else if (this.slimeguard > 45){
             this.sprite.setVelocityX(-100);
             this.sprite.setFlipX(false);
             this.sprite.anims.play('slime-move', true);
         }
-        else if (this.slimeguard < -75){
+        else if (this.slimeguard < -45){
             this.sprite.setVelocityX(100);
             this.sprite.setFlipX(true);
             this.sprite.anims.play('slime-move', true);

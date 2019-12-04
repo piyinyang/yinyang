@@ -30,8 +30,8 @@ export default class Skeleton {
           });
         anims.create({
             key: 'skeleton-attack',
-            frames: anims.generateFrameNumbers('skeleton-attack', { start: 0, end: 10 }),
-            frameRate: 20,
+            frames: anims.generateFrameNumbers('skeleton-attack', { start: 0, end: 17 }),
+            frameRate: 30,
           });
         anims.create({
             key: 'skeleton-die',
@@ -41,7 +41,7 @@ export default class Skeleton {
           });
         
           this.sprite = scene.physics.add.sprite( x, y, "skeleton-idle");
-          this.sprite.setSize(32,32, true).setOffset(5,0);
+          this.sprite.setSize(27,27, true).setOffset(0, 6);
           this.sprite.setBounce(0);
           this.sprite.setCollideWorldBounds(true);
           this.sprite.setVelocityX(-100);
@@ -70,9 +70,9 @@ export default class Skeleton {
         this.player2X = player2.body.position.x;
         this.player2Y = player2.body.position.y;
         this.skeleton_P1 = this.skeletonX - this.playerX;
-        this.skeleton_P1_Y = this.playerY - this.skeletonY;
+        //this.skeleton_P1_Y = this.playerY - this.skeletonY;
         this.skeleton_P2 = this.skeletonX - this.player2X;
-        this.skeleton_P2_Y = this.player2Y - this.skeletonY;
+        //this.skeleton_P2_Y = this.player2Y - this.skeletonY;
 
         if (
           this.sprite.anims.getCurrentKey() === "skeleton-hurt" &&
@@ -97,55 +97,51 @@ export default class Skeleton {
       
         } else if (this.sprite.anims.getCurrentKey() === 'skeleton-attack'
         && this.sprite.anims.getProgress('skeleton-attack') < 0.5 && this.skeletonposition === 'left'){
-            //this.sprite.setSize(30,37).setOffset(-8,0);
+            this.sprite.setSize(40,35).setOffset(-8,0);
 
         } else if (this.sprite.anims.getCurrentKey() === 'skeleton-attack'
         && this.sprite.anims.getProgress('skeleton-attack') < 1 && this.sprite.anims.getProgress('skeleton-attack') > 0.5 && this.skeletonposition === 'left'){
-            //this.sprite.setSize(30,37).setOffset(-8,0);
+          this.sprite.setSize(40,35).setOffset(-8,0);
       
         } else if (this.sprite.anims.getCurrentKey() === 'skeleton-attack'
         && this.sprite.anims.getProgress('skeleton-attack') === 1 && this.skeletonposition==="left"){
             this.sprite.anims.play('skeleton-idle', true);
-            //this.sprite.setSize(20,37).setOffset(0,0);
-
-        } else if (this.sprite.anims.getCurrentKey() === 'skeleton-attack'
-        && this.sprite.anims.getProgress('skeleton-attack') < 0.5 && this.skeletonposition === 'left'){
-            //this.sprite.setSize(30,37).setOffset(-8,0);
+            this.sprite.setSize(27,27, true).setOffset(0, 6);
 
         } else if (this.sprite.anims.getCurrentKey() === 'skeleton-attack'
         && this.sprite.anims.getProgress('skeleton-attack') < 0.5 && this.skeletonposition === 'right'){
-            //this.sprite.setSize(30,37).setOffset(8,0);
+          this.sprite.setSize(40,35).setOffset(8,0);
           
         } else if (this.sprite.anims.getCurrentKey() === 'skeleton-attack'
         && this.sprite.anims.getProgress('skeleton-attack') < 1 && this.sprite.anims.getProgress('skeleton-attack') > 0.5 && this.skeletonposition === 'right'){
-            //this.sprite.setSize(30,37).setOffset(8,0);
+          this.sprite.setSize(40,35).setOffset(8,0);
       
         } else if (this.sprite.anims.getCurrentKey() === 'skeleton-attack'
         && this.sprite.anims.getProgress('skeleton-attack') === 1 && this.skeletonposition==="right"){
             this.sprite.anims.play('skeleton-idle', true);
-            //this.sprite.setSize(20,32).setOffset(0,0);
+            this.sprite.setSize(27,27, true).setOffset(0, 6);
         
         //      CONDICIONAIS PARA COMPORTAMENTO/ANIMACAO P/ PLAYER 1
         
-        } else if (this.skeleton_P1 < 15 && this.skeleton_P1 > 0 && this.skeleton_P1_Y > -50){
+        } else if (this.skeleton_P1 < 15 && this.skeleton_P1 > 0){
             this.sprite.setVelocityX(0);
             this.sprite.setFlipX(true);
             this.sprite.anims.play('skeleton-attack', true);
             this.skeletonposition = 'left';
-        } else if (this.skeleton_P1 > -15 && this.skeleton_P1 < 0 && this.skeleton_P1_Y > -50){
+        } else if (this.skeleton_P1 > -15 && this.skeleton_P1 < 0){
             this.sprite.setVelocityX(0);
             this.sprite.setFlipX(false);
             this.sprite.anims.play('skeleton-attack', true);
             this.skeletonposition = 'right';
-        } else if (this.skeleton_P1 < 150 && this.skeleton_P1 > 0 && this.skeleton_P1_Y > -50){
-            this.sprite.setVelocityX(-150);
-            //this.sprite.setSize(20,32, true).setOffset(7,0);
+        } else if (this.skeleton_P1 < 75 && this.skeleton_P1 > 0){
+            this.sprite.setVelocityX(-110);
+            this.sprite.setSize(27,27, true).setOffset(0, 6);
             this.sprite.setFlipX(true);
             this.sprite.anims.play('skeleton-walk', true);
             this.skeletonposition = 'left';
-        } else if (this.skeleton_P1 > -150 && this.skeleton_P1 < 0 && this.skeleton_P1_Y > -50){
-            this.sprite.setVelocityX(150);
-            //this.sprite.setSize(20,32, true).setOffset(7,0);
+        } else if (this.skeleton_P1 > -75 && this.skeleton_P1 < 0){
+            this.sprite.setVelocityX(110);
+            this.sprite.setSize(27,27, true).setOffset(0, 6);;
             this.sprite.setFlipX(false);
             this.sprite.anims.play('skeleton-walk', true);
             this.skeletonposition = 'right';
@@ -153,36 +149,36 @@ export default class Skeleton {
       
         //      CONDICIONAIS PARA COMPORTAMENTO/ANIMACAO P/ PLAYER 2
         
-      else if (this.skeleton_P2 < 15 && this.skeleton_P2 > 0 && this.skeleton_P2_Y > -50){
+      else if (this.skeleton_P2 < 15 && this.skeleton_P2 > 0){
         this.sprite.setVelocityX(0);
         this.sprite.setFlipX(true);
         this.sprite.anims.play('skeleton-attack', true);
         this.skeletonposition = 'left';
-      } else if (this.skeleton_P2 > -15 && this.skeleton_P2 < 0/* && this.skeleton_P2_Y > -50*/){
+      } else if (this.skeleton_P2 > -15 && this.skeleton_P2 < 0){
         this.sprite.setVelocityX(0);
         this.sprite.setFlipX(false);
         this.sprite.anims.play('skeleton-attack', true);
         this.skeletonposition = 'right';
-      } else if (this.skeleton_P2 < 150 && this.skeleton_P2 > 0/* && this.skeleton_P2_Y > -50*/){
-        this.sprite.setVelocityX(-150);
-        //this.sprite.setSize(20,32, true).setOffset(7,0);
+      } else if (this.skeleton_P2 < 75 && this.skeleton_P2 > 0){
+        this.sprite.setVelocityX(-110);
+        this.sprite.setSize(27,27, true).setOffset(0, 6);
         this.sprite.setFlipX(true);
         this.sprite.anims.play('skeleton-walk', true);
         this.skeletonposition = 'left';
-      } else if (this.skeleton_P2 > -150 && this.skeleton_P2 < 0 && this.skeleton_P2_Y > -50){
-        this.sprite.setVelocityX(150);
-        //this.sprite.setSize(20,32, true).setOffset(7,0);
+      } else if (this.skeleton_P2 > -75 && this.skeleton_P2 < 0){
+        this.sprite.setVelocityX(110);
+        this.sprite.setSize(27,27, true).setOffset(0, 6);
         this.sprite.setFlipX(false);
         this.sprite.anims.play('skeleton-walk', true);
         this.skeletonposition = 'right';
       }
       
-        else if (this.skeletonguard > 75){
+        else if (this.skeletonguard > 45){
             this.sprite.setVelocityX(-100);
             this.sprite.setFlipX(true);
             this.sprite.anims.play('skeleton-walk', true);
         }
-        else if (this.skeletonguard < -75){
+        else if (this.skeletonguard < -45){
             this.sprite.setVelocityX(100);
             this.sprite.setFlipX(false);
             this.sprite.anims.play('skeleton-walk', true);

@@ -349,33 +349,33 @@ GameScene.create = function() {
     JailDoor.setImmovable(true);
 
   // CRIACAO DO JOGADOR 1
-  player = this.physics.add.sprite(3400, 3319, "yin");
+  player = this.physics.add.sprite(1300, 1924, "yin");
   player.setSize(13, 25, true).setOffset(18, 10);
   player.setBounce(0);
   player.setCollideWorldBounds(true);
 
   // CRIACAO DO JOGADOR 2
-  player2 = this.physics.add.sprite(150, 350, "yang");
+  player2 = this.physics.add.sprite(2570, 1000, "yang");
   player2.setSize(13, 25, true).setOffset(18, 10);
   player2.setBounce(0);
   player2.setCollideWorldBounds(true);
 
-  topLayer8 = map.createStaticLayer("LayerSecreto", [terrain8]);
-
   Soul = this.add
   .image(20, 20, "soul")
   .setOrigin(0.5)
-  .setScrollFactor(0);
+  .setScrollFactor(0).setScale(1.5);
 
   // CRIACAO DOS PORTAIS
+
   portal.p1 = new Portal(this, 2825, 1927, 96, 3616, 1);
   portal.p2 = new Portal(this, 2825, 2100, 4000, 3616, 2);
   portal.p3 = new Portal(this, 3770, 1666, 1307, 1443, 3);
   portal.p4 = new Portal(this, 2330, 1924, 1307, 1443, 3);
-  portal.p5 = new Portal(this, 2330, 1924, 1307, 1443, 3);
-
-
+  portal.p5 = new Portal(this, 1257, 2167, 1744, 2573, 3);
+  portal.p6 = new Portal(this, 2051, 2599, 1307, 1443, 3);
+ 
   // CRIAÇAO DOS LANÇA-CHAMAS
+
   chamas.p1 = new Lancachamas(this, 1624, 1120, 0);
   chamas.p2 = new Lancachamas(this, 1608, 1120, 0);
   chamas.p3 = new Lancachamas(this, 1480, 1476, 0);
@@ -409,6 +409,7 @@ GameScene.create = function() {
   chamas.p31 = new Lancachamas(this, 3304, 3105, 0);
   chamas.p32 = new Lancachamas(this, 3592, 3335, 0);
   chamas.p33 = new Lancachamas(this, 3592, 3115, 5100);
+  chamas.p34 = new Lancachamas(this, 3848, 1938, 0);
   
   // CRIACAO DOS JUMPERS
   
@@ -418,7 +419,7 @@ GameScene.create = function() {
   jumper.p4 = new Jumper(this, 4048, 2487, -900);
   jumper.p5 = new Jumper(this, 3744, 2263, -900);
   jumper.p6 = new Jumper(this, 3936, 1943, -1200);
-  jumper.p7 = new Jumper(this, 144, 3159, -1000);
+  jumper.p7 = new Jumper(this, 144, 3159, -1500);
   jumper.p8 = new Jumper(this, 2496, 3334, -1200);
   jumper.p9 = new Jumper(this, 2240, 3655, -1200);
   jumper.p10 = new Jumper(this, 1328, 3335, -1200);
@@ -431,53 +432,41 @@ GameScene.create = function() {
   slime.p2 = new Slime(this, 800, 350, 800);
   slime.p3 = new Slime(this, 1200, 350, 1200);
   slime.p4 = new Slime(this, 3144, 3150, 3144);
-  slime.p5 = new Slime(this, 3466, 3310, 1466);
-  slime.p6 = new Slime(this, 0, 0, 0);
-  slime.p7 = new Slime(this, 0, 0, 0);
-  slime.p8 = new Slime(this, 0, 0, 0);
-  slime.p9 = new Slime(this, 0, 0, 0);
-  slime.p10 = new Slime(this, 0, 0, 0);
-  slime.p11 = new Slime(this, 0, 0, 0);
-  slime.p12 = new Slime(this, 0, 0, 0);
-  slime.p13 = new Slime(this, 0, 0, 0);
-  slime.p14 = new Slime(this, 0, 0, 0);
-  slime.p15 = new Slime(this, 0, 0, 0);
-  slime.p16 = new Slime(this, 0, 0, 0);
-  slime.p17 = new Slime(this, 0, 0, 0);
-  slime.p18 = new Slime(this, 0, 0, 0);
-  slime.p19 = new Slime(this, 0, 0, 0);
-  slime.p20 = new Slime(this, 0, 0, 0);
-  slime.p21 = new Slime(this, 0, 0, 0);
-  slime.p22 = new Slime(this, 0, 0, 0);
+  slime.p5 = new Slime(this, 3470, 3310, 3470);
+  slime.p6 = new Slime(this, 345, 930, 350);
+  slime.p7 = new Slime(this, 997, 930, 997);
+  slime.p8 = new Slime(this, 480, 2160, 480);
+  slime.p9 = new Slime(this, 854, 2160, 854);
+  slime.p10 = new Slime(this, 1559, 1460, 1559);
+  slime.p11 = new Slime(this, 3200, 1330, 3200);
+  slime.p12 = new Slime(this, 1043, 1570, 1043);
+  slime.p13 = new Slime(this, 3782, 1150, 3782);
+  slime.p14 = new Slime(this, 1426, 3630, 1426);
+  slime.p15 = new Slime(this, 625, 2950, 625);
+  slime.p16 = new Slime(this, 3449, 2320, 3449);
+  slime.p17 = new Slime(this, 3726, 2465, 3726);
   
   // CRIACAO DOS SKELETONS
   
-  skeleton.p1 = new Skeleton(this, 350, 1700, 350);
+  skeleton.p1 = new Skeleton(this, 683, 2160, 683);
   skeleton.p2 = new Skeleton(this, 3142, 3310, 3142);
   skeleton.p3 = new Skeleton(this, 3467, 3150, 3467);
-  skeleton.p4 = new Skeleton(this, 0, 0, 0);
-  skeleton.p5 = new Skeleton(this, 0, 0, 0);
-  skeleton.p6 = new Skeleton(this, 0, 0, 0);
-  skeleton.p7 = new Skeleton(this, 0, 0, 0);
-  skeleton.p8 = new Skeleton(this, 0, 0, 0);
-  skeleton.p9 = new Skeleton(this, 0, 0, 0);
-  skeleton.p10 = new Skeleton(this, 0, 0, 0);
-  skeleton.p11 = new Skeleton(this, 0, 0, 0);
-  skeleton.p12 = new Skeleton(this, 0, 0, 0);
-  skeleton.p13 = new Skeleton(this, 0, 0, 0);
-  skeleton.p14 = new Skeleton(this, 0, 0, 0);
-  skeleton.p15 = new Skeleton(this, 0, 0, 0);
-  skeleton.p16 = new Skeleton(this, 0, 0, 0);
-  skeleton.p17 = new Skeleton(this, 0, 0, 0);
-  skeleton.p18 = new Skeleton(this, 0, 0, 0);
-  skeleton.p19 = new Skeleton(this, 0, 0, 0);
-  skeleton.p20 = new Skeleton(this, 0, 0, 0);
-  skeleton.p21 = new Skeleton(this, 0, 0, 0);
-  
+  skeleton.p4 = new Skeleton(this, 470, 1200, 470);
+  skeleton.p5 = new Skeleton(this, 1763, 1120, 1763);
+  skeleton.p6 = new Skeleton(this, 1749, 1460, 1749);
+  skeleton.p7 = new Skeleton(this, 1485, 2225, 1485);
+  skeleton.p8 = new Skeleton(this, 971, 3630, 971);
+  skeleton.p9 = new Skeleton(this, 1136, 3630, 1136);
+  skeleton.p10 = new Skeleton(this, 975, 3015, 975);
+  skeleton.p11 = new Skeleton(this, 360, 2875, 360);
+  skeleton.p12 = new Skeleton(this, 3901, 2465, 3901);
+
   // CRIACAO DOS BOSSES DEMONS
   
-  demon.p1 = new Demon(this, 3400, 2950, 3300);
-  demon.p2 = new Demon(this, 640, 2500, 640);
+  demon.p1 = new Demon(this, 3400, 2910, 3300);
+  demon.p2 = new Demon(this, 640, 2464, 640);
+
+  topLayer8 = map.createStaticLayer("LayerSecreto", [terrain8]);
 
 
   // ADICAO DO TECLADO
@@ -810,22 +799,7 @@ slime.p14.update();
 slime.p15.update();
 slime.p16.update();
 slime.p17.update();
-slime.p18.update();
-slime.p19.update();
-slime.p20.update();
-slime.p21.update();
-slime.p22.update();
-/*slime.p23.update();
-slime.p24.update();
-slime.p25.update();
-slime.p26.update();
-slime.p27.update();
-slime.p28.update();
-slime.p29.update();
-slime.p30.update();
-slime.p31.update();
-slime.p32.update();
-slime.p33.update();*/
+
 
 skeleton.p1.update();
 skeleton.p2.update();
@@ -839,27 +813,6 @@ skeleton.p9.update();
 skeleton.p10.update();
 skeleton.p11.update();
 skeleton.p12.update();
-skeleton.p13.update();
-skeleton.p14.update();
-skeleton.p15.update();
-skeleton.p16.update();
-skeleton.p17.update();
-skeleton.p18.update();
-skeleton.p19.update();
-skeleton.p20.update();
-skeleton.p21.update();
-/*skeleton.p22.update();
-skeleton.p23.update();
-skeleton.p24.update();
-skeleton.p25.update();
-skeleton.p26.update();
-skeleton.p27.update();
-skeleton.p28.update();
-skeleton.p29.update();
-skeleton.p30.update();
-skeleton.p31.update();
-skeleton.p32.update();
-skeleton.p33.update();*/
 
 demon.p1.update();
 demon.p2.update();
@@ -897,12 +850,14 @@ chamas.p30.update();
 chamas.p31.update();
 chamas.p32.update();
 chamas.p33.update();
+chamas.p34.update();
 
   portal.p1.update();
   portal.p2.update();
   portal.p3.update();
   portal.p4.update();
   portal.p5.update();
+  portal.p6.update();
 
     // GAMEOVER
     if (gameOver === true) {
