@@ -6,7 +6,7 @@ export default class Demon {
         this.scene = scene;
         const anims = scene.anims;
         this.demonposition = "left";
-        this.Life = { valor: 5 };
+        this.Life = { valor: 175 };
         this.bossmorto = 0;
 
 
