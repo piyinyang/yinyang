@@ -1,4 +1,7 @@
-import { GameScene, topLayer, topLayer2, topLayer3, player, player2, SoulCount, BossesMortos,  playerPosition, player2Position } from "./GameScene.js";
+import { GameScene, player, player2, SoulCount, BossesMortos,  playerPosition, player2Position } from "./GameScene.js";
+import { topLayer, topLayer2, topLayer3 } from "./GameScene.js";
+import { bossdie, bossatk } from "./GameScene.js";
+
 export {Demon};
 
 export default class Demon {
@@ -8,7 +11,8 @@ export default class Demon {
         this.demonposition = "left";
         this.Life = { valor: 175 };
         this.bossmorto = 0;
-
+        this.bossdying = 0;
+        this.bosssatkin = 0;
 
         anims.create({
             key: "demon-attack1",
@@ -58,7 +62,11 @@ export default class Demon {
         // FIM DO CONSTRUCTOR
     }
     update(){
-        //console.log(this.Life.valor, SoulCount.valor);
+        console.log(this.Life.valor, SoulCount.valor);
+
+        if(this.sprite.anims.getCurrentKey() === "demon-attack1"){
+            console.log(this.sprite.anims.getProgress("demon-attack1"));
+        }
 
         this.demonX = this.sprite.body.position.x;
         this.demonY = this.sprite.body.position.y;
@@ -87,6 +95,10 @@ export default class Demon {
         }
         else if(this.sprite.anims.getCurrentKey() === "demon-die1" && this.sprite.anims.getProgress("demon-die1") < 1){
             this.sprite.setVelocity(0, 0);
+            if(!bossdie.isPlaying && this.bossdying === 0){
+                bossdie.play();
+                this.bossdying = 1;
+            }
         }
         else if(this.Life.valor <= 0){
             this.sprite.anims.play("demon-die1");
@@ -123,16 +135,18 @@ export default class Demon {
         else if (this.sprite.anims.getCurrentKey() === 'demon-attack1' && this.sprite.anims.getProgress('demon-attack1') === 1 && this.demonposition==="left"){
         this.sprite.anims.play('demon-idle1', true);
         this.sprite.setSize(70, 100).setOffset(30,35);
+        this.bossatkin = 0;
     }
         else if (this.sprite.anims.getCurrentKey() === 'demon-attack1' && this.sprite.anims.getProgress('demon-attack1') < 0.5 && this.demonposition === 'right'){
-            this.sprite.setSize(70, 100).setOffset(70,70);
+            this.sprite.setSize(70, 100).setOffset(70,60);
         }
         else if (this.sprite.anims.getCurrentKey() === 'demon-attack1' && this.sprite.anims.getProgress('demon-attack1') < 1 && this.demonposition === 'right'){
             this.sprite.setSize(120, 80).setOffset(110,100);
         } 
         else if (this.sprite.anims.getCurrentKey() === 'demon-attack1' && this.sprite.anims.getProgress('demon-attack1') === 1 && this.demonposition==="right"){
-        this.sprite.anims.play('demon-idle1', true);
+            this.sprite.anims.play('demon-idle1', true);
             this.sprite.setSize(70, 100).setOffset(30,35);
+            this.bossatkin = 0;
         }
 
         // AQUI EH O COMPORTAMENTO EM RELACAO AO PLAYER 1
@@ -169,7 +183,7 @@ export default class Demon {
         // AQUI EH O COMPORTAMENTO EM RELACAO AO PLAYER 2
 
         else if(this.scene.physics.closest(this.sprite, [player, player2]) === player2 && ((this.demon_P2 > 0 && this.demon_P2 < 250 ) || (this.demon_P2 > -250 && this.demon_P2 < 0)) && this.demon_P2_Y > -75){
-            if (this.demon_P2 < 50 && this.demon_P2 > 0){
+            if (this.demon_P2 < 35 && this.demon_P2 > 0){
                 this.sprite.setVelocityX(0);
                 this.sprite.setFlipX(false);
                 this.sprite.anims.play('demon-attack1', true);
@@ -203,12 +217,14 @@ export default class Demon {
     hitDemon1(){
         
         //se o demon ataca o jogador, o jogador eh empurrado pra tras
-        if(this.sprite.anims.getCurrentKey() === 'demon-attack1' && this.demonposition === "left" && this.sprite.anims.getProgress('demon-attack1') === 0.5){
+        if(this.sprite.anims.getCurrentKey() === 'demon-attack1' && this.demonposition === "left" && this.sprite.anims.getProgress('demon-attack1') === 0.6000000000000001){
+            bossatk.play();
             player.setVelocityX(-125);
             player.setVelocityY(-100);
             player.anims.play('yin-hurt', true);
             SoulCount.valor -= 2;
-        } else if(this.sprite.anims.getCurrentKey() === 'demon-attack1' && this.demonposition === "right" && this.sprite.anims.getProgress('demon-attack1') === 0.5){
+        } else if(this.sprite.anims.getCurrentKey() === 'demon-attack1' && this.demonposition === "right" && this.sprite.anims.getProgress('demon-attack1') === 0.6000000000000001){
+            bossatk.play();
             player.setVelocityX(125);
             player.setVelocityY(-100);
             player.anims.play('yin-hurt', true);
@@ -257,12 +273,14 @@ export default class Demon {
     hitDemon2(){
 
         //se o demon ataca o jogador, o jogador eh empurrado pra tras
-        if(this.sprite.anims.getCurrentKey() === 'demon-attack1' && this.demonposition === "left" && this.sprite.anims.getProgress('demon-attack1') === 0.5){
+        if(this.sprite.anims.getCurrentKey() === 'demon-attack1' && this.demonposition === "left" && this.sprite.anims.getProgress('demon-attack1') === 0.6000000000000001){
+            bossatk.play();
             player2.setVelocityX(-125);
             player2.setVelocityY(-100);
             player2.anims.play('yang-hurt', true);
             SoulCount.valor -= 2;
-        } else if(this.sprite.anims.getCurrentKey() === 'demon-attack1' && this.demonposition === "right" && this.sprite.anims.getProgress('demon-attack1') === 0.5){
+        } else if(this.sprite.anims.getCurrentKey() === 'demon-attack1' && this.demonposition === "right" && this.sprite.anims.getProgress('demon-attack1') === 0.6000000000000001){
+            bossatk.play();
             player2.setVelocityX(125);
             player2.setVelocityY(-100);
             player2.anims.play('yang-hurt', true);

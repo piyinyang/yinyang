@@ -6,7 +6,8 @@ import {Jumper} from "./jumper.js";
 import {Portal} from "./portal.js";
 import {Demon} from "./demon.js";
 
-export { GameScene, spike, player, player2, SoulCount, BossesMortos, slimeatk, playerPosition, player2Position, portalsound};
+export { GameScene, spike, player, player2, SoulCount, BossesMortos, playerPosition, player2Position, portalsound};
+export { slimeatk, slimeDIE, skeletonATK, skeletonDIE, skeletonHURT, bossdie, bossatk }
 export { topLayer, topLayer2, topLayer3 }
 
 /*
@@ -98,6 +99,15 @@ var jumping; // som do player pulando
 var landing; // som do player caindo no chao
 var portalsound;
 var JailDoorOpen;
+var bossatk;
+var bossdie;
+var skeletonATK;
+var skeletonDIE;
+var skeletonHURT;
+var slimeDIE;
+var chave;
+
+
 var BossesMortos = { valor: 0};
 
 //Variavel do lança-chamas
@@ -232,13 +242,10 @@ GameScene.preload = function() {
   this.load.audio("JaildoorOpeningSound", "assets/sounds/sfx/SFX_PortaDeCela.mp3");
   this.load.audio("JumperSound", "assets/sounds/sfx/SFX_Trampolim.mp3");
 
-
-  //PRA TI ANDREY
-
   this.load.audio("BossAtk", "assets/sounds/sfx/BossAtk.mp3");
   this.load.audio("BossDying", "assets/sounds/sfx/BossDying.mp3");
   this.load.audio("SkeletonAtk", "assets/sounds/sfx/SkeletonAtk.mp3");
-  this.load.audio("SkeletonHurt", "assets/sounds/sfx/SkeletonDying.mp3");
+  this.load.audio("SkeletonDie", "assets/sounds/sfx/SkeletonDying.mp3");
   this.load.audio("SkeletonHurt", "assets/sounds/sfx/SkeletonHurt.mp3");
   this.load.audio("SlimeDying", "assets/sounds/sfx/SlimeDying.mp3");
   this.load.audio("chave", "assets/sounds/sfx/Chaves.mp3"); //Efeito sonoro pra quando o player pegar as chaves.
@@ -259,11 +266,20 @@ GameScene.create = function() {
   // CRIACAO DOS SONS
   song = this.sound.add("song");
   swordwoosh = this.sound.add("swordwoosh");
-  slimeatk = this.sound.add("slimeatk");
   jumping = this.sound.add("jumping");
   landing = this.sound.add("landing");
   portalsound = this.sound.add("portalsound");
   JailDoorOpen = this.sound.add("JaildoorOpeningSound");
+  
+  bossatk = this.sound.add("BossAtk");
+  bossdie = this.sound.add("BossDying");
+  skeletonATK = this.sound.add("SkeletonAtk");
+  skeletonDIE = this.sound.add("SkeletonDie");
+  skeletonHURT = this.sound.add("SkeletonHurt")
+  slimeDIE = this.sound.add("SlimeDying");
+  slimeatk = this.sound.add("slimeatk");
+  chave = this.sound.add("chave");
+
 
   //toca musica em loop
   song.play({
@@ -1600,18 +1616,22 @@ function Barreira2OPEN2(player2, barreira2){
 
 function ColetarChaveAM1(player, ChaveAmarela){
   possuiChaveAmarela = true;
+  chave.play();
   ChaveAmarela.disableBody(true, true);
 }
 function ColetarChaveAM2(player2, ChaveAmarela){
   possuiChaveAmarela = true;
+  chave.play();
   ChaveAmarela.disableBody(true, true);
 }
 function ColetarChaveAZ1(player, ChaveAzul){
   possuiChaveAzul = true;
+  chave.play();
   ChaveAzul.disableBody(true, true);
 }
 function ColetarChaveAZ2(player2, ChaveAzul){
   possuiChaveAzul = true;
+  chave.play();
   ChaveAzul.disableBody(true, true);
 }
 

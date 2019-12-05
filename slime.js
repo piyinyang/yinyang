@@ -1,4 +1,4 @@
-import { GameScene, topLayer, topLayer2, player, player2, SoulCount, slimeatk, playerPosition, player2Position} from "./GameScene.js";
+import { GameScene, topLayer, topLayer2, player, player2, SoulCount, slimeatk, slimeDIE, playerPosition, player2Position} from "./GameScene.js";
 export { Slime };
 
 export default class Slime {
@@ -10,6 +10,7 @@ export default class Slime {
         this.slimepoint = point;
         this.slimeposition = "left";
         this.Life = { valor: 20 };
+        this.slimedying = 0;
 
 
         //          ANIMACOES DO SLIME
@@ -85,6 +86,10 @@ export default class Slime {
         }
         else if(this.sprite.anims.getCurrentKey() === "slime-die" && this.sprite.anims.getProgress("slime-die") < 1){
           this.sprite.setVelocity(0, 0);
+          if(!slimeDIE.isPlaying && this.slimedying === 0){
+            slimeDIE.play();
+            this.slimedying = 1;
+          }
         }
         else if(this.Life.valor <= 0){
           this.sprite.anims.play("slime-die");
