@@ -1,4 +1,5 @@
 import { gameover } from "./gameover.js";
+import {credits} from "./credits.js";
 import Lancachamas from "./lancachamas.js";
 import { Slime } from "./slime.js";
 import {Skeleton} from "./skeleton.js";
@@ -894,6 +895,7 @@ chamas.p34.update();
     }
     else if(JailDoor.anims.getCurrentKey() === "JailDoor_Opening" && JailDoor.anims.getProgress("JailDoor_Opening" === 1)){
       JailDoor.disableBody();
+      this.scene.start(credits);
     }
 
     // ANIMACAO DA CHAVE AMARELA
