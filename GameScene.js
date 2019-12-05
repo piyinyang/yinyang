@@ -110,7 +110,7 @@ var slimeDIE;
 var chave;
 
 
-var BossesMortos = { valor: 2};
+var BossesMortos = { valor: 0};
 
 //Variavel do lança-chamas
 var chamas = {p1: null, p2: null, p3: null, p4: null,
