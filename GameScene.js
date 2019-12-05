@@ -223,7 +223,7 @@ GameScene.preload = function() {
 
 
   //PRELOAD DE AUDIOS
-  this.load.audio("song", "assets/sounds/bgm/Techno-Caper.mp3");
+  this.load.audio("song", "assets/sounds/bgm/ebunny_-_Art_of_War.mp3");
   this.load.audio("swordwoosh", "assets/sounds/sfx/battle/swordwoosh.mp3");
   this.load.audio("slimeatk", "assets/sounds/sfx/battle/slime-attack.mp3");
   this.load.audio("jumping", "assets/sounds/sfx/movement/jump1.mp3");
@@ -231,10 +231,17 @@ GameScene.preload = function() {
   this.load.audio("portalsound", "assets/sounds/sfx/SFX_Portal.mp3");
   this.load.audio("JaildoorOpeningSound", "assets/sounds/sfx/SFX_PortaDeCela.mp3");
   this.load.audio("JumperSound", "assets/sounds/sfx/SFX_Trampolim.mp3");
-  this.load.audio("BossGateSound", "assets/sounds/sfx/SFX_PortãoChef.mp3");
 
 
+  //PRA TI ANDREY
 
+  this.load.audio("BossAtk", "assets/sounds/sfx/BossAtk.mp3");
+  this.load.audio("BossDying", "assets/sounds/sfx/BossDying.mp3");
+  this.load.audio("SkeletonAtk", "assets/sounds/sfx/SkeletonAtk.mp3");
+  this.load.audio("SkeletonHurt", "assets/sounds/sfx/SkeletonDying.mp3");
+  this.load.audio("SkeletonHurt", "assets/sounds/sfx/SkeletonHurt.mp3");
+  this.load.audio("SlimeDying", "assets/sounds/sfx/SlimeDying.mp3");
+  this.load.audio("chave", "assets/sounds/sfx/Chaves.mp3"); //Efeito sonoro pra quando o player pegar as chaves.
 
 
   //ICONE DE FULLSCREEN
@@ -349,13 +356,13 @@ GameScene.create = function() {
     JailDoor.setImmovable(true);
 
   // CRIACAO DO JOGADOR 1
-  player = this.physics.add.sprite(350, 350, "yin");
+  player = this.physics.add.sprite(3800, 2910, "yin");
   player.setSize(13, 25, true).setOffset(18, 10);
   player.setBounce(0);
   player.setCollideWorldBounds(true);
 
   // CRIACAO DO JOGADOR 2
-  player2 = this.physics.add.sprite(350, 350, "yang");
+  player2 = this.physics.add.sprite(540, 2464, "yang");
   player2.setSize(13, 25, true).setOffset(18, 10);
   player2.setBounce(0);
   player2.setCollideWorldBounds(true);

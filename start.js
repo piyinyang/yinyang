@@ -5,7 +5,7 @@ var setupSceneInput;
 var start = new Phaser.Scene("SceneA");
 
 start.preload = function() {
-  this.load.audio("starttheme", ["assets/sounds/bgm/starttheme.mp3"]);
+  this.load.audio("starttheme", ["assets/sounds/bgm/MenuMusic.mp3"]);
 
   this.load.image("Start", "assets/interface/start.png");
 };
