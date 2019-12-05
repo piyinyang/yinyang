@@ -62,11 +62,11 @@ export default class Demon {
         // FIM DO CONSTRUCTOR
     }
     update(){
-        console.log(this.Life.valor, SoulCount.valor);
+        //console.log(this.Life.valor, SoulCount.valor);
 
-        if(this.sprite.anims.getCurrentKey() === "demon-attack1"){
+        /*if(this.sprite.anims.getCurrentKey() === "demon-attack1"){
             console.log(this.sprite.anims.getProgress("demon-attack1"));
-        }
+        }*/
 
         this.demonX = this.sprite.body.position.x;
         this.demonY = this.sprite.body.position.y;
@@ -89,8 +89,8 @@ export default class Demon {
             else if(this.bossmorto === 0 && BossesMortos.valor === 1){
                 BossesMortos.valor = 2;
             }
-            this.sprite.anims.stop();
             this.sprite.disableBody();
+            this.sprite.anims.stop(0);
             
         }
         else if(this.sprite.anims.getCurrentKey() === "demon-die1" && this.sprite.anims.getProgress("demon-die1") < 1){
@@ -218,13 +218,13 @@ export default class Demon {
         
         //se o demon ataca o jogador, o jogador eh empurrado pra tras
         if(this.sprite.anims.getCurrentKey() === 'demon-attack1' && this.demonposition === "left" && this.sprite.anims.getProgress('demon-attack1') === 0.6000000000000001){
-            bossatk.play();
+            bossatk.play({ volume: 0.3 });
             player.setVelocityX(-125);
             player.setVelocityY(-100);
             player.anims.play('yin-hurt', true);
             SoulCount.valor -= 2;
         } else if(this.sprite.anims.getCurrentKey() === 'demon-attack1' && this.demonposition === "right" && this.sprite.anims.getProgress('demon-attack1') === 0.6000000000000001){
-            bossatk.play();
+            bossatk.play({ volume: 0.3 });
             player.setVelocityX(125);
             player.setVelocityY(-100);
             player.anims.play('yin-hurt', true);
@@ -274,13 +274,13 @@ export default class Demon {
 
         //se o demon ataca o jogador, o jogador eh empurrado pra tras
         if(this.sprite.anims.getCurrentKey() === 'demon-attack1' && this.demonposition === "left" && this.sprite.anims.getProgress('demon-attack1') === 0.6000000000000001){
-            bossatk.play();
+            bossatk.play({ volume: 0.3 });
             player2.setVelocityX(-125);
             player2.setVelocityY(-100);
             player2.anims.play('yang-hurt', true);
             SoulCount.valor -= 2;
         } else if(this.sprite.anims.getCurrentKey() === 'demon-attack1' && this.demonposition === "right" && this.sprite.anims.getProgress('demon-attack1') === 0.6000000000000001){
-            bossatk.play();
+            bossatk.play({ volume: 0.3 });
             player2.setVelocityX(125);
             player2.setVelocityY(-100);
             player2.anims.play('yang-hurt', true);

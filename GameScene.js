@@ -90,6 +90,7 @@ var possuiChaveAzul = false;
 
 var graphics; //nem me pergunte
 var gameOver = false;
+var Endgame = false;
 var button;
 
 //VARIAVEIS DE SONS
@@ -109,7 +110,7 @@ var slimeDIE;
 var chave;
 
 
-var BossesMortos = { valor: 0};
+var BossesMortos = { valor: 2};
 
 //Variavel do lança-chamas
 var chamas = {p1: null, p2: null, p3: null, p4: null,
@@ -284,7 +285,8 @@ GameScene.create = function() {
 
   //toca musica em loop
   song.play({
-    loop: true
+    loop: true,
+    volume: 0.1
   });
 
 
@@ -373,7 +375,7 @@ GameScene.create = function() {
     JailDoor.setImmovable(true);
 
   // CRIACAO DO JOGADOR 1
-  player = this.physics.add.sprite(3800, 2910, "yin");
+  player = this.physics.add.sprite(350, 350, "yin");
   player.setSize(13, 25, true).setOffset(18, 10);
   player.setBounce(0);
   player.setCollideWorldBounds(true);
@@ -556,8 +558,8 @@ GameScene.create = function() {
 this.cameras.main.setBounds(0, 0, 4096, 4096).setSize(800, 300); //limites da camera
 this.physics.world.setBounds(0, 0, 4096, 4096); //limites do mundo
 
-this.cameras.main.startFollow(player, true, 0.5, 0.5);
-this.cameras.add(0, 300, 800, 300).startFollow(player2, true, 0.5, 0.5).setBounds(0, 150, 4096, 4096);
+this.cameras.main.startFollow(player2, true, 0.5, 0.5);
+this.cameras.add(0, 300, 800, 300).startFollow(player, true, 0.5, 0.5).setBounds(0, 150, 4096, 4096);
   
   // CODIGO PARA IMPLEMENTAR FULLSCREEN
 
@@ -879,7 +881,12 @@ chamas.p34.update();
       if(player2.anims.getCurrentKey() != "yang-die"){
       player2.anims.play("yang-die");
       }
-    }  
+    }
+    if(Endgame === true){
+      song.stop();
+      this.physics.pause();
+      this.scene.start(credits);
+    }
 
     // VIDA
     if (SoulCount.valor > 0 && SoulCount.valor <= 190){
@@ -890,12 +897,12 @@ chamas.p34.update();
     }
     
     // ANIMACAO DA JAILDOOR
-    if (JailDoor.anims.getCurrentKey() === "JailDoor_Opening" && JailDoor.anims.getProgress("JailDoor_Opening" < 1)){
-      JailDoor.disableBody();
+    if (JailDoor.anims.getCurrentKey() === "JailDoor_Opening" && JailDoor.anims.getProgress("JailDoor_Opening") < 1){
+      //JailDoor.disableBody();
     }
-    else if(JailDoor.anims.getCurrentKey() === "JailDoor_Opening" && JailDoor.anims.getProgress("JailDoor_Opening" === 1)){
+    else if(JailDoor.anims.getCurrentKey() === "JailDoor_Opening" && JailDoor.anims.getProgress("JailDoor_Opening") === 1){
+      Endgame = true;
       JailDoor.disableBody();
-      this.scene.start(credits);
     }
 
     // ANIMACAO DA CHAVE AMARELA
@@ -931,7 +938,7 @@ chamas.p34.update();
     //          PLAYER 1 ANIMATIONS
 
     if (keyP.isDown) {
-      console.log(player.body.position.x, player.body.position.y, BossesMortos.valor);
+      console.log(player.body.position.x, player.body.position.y, BossesMortos.valor, JailDoor.anims.getCurrentKey(), Endgame, gameOver);
     }
 
     if (P1jump === true){
@@ -1063,7 +1070,7 @@ chamas.p34.update();
     player.setFlipX(true);
     player.setVelocityX(0);
     player.anims.play("yin-attack1", true);
-    swordwoosh.play();
+    swordwoosh.play({volume: 0.3});
     attackcombo = 1;
   } else if (
     keyENTER.isDown &&
@@ -1075,7 +1082,7 @@ chamas.p34.update();
     player.setFlipX(false);
     player.setVelocityX(0);
     player.anims.play("yin-attack1", true);
-    swordwoosh.play();
+    swordwoosh.play({volume: 0.3});
     attackcombo = 1;
   } else if (
     keyENTER.isDown &&
@@ -1087,7 +1094,7 @@ chamas.p34.update();
     player.setFlipX(true);
     player.setVelocityX(0);
     player.anims.play("yin-attack2", true);
-    swordwoosh.play();
+    swordwoosh.play({volume: 0.3});
     attackcombo = 2;
   } else if (
     keyENTER.isDown &&
@@ -1099,7 +1106,7 @@ chamas.p34.update();
     player.setFlipX(false);
     player.setVelocityX(0);
     player.anims.play("yin-attack2", true);
-    swordwoosh.play();
+    swordwoosh.play({volume: 0.3});
     attackcombo = 2;
   } else if (
     keyENTER.isDown &&
@@ -1111,7 +1118,7 @@ chamas.p34.update();
     player.setFlipX(true);
     player.setVelocityX(0);
     player.anims.play("yin-attack3", true);
-    swordwoosh.play();
+    swordwoosh.play({volume: 0.3});
     attackcombo = 0;
   } else if (
     keyENTER.isDown &&
@@ -1123,7 +1130,7 @@ chamas.p34.update();
     player.setFlipX(false);
     player.setVelocityX(0);
     player.anims.play("yin-attack3", true);
-    swordwoosh.play();
+    swordwoosh.play({volume: 0.3});
     attackcombo = 0;
   } else if (
     player.body.velocity.y < 0 &&
@@ -1379,7 +1386,7 @@ else if (
   player2.setFlipX(true);
   player2.setVelocityX(0);
   player2.anims.play("yang-attack1", true);
-  swordwoosh.play();
+  swordwoosh.play({volume: 0.3});
   attackcombo2 = 1;
 } else if (
   cursors.space.isDown &&
@@ -1391,7 +1398,7 @@ else if (
   player2.setFlipX(false);
   player2.setVelocityX(0);
   player2.anims.play("yang-attack1", true);
-  swordwoosh.play();
+  swordwoosh.play({volume: 0.3});
   attackcombo2 = 1;
 } else if (
   cursors.space.isDown &&
@@ -1403,7 +1410,7 @@ else if (
   player2.setFlipX(true);
   player2.setVelocityX(0);
   player2.anims.play("yang-attack2", true);
-  swordwoosh.play();
+  swordwoosh.play({volume: 0.3});
   attackcombo2 = 2;
 } else if (
   cursors.space.isDown &&
@@ -1415,7 +1422,7 @@ else if (
   player2.setFlipX(false);
   player2.setVelocityX(0);
   player2.anims.play("yang-attack2", true);
-  swordwoosh.play();
+  swordwoosh.play({volume: 0.3});
   attackcombo2 = 2;
 } else if (
   cursors.space.isDown &&
@@ -1427,7 +1434,7 @@ else if (
   player2.setFlipX(true);
   player2.setVelocityX(0);
   player2.anims.play("yang-attack3", true);
-  swordwoosh.play();
+  swordwoosh.play({volume: 0.3});
   attackcombo2 = 0;
 } else if (
   cursors.space.isDown &&
@@ -1439,7 +1446,7 @@ else if (
   player2.setFlipX(false);
   player2.setVelocityX(0);
   player2.anims.play("yang-attack3", true);
-  swordwoosh.play();
+  swordwoosh.play({volume: 0.3});
   attackcombo2 = 0;
 } else if (
   player2.body.velocity.y < 0 &&
@@ -1575,7 +1582,7 @@ function hitSpike(player, spike) {
   player.setTint(0xff0000);
   if(player.anims.getCurrentKey() != "yin-die"){
   player.anims.play("yin-hurt");
-  player.setVelocityY(-300);
+  player.setVelocityY(-420);
   SoulCount.valor -= 4;
   }
 };
@@ -1585,7 +1592,7 @@ function hitSpike2(player2, spike) {
   player2.setTint(0xff0000);
   if(player.anims.getCurrentKey() != "yang-die"){
   player2.anims.play("yang-hurt");
-  player2.setVelocityY(-300);
+  player2.setVelocityY(-420);
   SoulCount.valor -= 4;
   }
 };

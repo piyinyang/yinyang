@@ -17,7 +17,8 @@ start.create = function() {
   var starttheme = this.sound.add("starttheme");
 
   starttheme.play({
-    loop: true
+    loop: true,
+    volume: 0.3
   });
 
   if (this.sound.locked) {
