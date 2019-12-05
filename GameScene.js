@@ -558,8 +558,8 @@ GameScene.create = function() {
 this.cameras.main.setBounds(0, 0, 4096, 4096).setSize(800, 300); //limites da camera
 this.physics.world.setBounds(0, 0, 4096, 4096); //limites do mundo
 
-this.cameras.main.startFollow(player2, true, 0.5, 0.5).setZoom(1.3);
-this.cameras.add(0, 300, 800, 300).startFollow(player, true, 0.5, 0.5).setBounds(0, 150, 4096, 4096).setZoom(1.3);
+this.cameras.main.startFollow(player2, true, 0.5, 0.5);
+this.cameras.add(0, 300, 800, 300).startFollow(player, true, 0.5, 0.5).setBounds(0, 150, 4096, 4096);
   
   // CODIGO PARA IMPLEMENTAR FULLSCREEN
 
