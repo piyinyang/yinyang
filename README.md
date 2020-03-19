@@ -9,7 +9,7 @@ Os integrantes do grupo são:
 - Grasiele (Audio Design)
 
 Instruções de uso:
-- No navegador Google Chrome, baixe essa extenção: https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb.
+- No navegador Google Chrome, baixe essa extensão: https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb.
 - Faça o download do arquivo ZIP na página do jogo.
-- Extraia o ZIP, abra a extenção que foi baixada e coloque a extenção para rodar a pasta que foi extraída.
+- Extraia o ZIP, abra a extensão que foi baixada e coloque a extensão para rodar a pasta que foi extraída.
 - Aproveite o jogo :D
