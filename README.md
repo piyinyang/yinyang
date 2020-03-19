@@ -7,3 +7,9 @@ Os integrantes do grupo são:
 - João Vinicius (Roteiro, Level Design e Animador)
 - Eduardo (Audio Design)
 - Grasiele (Audio Design)
+
+Instruções de uso:
+- No navegador Google Chrome, baixe essa extenção: https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb.
+- Faça o download do arquivo ZIP na página do jogo.
+- Extraia o ZIP, abra a extenção que foi baixada e coloque a extenção para rodar a pasta que foi extraída.
+- Aproveite o jogo :D
