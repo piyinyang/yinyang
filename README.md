@@ -8,6 +8,8 @@ Os integrantes do grupo são:
 - Eduardo (Audio Design)
 - Grasiele (Audio Design)
 
+Tempo de desenvolvimento: 4 meses
+
 Instruções de uso:
 - No navegador Google Chrome, baixe essa extensão: https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb.
 - Faça o download do arquivo ZIP na página do jogo.
